@@ -4,7 +4,8 @@ import gameClient.util.Point3D;
 
 import java.util.Collection;
 
-public class DWGraph_DS implements directed_weighted_graph{
+public class DWGraph_DS implements directed_weighted_graph {
+
     @Override
     public node_data getNode(int key) {
         return null;
