@@ -1,4 +1,6 @@
 package api;
+import gameClient.*;
+import gameClient.util.Point3D;
 
 import java.util.Collection;
 
@@ -58,74 +60,81 @@ public class DWGraph_DS implements directed_weighted_graph{
         return 0;
     }
 
-    private class NodeData implements node_data {
+    static class NodeData implements node_data {
+        GeoLocation location;
+        static int increment = 1;
+        private int key, tag;
+        private double weight;
+        private String info;
+
+        public NodeData() {
+            key = increment++;
+            info = "";
+            tag = 0;
+            weight = 0.0;
+        }
 
         @Override
         public int getKey() {
-            return 0;
+            return key;
         }
 
         @Override
         public geo_location getLocation() {
-            return null;
+            return location;
         }
 
         @Override
         public void setLocation(geo_location p) {
-
+            location = new GeoLocation(p.x(),p.y(),p.z());
         }
 
         @Override
         public double getWeight() {
-            return 0;
+            return weight;
         }
 
         @Override
-        public void setWeight(double w) {
-
-        }
+        public void setWeight(double w) { weight = w;}
 
         @Override
         public String getInfo() {
-            return null;
+            return info;
         }
 
         @Override
-        public void setInfo(String s) {
-
-        }
+        public void setInfo(String s) { info = s; }
 
         @Override
         public int getTag() {
-            return 0;
+            return tag;
         }
 
         @Override
-        public void setTag(int t) {
-
-        }
+        public void setTag(int t) { tag = t;}
 
         private class GeoLocation implements geo_location {
+            private Point3D point;
+
+            public GeoLocation(double x, double y, double z) {
+                point = new Point3D(x,y,z);
+            }
 
             @Override
             public double x() {
-                return 0;
+                return point.x();
             }
 
             @Override
             public double y() {
-                return 0;
+                return point.y();
             }
 
             @Override
-            public double z() {
-                return 0;
-            }
+            public double z() { return point.z(); }
 
             @Override
-            public double distance(geo_location g) {
-                return 0;
-            }
+            public double distance(geo_location g) { return point.distance(g); }
         }
     }
 }
