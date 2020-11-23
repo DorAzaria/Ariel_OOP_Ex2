@@ -1,13 +1,22 @@
 package api;
 import gameClient.*;
 import gameClient.util.Point3D;
+import java.awt.Color;
 
 import java.util.Collection;
+import java.util.HashMap;
 
 public class DWGraph_DS implements directed_weighted_graph {
 
+    HashMap<Integer,node_data> vertexes;
+    HashMap<Integer,HashMap<node_data,edge_data>> adjacency;
+    private int e, mc;
+
     @Override
     public node_data getNode(int key) {
+        if(vertexes.containsKey(key)) {
+            return vertexes.get(key);
+        }
         return null;
     }
 
@@ -18,12 +27,24 @@ public class DWGraph_DS implements directed_weighted_graph {
 
     @Override
     public void addNode(node_data n) {
-
+        vertexes.put(n.getKey(),n);
+        adjacency.put(n.getKey(),new HashMap<>());
+        mc++;
     }
 
     @Override
     public void connect(int src, int dest, double w) {
-
+        if(vertexes.containsKey(src) && vertexes.containsKey(dest) && src!=dest && w>=0) {
+            node_data source = getNode(src), destination = getNode(dest);
+            if(adjacency.get(src).containsKey(destination)) {
+                ((EdgeData)adjacency.get(src).get(destination)).setWeight(w); // get edge
+                mc++;
+            } else {
+                adjacency.get(src).put(destination,new EdgeData(source,destination,w));
+                mc++;
+                e++;
+            }
+        }
     }
 
     @Override
@@ -48,7 +69,7 @@ public class DWGraph_DS implements directed_weighted_graph {
 
     @Override
     public int nodeSize() {
-        return 0;
+        return vertexes.size();
     }
 
     @Override
@@ -64,15 +85,16 @@ public class DWGraph_DS implements directed_weighted_graph {
     static class NodeData implements node_data {
         GeoLocation location;
         static int increment = 1;
-        private int key, tag;
+        private int key;
+        private  Color tag;
         private double weight;
         private String info;
 
         public NodeData() {
             key = increment++;
             info = "";
-            tag = 0;
             weight = 0.0;
+            tag = Color.RED;
         }
 
         @Override
@@ -108,11 +130,11 @@ public class DWGraph_DS implements directed_weighted_graph {
 
         @Override
         public int getTag() {
-            return tag;
+            return tag.getRGB();
         }
 
         @Override
-        public void setTag(int t) { tag = t;}
+        public void setTag(int t) { tag = new Color(t);}
 
         private class GeoLocation implements geo_location {
             private Point3D point;
