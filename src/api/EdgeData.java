@@ -5,6 +5,18 @@ public class EdgeData implements edge_data {
     node_data dest;
     double weight;
     String info;
+
+    @Override
+    public String toString() {
+        return "EdgeData{" +
+                "source=" + source.getKey() +
+                ", dest=" + dest.getKey() +
+                ", weight=" + weight +
+                ", info='" + info + '\'' +
+                ", tag=" + tag +
+                '}';
+    }
+
     Color tag;
 
     public EdgeData (node_data source , node_data dest , double weight) {
