@@ -3,14 +3,16 @@ package api;
 import java.util.List;
 
 public class DWGraph_Algo implements dw_graph_algorithms {
+    directed_weighted_graph graph;
+
     @Override
     public void init(directed_weighted_graph g) {
-
+        graph = g;
     }
 
     @Override
     public directed_weighted_graph getGraph() {
-        return null;
+        return graph;
     }
 
     @Override

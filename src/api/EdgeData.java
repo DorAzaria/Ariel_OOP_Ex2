@@ -5,18 +5,6 @@ public class EdgeData implements edge_data {
     node_data dest;
     double weight;
     String info;
-
-    @Override
-    public String toString() {
-        return "EdgeData{" +
-                "source=" + source.getKey() +
-                ", dest=" + dest.getKey() +
-                ", weight=" + weight +
-                ", info='" + info + '\'' +
-                ", tag=" + tag +
-                '}';
-    }
-
     Color tag;
 
     public EdgeData (node_data source , node_data dest , double weight) {
@@ -26,10 +14,20 @@ public class EdgeData implements edge_data {
         this.tag = Color.RED;
     }
 
+    public EdgeData(EdgeData edge) {
+        source = edge.getSource();
+        dest = edge.getDestination();
+        weight = edge.getWeight();
+        info = edge.getInfo();
+        tag = new Color(edge.getTag());
+    }
+
     @Override
     public int getSrc() {return source.getKey();}
+    public node_data getSource() { return source;}
     @Override
     public int getDest() {return dest.getKey();}
+    public node_data getDestination() { return dest;}
     @Override
     public double getWeight() {return weight;}
     public void setWeight(double w) {weight = w;}
@@ -42,6 +40,16 @@ public class EdgeData implements edge_data {
     @Override
     public void setTag(int t) {tag = new Color(t);}
 
+    @Override
+    public String toString() {
+        return "EdgeData{" +
+                "source=" + source.getKey() +
+                ", dest=" + dest.getKey() +
+                ", weight=" + weight +
+                ", info='" + info + '\'' +
+                ", tag=" + tag +
+                '}';
+    }
 
     private class EdgeLocation implements edge_location {
         edge_data edge;

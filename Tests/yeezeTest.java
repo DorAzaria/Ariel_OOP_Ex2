@@ -15,7 +15,7 @@ public class yeezeTest {
         graph.connect(4, 3, 2.18);
 
         graph.removeNode(4);
-        graph.getE(4).stream().forEach(x-> System.out.println(x));
+        graph.getE(3).stream().forEach(x-> System.out.println(x));
     }
 }
 

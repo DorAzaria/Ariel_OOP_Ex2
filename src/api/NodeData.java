@@ -6,7 +6,7 @@ import gameClient.util.Point3D;
 import java.awt.*;
 
     public class NodeData implements node_data {
-    GeoLocation location;
+    private geo_location location;
     static int increment = 1;
     private int key;
     private Color tag;
@@ -18,6 +18,14 @@ import java.awt.*;
         info = "";
         weight = 0.0;
         tag = Color.RED;
+    }
+
+    public NodeData(node_data n) {
+        location = n.getLocation();
+        key = n.getKey();
+        tag = new Color(n.getTag());
+        weight = n.getWeight();
+        info = n.getInfo();
     }
 
     @Override
