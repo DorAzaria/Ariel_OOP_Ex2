@@ -1,6 +1,8 @@
 import api.*;
 
 import java.awt.Color;
+import java.util.HashSet;
+
 public class yeezeTest {
 
     public static void main(String[] args) {
@@ -8,19 +10,16 @@ public class yeezeTest {
         for (int i = 0; i < 4; i++) {
             graph.addNode((new NodeData()));
         }
-        for(int i = 1 ; i <= 4 ; i++) {
-            for(int j = 1 ; j <= 4 ; j++) {
-                graph.connect(i,j,(double)i*j*1.3); // strongly connection
-            }
-        }
+        graph.connect(1,2,9.5);
+        graph.connect(1,3,9.5);
+        graph.connect(2,1,9.5);
+        graph.connect(3,2,9.5);
+        graph.connect(3,4,9.5);
+        graph.connect(4,3,9.5);
+
         dw_graph_algorithms algo = new DWGraph_Algo();
         algo.init(graph);
         System.out.println(algo.isConnected());
-        directed_weighted_graph graph2 = algo.copy();
-        System.out.println(graph2.nodeSize() + " " + graph.nodeSize());
-        System.out.println(graph2.getMC() + " " + graph.getMC());
-        System.out.println(graph2.edgeSize() + " " + graph.edgeSize());
-
     }
 }
 

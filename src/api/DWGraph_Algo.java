@@ -1,6 +1,8 @@
 package api;
 
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 
 public class DWGraph_Algo implements dw_graph_algorithms {
     directed_weighted_graph graph;
@@ -36,10 +38,25 @@ public class DWGraph_Algo implements dw_graph_algorithms {
 
     @Override
     public boolean isConnected() {
-        // return graph.edgeSize() == graph.nodeSize()*(graph.nodeSize()-1); <-- why not to do this method instead of stronglyConnectedCheck?
-        return true; // the heavy maybe unnecessary algo.
+        Queue<node_data> vertices = new LinkedList<>(graph.getV());
+        while(!vertices.isEmpty()) {
+            node_data vertex = vertices.poll();
+            int counter = DFS(graph, vertex, vertex);
+            System.out.println(counter);
+        }
+
+        return true;
     }
 
+    private int DFS(directed_weighted_graph graph2, node_data source,node_data runner) {
+            runner.setTag(source.getKey());
+        for(node_data current : cast(graph2).getV(runner.getKey())) {
+            if(current.getTag() != new Color(source.getKey()).getRGB()) {
+                return DFS(graph2, source, current) + 1;
+            }
+        }
+        return 0;
+    }
 
     @Override
     public double shortestPathDist(int src, int dest) {
@@ -78,5 +95,9 @@ public class DWGraph_Algo implements dw_graph_algorithms {
 
     private node_data getNeighbour(edge_data e) {
         return cast(e).getDestination();
+    }
+
+    private String makePair(int src, int dest) {
+        return "("+src+","+dest+")";
     }
 }

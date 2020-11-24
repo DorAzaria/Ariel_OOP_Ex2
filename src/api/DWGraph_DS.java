@@ -65,6 +65,10 @@ public class DWGraph_DS implements directed_weighted_graph {
         return new HashSet<>(vertices.values());
     }
 
+    public Collection<node_data> getV(int key) {
+        return new HashSet<>(adjacency.get(key).keySet());
+    }
+
     @Override
     public Collection<edge_data> getE(int node_id) {
     if(vertices.containsKey(node_id)) {
