@@ -6,6 +6,7 @@ import java.util.List;
 
 public class DWGraph_Algo implements dw_graph_algorithms {
     directed_weighted_graph graph;
+    static int counter = 0 ;
 
     @Override
     public void init(directed_weighted_graph g) {
@@ -40,22 +41,29 @@ public class DWGraph_Algo implements dw_graph_algorithms {
     public boolean isConnected() {
         Queue<node_data> vertices = new LinkedList<>(graph.getV());
         while(!vertices.isEmpty()) {
+
             node_data vertex = vertices.poll();
-            int counter = DFS(graph, vertex, vertex);
-            System.out.println(counter);
+
+            DFS(graph, vertex, vertex.getKey());
+            if(counter != graph.nodeSize()-1)
+                return false;
+            counter = 0 ;
         }
 
         return true;
     }
 
-    private int DFS(directed_weighted_graph graph2, node_data source,node_data runner) {
-            runner.setTag(source.getKey());
-        for(node_data current : cast(graph2).getV(runner.getKey())) {
-            if(current.getTag() != new Color(source.getKey()).getRGB()) {
-                return DFS(graph2, source, current) + 1;
+    private static void DFS(directed_weighted_graph graph2, node_data source,int keyRunner) {
+        graph2.getNode(keyRunner).setTag(source.getKey());
+        Collection<edge_data> edgesList = graph2.getE(keyRunner);
+        for(edge_data edges : edgesList) {
+            if(graph2.getNode(edges.getDest()).getTag() != new Color(source.getKey()).getRGB()) {
+                System.out.println(keyRunner + " ->> "+ edges.getDest());
+                counter++;
+                DFS(graph2, source, edges.getDest());
             }
         }
-        return 0;
+
     }
 
     @Override
