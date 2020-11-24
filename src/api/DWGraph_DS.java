@@ -10,6 +10,12 @@ public class DWGraph_DS implements directed_weighted_graph {
     HashMap<Integer,HashMap<node_data,edge_data>> adjacency;
     private int e, mc;
 
+    public DWGraph_DS() {
+        vertices = new HashMap<>();
+        adjacency = new HashMap<>();
+        e = 0;
+        mc = 0;
+    }
     @Override
     public node_data getNode(int key) {
         if(vertices.containsKey(key)) {
@@ -30,9 +36,11 @@ public class DWGraph_DS implements directed_weighted_graph {
 
     @Override
     public void addNode(node_data n) {
-        vertices.put(n.getKey(),n);
-        adjacency.put(n.getKey(),new HashMap<>());
-        mc++;
+        if (!vertices.containsValue(n)) {
+            vertices.put(n.getKey(), n);
+            adjacency.put(n.getKey(), new HashMap<>());
+            mc++;
+        }
     }
 
     @Override
@@ -90,7 +98,7 @@ public class DWGraph_DS implements directed_weighted_graph {
 
     @Override
     public edge_data removeEdge(int src, int dest) {
-        if(getE(src).contains(getNode(dest))) {
+        if(vertices.containsKey(src) && vertices.containsKey(dest) && adjacency.get(src).containsKey(getNode(dest))) {
             e--;
             mc++;
             return adjacency.get(src).remove(getNode(dest));
@@ -109,83 +117,4 @@ public class DWGraph_DS implements directed_weighted_graph {
         @Override
     public int getMC() {return mc;}
 
-
-    static class NodeData implements node_data {
-        GeoLocation location;
-        static int increment = 1;
-        private int key;
-        private  Color tag;
-        private double weight;
-        private String info;
-
-        public NodeData() {
-            key = increment++;
-            info = "";
-            weight = 0.0;
-            tag = Color.RED;
-        }
-
-        @Override
-        public int getKey() {
-            return key;
-        }
-
-        @Override
-        public geo_location getLocation() {
-            return location;
-        }
-
-        @Override
-        public void setLocation(geo_location p) {
-            location = new GeoLocation(p.x(),p.y(),p.z());
-        }
-
-        @Override
-        public double getWeight() {
-            return weight;
-        }
-
-        @Override
-        public void setWeight(double w) { weight = w;}
-
-        @Override
-        public String getInfo() {
-            return info;
-        }
-
-        @Override
-        public void setInfo(String s) { info = s; }
-
-        @Override
-        public int getTag() {
-            return tag.getRGB();
-        }
-
-        @Override
-        public void setTag(int t) { tag = new Color(t);}
-
-        private class GeoLocation implements geo_location {
-            private Point3D point;
-
-            public GeoLocation(double x, double y, double z) {
-                point = new Point3D(x,y,z);
-            }
-
-            @Override
-            public double x() {
-                return point.x();
-            }
-
-            @Override
-            public double y() {
-                return point.y();
-            }
-
-            @Override
-            public double z() { return point.z(); }
-
-            @Override
-            public double distance(geo_location g) { return point.distance(g); }
-        }
-    }
 }
