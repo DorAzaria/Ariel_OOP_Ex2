@@ -36,7 +36,7 @@ public class DWGraph_DS implements directed_weighted_graph {
 
     @Override
     public void addNode(node_data n) {
-        if (!vertices.containsValue(n)) {
+        if (!vertices.containsKey(n.getKey())) {
             vertices.put(n.getKey(), n);
             adjacency.put(n.getKey(), new HashMap<>());
             mc++;
