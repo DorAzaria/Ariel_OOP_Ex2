@@ -13,6 +13,7 @@ public class EdgeData implements edge_data {
         this.dest = dest;
         this.weight = weight;
         this.tag = Color.RED;
+        this.info = "";
     }
 
     public EdgeData(EdgeData edge) {

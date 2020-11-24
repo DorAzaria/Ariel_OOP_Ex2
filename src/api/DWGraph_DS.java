@@ -43,6 +43,8 @@ public class DWGraph_DS implements directed_weighted_graph {
         }
     }
 
+    public boolean hasNode(int key) { return vertices.containsKey(key); }
+
     @Override
     public void connect(int src, int dest, double w) {
         if(vertices.containsKey(src) && vertices.containsKey(dest) && src!=dest && w>=0) {
