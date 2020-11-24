@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.util.*;
 
 public class DWGraph_DS implements directed_weighted_graph {
-
     HashMap<Integer,node_data> vertices;
     HashMap<Integer,HashMap<node_data,edge_data>> adjacency;
     private int e, mc;
@@ -67,12 +66,7 @@ public class DWGraph_DS implements directed_weighted_graph {
     @Override
     public Collection<edge_data> getE(int node_id) {
     if(vertices.containsKey(node_id)) {
-        Set<node_data> neighbours = new HashSet<>(adjacency.get(node_id).keySet());
-        HashSet<edge_data> edges = new HashSet<>();
-        for(node_data runner : neighbours) {
-           edge_data e = adjacency.get(node_id).get(runner);
-           edges.add(e);
-        }
+        HashSet<edge_data> edges  = new HashSet<>(adjacency.get(node_id).values());
         return edges;
         }
     return new HashSet<>();

@@ -7,6 +7,7 @@ public class EdgeData implements edge_data {
     String info;
     Color tag;
 
+
     public EdgeData (node_data source , node_data dest , double weight) {
         this.source = source;
         this.dest = dest;
@@ -21,6 +22,7 @@ public class EdgeData implements edge_data {
         info = edge.getInfo();
         tag = new Color(edge.getTag());
     }
+
 
     @Override
     public int getSrc() {return source.getKey();}
