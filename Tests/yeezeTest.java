@@ -22,7 +22,7 @@ public class yeezeTest {
         graph.connect(3,2,4.8);
         dw_graph_algorithms tester = new DWGraph_Algo();
         tester.init(graph);
-        tester.load("test.json");
+        System.out.println(tester.shortestPath(0,3));
 
 
 

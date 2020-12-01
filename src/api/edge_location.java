@@ -15,5 +15,4 @@ public interface edge_location {
      * @return
      */
     public double getRatio();
-
 }

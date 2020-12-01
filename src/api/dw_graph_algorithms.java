@@ -1,5 +1,4 @@
 package api;
-import java.io.IOException;
 import java.util.List;
 /**
  * This interface represents a Directed (positive) Weighted Graph Theory Algorithms including:
@@ -62,7 +61,7 @@ public interface dw_graph_algorithms {
      * @param file - the file name (may include a relative path).
      * @return true - iff the file was successfully saved
      */
-    public boolean save(String file) throws IOException;
+    public boolean save(String file);
 
     /**
      * This method load a graph to this graph algorithm.
