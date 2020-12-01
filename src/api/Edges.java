@@ -1,6 +1,7 @@
 package api;
 import java.awt.Color;
-public class EdgeData implements edge_data {
+
+    public class Edges implements edge_data {
     node_data source;
     node_data dest;
     double weight;
@@ -8,7 +9,7 @@ public class EdgeData implements edge_data {
     Color tag;
 
 
-    public EdgeData (node_data source , node_data dest , double weight) {
+    public Edges(node_data source , node_data dest , double weight) {
         this.source = source;
         this.dest = dest;
         this.weight = weight;
@@ -16,7 +17,7 @@ public class EdgeData implements edge_data {
         this.info = "";
     }
 
-    public EdgeData(EdgeData edge) {
+    public Edges(Edges edge) {
         source = edge.getSource();
         dest = edge.getDestination();
         weight = edge.getWeight();

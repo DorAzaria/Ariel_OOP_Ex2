@@ -1,6 +1,4 @@
 package api;
-import gameClient.util.Point3D;
-import java.awt.Color;
 
 import java.util.*;
 
@@ -50,10 +48,10 @@ public class DWGraph_DS implements directed_weighted_graph {
         if(vertices.containsKey(src) && vertices.containsKey(dest) && src!=dest && w>=0) {
             node_data source = getNode(src), destination = getNode(dest);
             if(adjacency.get(src).containsKey(destination)) {
-                ((EdgeData)getEdge(src,dest)).setWeight(w); // get edge
+                ((Edges)getEdge(src,dest)).setWeight(w); // get edge
                 mc++;
             } else {
-                adjacency.get(src).put(destination,new EdgeData(source,destination,w));
+                adjacency.get(src).put(destination,new Edges(source,destination,w));
                 mc++;
                 e++;
             }

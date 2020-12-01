@@ -15,11 +15,11 @@ import java.awt.*;
 
     public NodeData() {
         key = increment++;
-        info = "";
+        info = "unvisited";
         weight = Double.MAX_VALUE;
         tag = Color.RED;
-    }
 
+    }
     public NodeData(node_data n) {
         location = n.getLocation();
         key = n.getKey();
@@ -67,7 +67,7 @@ import java.awt.*;
     public void setTag(int t) { tag = new Color(t);}
 
     private class GeoLocation implements geo_location {
-        private Point3D point;
+        public Point3D point;
 
         public GeoLocation(double x, double y, double z) {
             point = new Point3D(x,y,z);
