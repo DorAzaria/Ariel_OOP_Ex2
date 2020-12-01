@@ -136,7 +136,7 @@ public class DWGraph_Algo implements dw_graph_algorithms {
     }
 
     @Override
-    public boolean save(String file) throws IOException {
+    public boolean save(String file)  {
 //        Gson json = new Gson();
 //        String filename = json.toJson(graph);
 //        FileWriter fw = new FileWriter(new File(file));
