@@ -16,7 +16,7 @@ import java.awt.*;
     public NodeData() {
         key = increment++;
         info = "";
-        weight = 0.0;
+        weight = Double.MAX_VALUE;
         tag = Color.RED;
     }
 
@@ -60,11 +60,10 @@ import java.awt.*;
     public void setInfo(String s) { info = s; }
 
     @Override
-    public int getTag() {
-        return tag.getRGB();
-    }
+    public int getTag() {return tag.getRGB();}
 
-    @Override
+
+        @Override
     public void setTag(int t) { tag = new Color(t);}
 
     private class GeoLocation implements geo_location {

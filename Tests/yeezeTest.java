@@ -6,20 +6,28 @@ import java.util.HashSet;
 public class yeezeTest {
 
     public static void main(String[] args) {
-        DWGraph_DS graph = new DWGraph_DS();
-        for (int i = 0; i < 4; i++) {
-            graph.addNode((new NodeData()));
-        }
-        graph.connect(1,2,9.5);
-        graph.connect(1,3,9.5);
-        graph.connect(2,1,9.5);
-        graph.connect(3,2,9.5);
-        graph.connect(3,4,9.5);
-        graph.connect(4,3,9.5);
+     directed_weighted_graph graph = new DWGraph_DS();
+        node_data n1 = new NodeData();
+        node_data n2 = new NodeData();
+        node_data n3 = new NodeData();
+        node_data n4 = new NodeData();
+        graph.addNode(n1);
+        graph.addNode(n2);
+        graph.addNode(n3);
+        graph.addNode(n4);
+        graph.connect(1,2,0);
+        dw_graph_algorithms tester = new DWGraph_Algo();
+        tester.init(graph);
+        System.out.println(tester.isConnected());
 
-        dw_graph_algorithms algo = new DWGraph_Algo();
-        algo.init(graph);
-        System.out.println(algo.isConnected());
+
+
+       System.out.println("---------------------------");
+       System.out.println("---------------------------");
+
+
+
+
     }
 }
 

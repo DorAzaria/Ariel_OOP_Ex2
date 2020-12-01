@@ -53,18 +53,5 @@ public class EdgeData implements edge_data {
                 ", tag=" + tag +
                 '}';
     }
-
-    private class EdgeLocation implements edge_location {
-        edge_data edge;
-
-        @Override
-        public edge_data getEdge() {
-            return edge;
-        }
-
-        @Override
-        public double getRatio() {
-           return edge.getWeight();
-        }
-    }
+    
 }
