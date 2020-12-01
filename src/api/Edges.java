@@ -2,25 +2,31 @@ package api;
 import java.awt.Color;
 
     public class Edges implements edge_data {
+    int src;
+    int dest;
+    double w;
     node_data source;
-    node_data dest;
-    double weight;
+    node_data destination;
     String info;
     Color tag;
 
 
-    public Edges(node_data source , node_data dest , double weight) {
+    public Edges(node_data source , node_data desti , double weight) {
+        src = source.getKey();
+        dest = desti.getKey();
+        w = weight;
         this.source = source;
-        this.dest = dest;
-        this.weight = weight;
+        this.destination = desti;
         this.tag = Color.RED;
         this.info = "";
     }
 
     public Edges(Edges edge) {
+        src = edge.getSrc();
+        dest = edge.getDest();
+        w = edge.getWeight();
         source = edge.getSource();
-        dest = edge.getDestination();
-        weight = edge.getWeight();
+        destination = edge.getDestination();
         info = edge.getInfo();
         tag = new Color(edge.getTag());
     }
@@ -30,11 +36,12 @@ import java.awt.Color;
     public int getSrc() {return source.getKey();}
     public node_data getSource() { return source;}
     @Override
-    public int getDest() {return dest.getKey();}
-    public node_data getDestination() { return dest;}
+    public int getDest() {return destination.getKey();}
+    public node_data getDestination() { return destination;}
     @Override
-    public double getWeight() {return weight;}
-    public void setWeight(double w) {weight = w;}
+    public double getWeight() {return w;}
+    public void setWeight(double w) {
+        this.w = w;}
     @Override
     public String getInfo() {return info;}
     @Override
@@ -48,8 +55,8 @@ import java.awt.Color;
     public String toString() {
         return "EdgeData{" +
                 "source=" + source.getKey() +
-                ", dest=" + dest.getKey() +
-                ", weight=" + weight +
+                ", dest=" + destination.getKey() +
+                ", weight=" + w +
                 ", info='" + info + '\'' +
                 ", tag=" + tag +
                 '}';

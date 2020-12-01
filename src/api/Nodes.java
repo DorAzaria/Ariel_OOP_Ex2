@@ -1,28 +1,27 @@
 package api;
 
 import gameClient.util.Point3D;
-import org.w3c.dom.Node;
 
 import java.awt.*;
 
-    public class NodeData implements node_data {
-    private geo_location location;
-    static int increment = 1;
-    private int key;
+    public class Nodes implements node_data {
+    private geo_location pos;
+    private int id;
+    static int increment = 0;
     private Color tag;
     private double weight;
     private String info;
 
-    public NodeData() {
-        key = increment++;
+    public Nodes() {
+        id = increment++;
         info = "unvisited";
         weight = Double.MAX_VALUE;
         tag = Color.RED;
 
     }
-    public NodeData(node_data n) {
-        location = n.getLocation();
-        key = n.getKey();
+    public Nodes(node_data n) {
+        pos = n.getLocation();
+        id = n.getKey();
         tag = new Color(n.getTag());
         weight = n.getWeight();
         info = n.getInfo();
@@ -30,17 +29,17 @@ import java.awt.*;
 
     @Override
     public int getKey() {
-        return key;
+        return id;
     }
 
     @Override
     public geo_location getLocation() {
-        return location;
+        return pos;
     }
 
     @Override
     public void setLocation(geo_location p) {
-        location = new GeoLocation(p.x(),p.y(),p.z());
+        pos = new GeoLocation(p.x(),p.y(),p.z());
     }
 
     @Override

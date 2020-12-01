@@ -3,9 +3,7 @@ package api;
 import com.google.gson.Gson;
 
 import java.awt.*;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 import java.util.List;
 
@@ -30,10 +28,10 @@ public class DWGraph_Algo implements dw_graph_algorithms {
         if(graph.getV().size() != 0) { // its implies that the graph is not empty
             DWGraph_DS graphcopy = new DWGraph_DS();
             for(node_data runner : graph.getV()) {  // for loop that's copies the vertices
-                graphcopy.addNode(new NodeData(runner)); // copies the current "runner" node
+                graphcopy.addNode(new Nodes(runner)); // copies the current "runner" node
                 for(edge_data edge : graph.getE(runner.getKey())) { // for loop that's copies the edges
                     if(!graphcopy.hasNode(edge.getDest())) { // if its neighbour isn't in the new graph yet
-                        graphcopy.addNode(new NodeData(getNeighbour(edge)));// getting the dest node by casting to EdgeData.
+                        graphcopy.addNode(new Nodes(getNeighbour(edge)));// getting the dest node by casting to EdgeData.
                     }
                     graphcopy.connect(runner.getKey(),edge.getDest(),edge.getWeight());
                 }
@@ -64,7 +62,7 @@ public class DWGraph_Algo implements dw_graph_algorithms {
     private void graphTranspose(directed_weighted_graph g) {
         for(node_data runner : graph.getV()) {
             runner.setTag(Color.red.getRGB());
-            g.addNode(new NodeData(runner));
+            g.addNode(new Nodes(runner));
         }
         for(edge_data edge : pairs) {
             g.connect(edge.getDest(),edge.getSrc(),edge.getWeight());
@@ -139,16 +137,25 @@ public class DWGraph_Algo implements dw_graph_algorithms {
 
     @Override
     public boolean save(String file) throws IOException {
-        Gson json = new Gson();
-        String filename = json.toJson(graph);
-        FileWriter fw = new FileWriter(new File(file));
-        fw.write(filename);
-        fw.close();
+//        Gson json = new Gson();
+//        String filename = json.toJson(graph);
+//        FileWriter fw = new FileWriter(new File(file));
+//        fw.write(filename);
+//        fw.close();
         return false;
     }
 
     @Override
     public boolean load(String file) {
+//
+//        try {
+//            Gson gson1 = new Gson();
+//            FileReader reader = new FileReader("A0.json");
+//            importGame importer = new importGame();
+//            importer = gson1.fromJson(reader,importGame.class);
+//        }catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        }
         return false;
     }
 
