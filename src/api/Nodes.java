@@ -6,7 +6,7 @@ import java.awt.*;
 
     public class Nodes implements node_data {
     public geo_location pos;
-    private int id;
+    private int key;
     static int increment = 0;
     private Color tag;
     private double weight;
@@ -14,7 +14,7 @@ import java.awt.*;
 
     public Nodes() {
         pos = new GeoLocation(0,0,0);
-        id = increment++;
+        key = increment++;
         info = "unvisited";
         weight = Double.MAX_VALUE;
         tag = Color.RED;
@@ -22,15 +22,23 @@ import java.awt.*;
     }
     public Nodes(node_data n) {
         pos = n.getLocation();
-        id = n.getKey();
+        key = n.getKey();
         tag = new Color(n.getTag());
         weight = n.getWeight();
         info = n.getInfo();
     }
 
-    @Override
+        public Nodes(int id,geo_location geo) {
+            pos = geo;
+            key = id;
+            info = "unvisited";
+            weight = Double.MAX_VALUE;
+            tag = Color.RED;
+        }
+
+        @Override
     public int getKey() {
-        return id;
+        return key;
     }
 
     @Override

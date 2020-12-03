@@ -21,13 +21,10 @@ public class yeezeTest {
         graph.connect(3,1,17.5);
         graph.connect(2,1,3.16);
         graph.connect(3,2,4.8);
-        graph.removeNode(0);
         dw_graph_algorithms tester = new DWGraph_Algo();
         tester.init(graph);
-        tester.load("kardashin.json");
+       System.out.println(tester.shortestPathDist(1,0));
 
-        tester.getGraph().getV().stream().forEach(x->
-                System.out.println(x.getKey()));
    }
 }
 

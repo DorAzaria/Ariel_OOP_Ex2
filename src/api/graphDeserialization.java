@@ -16,16 +16,14 @@ public class graphDeserialization implements JsonDeserializer<directed_weighted_
         for (JsonElement v : nodes) {
             JsonElement val = v.getAsJsonObject();
             String loc = val.getAsJsonObject().get("pos").getAsString();
+            int id = val.getAsJsonObject().get("id").getAsInt();
             double[] geolocation = separateString(loc);
             double x = geolocation[0];
             double y = geolocation[1];
             double z = geolocation[2];
-            node_data node = new Nodes();
-            System.out.println(node.getKey() +"~~~~~");
             geo_location location = new Nodes.GeoLocation(x, y, z);
-            node.setLocation(location);
+            node_data node = new Nodes(id,location);
             graph.addNode(node);
-
         }
         for (JsonElement e : edges) {
             JsonElement val = e.getAsJsonObject();

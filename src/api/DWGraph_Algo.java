@@ -32,7 +32,7 @@ public class DWGraph_Algo implements dw_graph_algorithms {
                 graphcopy.addNode(new Nodes(runner)); // copies the current "runner" node
                 for(edge_data edge : graph.getE(runner.getKey())) { // for loop that's copies the edges
                     if(!graphcopy.hasNode(edge.getDest())) { // if its neighbour isn't in the new graph yet
-                        graphcopy.addNode(new Nodes(getNeighbour(edge)));// getting the dest node by casting to EdgeData.
+                        graphcopy.addNode(new Nodes(((Edges)edge).destination));// getting the dest node by casting to EdgeData.
                     }
                     graphcopy.connect(runner.getKey(),edge.getDest(),edge.getWeight());
                 }
@@ -74,7 +74,7 @@ public class DWGraph_Algo implements dw_graph_algorithms {
     private void Kosaraju(directed_weighted_graph graph,node_data runner) {
         runner.setTag(GRAY); // visited node colored by gray
         for(edge_data neighbours : graph.getE(runner.getKey())) {
-            node_data dest = cast(neighbours).getDestination();
+            node_data dest = ((Edges)neighbours).destination;
             pairs.add(neighbours);
             if(dest.getTag() != GRAY) {
                 Kosaraju(graph,dest);
@@ -93,7 +93,7 @@ public class DWGraph_Algo implements dw_graph_algorithms {
                     node_data w = queue.poll();
                     w.setInfo("visited");
                     for (edge_data edge : graph.getE(w.getKey())) {
-                        node_data dest = cast(edge).getDestination();
+                        node_data dest = ((Edges)edge).destination;
                         pairs.add(edge);
                         if (dest.getInfo().equals("unvisited")) {
                             double weight = w.getWeight() + edge.getWeight();
@@ -180,6 +180,7 @@ public class DWGraph_Algo implements dw_graph_algorithms {
             Gson gson = builder.create();
             FileReader fr= new FileReader(file);
             directed_weighted_graph g = gson.fromJson(fr,directed_weighted_graph.class);
+           this.graph = g;
             return true;
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -197,7 +198,7 @@ public class DWGraph_Algo implements dw_graph_algorithms {
             while(current != source) {
                 for(edge_data edge : graph.getE(current.getKey())) {
                     double weight = current.getWeight() - edge.getWeight();
-                    node_data w = cast(edge).getDestination();
+                    node_data w = ((Edges)edge).destination;
                     if(Math.abs(w.getWeight() - weight) < EPSILON) {
                         stack.push(w);
                         queue.add(w);
@@ -211,13 +212,6 @@ public class DWGraph_Algo implements dw_graph_algorithms {
             }
       }
         return path;
-    }
-
-    private Edges cast(edge_data e) {
-        return ((Edges)e);
-    }
-    private node_data getNeighbour(edge_data e) {
-        return cast(e).getDestination();
     }
 
     private void Reset() {
