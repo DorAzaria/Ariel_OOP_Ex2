@@ -13,6 +13,7 @@ import java.awt.*;
     private String info;
 
     public Nodes() {
+        pos = new GeoLocation(0,0,0);
         id = increment++;
         info = "unvisited";
         weight = Double.MAX_VALUE;

@@ -3,13 +3,15 @@ package api;
 import java.util.*;
 
 public class DWGraph_DS implements directed_weighted_graph {
-    HashMap<Integer,node_data> vertices;
-    HashMap<Integer,HashMap<node_data,edge_data>> adjacency;
+    public HashMap<Integer,node_data> vertices;
+    public HashMap<Integer,HashMap<node_data,edge_data>> adjacency;
+    public HashSet<edge_data> edges;
     private int e, mc;
 
     public DWGraph_DS() {
         vertices = new HashMap<>();
         adjacency = new HashMap<>();
+        edges = new HashSet<>();
         e = 0;
         mc = 0;
     }
@@ -49,9 +51,11 @@ public class DWGraph_DS implements directed_weighted_graph {
             node_data source = getNode(src), destination = getNode(dest);
             if(adjacency.get(src).containsKey(destination)) {
                 ((Edges)getEdge(src,dest)).setWeight(w); // get edge
+                edges.add(getEdge(src,dest));
                 mc++;
             } else {
                 adjacency.get(src).put(destination,new Edges(source,destination,w));
+                edges.add(getEdge(src,dest));
                 mc++;
                 e++;
             }
@@ -63,9 +67,6 @@ public class DWGraph_DS implements directed_weighted_graph {
         return new HashSet<>(vertices.values());
     }
 
-    public Collection<node_data> getV(int key) {
-        return new HashSet<>(adjacency.get(key).keySet());
-    }
 
     @Override
     public Collection<edge_data> getE(int node_id) {
@@ -100,6 +101,7 @@ public class DWGraph_DS implements directed_weighted_graph {
         if(vertices.containsKey(src) && vertices.containsKey(dest) && adjacency.get(src).containsKey(getNode(dest))) {
             e--;
             mc++;
+            edges.remove(adjacency.get(src).remove(getNode(dest)));
             return adjacency.get(src).remove(getNode(dest));
         }
         return null;

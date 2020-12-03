@@ -20,11 +20,10 @@ public class yeezeTest {
         graph.connect(3,1,17.5);
         graph.connect(2,1,3.16);
         graph.connect(3,2,4.8);
+        graph.removeNode(0);
         dw_graph_algorithms tester = new DWGraph_Algo();
         tester.init(graph);
-        System.out.println(tester.shortestPath(0,3));
-
-
+        tester.save("sharmota");
 
     }
 }

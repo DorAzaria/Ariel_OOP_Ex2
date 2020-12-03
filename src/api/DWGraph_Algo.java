@@ -1,9 +1,10 @@
 package api;
 
-import com.google.gson.Gson;
+import com.google.gson.*;
 
 import java.awt.*;
 import java.io.*;
+import java.lang.reflect.Type;
 import java.util.*;
 import java.util.List;
 
@@ -137,11 +138,38 @@ public class DWGraph_Algo implements dw_graph_algorithms {
 
     @Override
     public boolean save(String file)  {
-//        Gson json = new Gson();
-//        String filename = json.toJson(graph);
-//        FileWriter fw = new FileWriter(new File(file));
-//        fw.write(filename);
-//        fw.close();
+        Gson gson = new Gson();
+        JsonObject jsonGraph = new JsonObject();
+        JsonArray Edges = new JsonArray();
+        JsonArray Nodes = new JsonArray();
+
+        // initialize the nodes from the graph to Nodes jsonArray object
+        for(node_data runner : graph.getV()) {
+            JsonObject v = new JsonObject();
+            String location = runner.getLocation().x()+","+runner.getLocation().y()+","+runner.getLocation().z();
+            v.addProperty("pos",location);
+            v.addProperty("id",runner.getKey());
+            Nodes.add(v);
+        }
+        // initialize the edges from graph to Edges JsonArray object
+        for(edge_data edge : ((DWGraph_DS)graph).edges) {
+            JsonObject e = new JsonObject();
+            e.addProperty("src",edge.getSrc());
+            e.addProperty("w",edge.getWeight());
+            e.addProperty("dest",edge.getDest());
+            Edges.add(e);
+        }
+        jsonGraph.add("Edges",Edges);
+        jsonGraph.add("Nodes",Nodes);
+        String json = gson.toJson(jsonGraph);
+        try {
+            PrintWriter pw = new PrintWriter(new File(file));
+            pw.write(json);
+            pw.close();
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return false;
     }
 

@@ -39,7 +39,7 @@ public class Ex2_Client implements Runnable{
 		while(game.isRunning()) {
 			moveAgants(game, gg);
 			try {
-				if(ind%1==0) {_win.repaint();}
+				if(ind%10==0) {_win.repaint();}
 				Thread.sleep(dt);
 				ind++;
 			}
