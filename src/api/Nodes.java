@@ -5,7 +5,7 @@ import gameClient.util.Point3D;
 import java.awt.*;
 
     public class Nodes implements node_data {
-    private geo_location pos;
+    public geo_location pos;
     private int id;
     static int increment = 0;
     private Color tag;
@@ -66,7 +66,7 @@ import java.awt.*;
         @Override
     public void setTag(int t) { tag = new Color(t);}
 
-    private class GeoLocation implements geo_location {
+    public static class GeoLocation implements geo_location {
         public Point3D point;
 
         public GeoLocation(double x, double y, double z) {

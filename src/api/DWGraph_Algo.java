@@ -142,7 +142,6 @@ public class DWGraph_Algo implements dw_graph_algorithms {
         JsonObject jsonGraph = new JsonObject();
         JsonArray Edges = new JsonArray();
         JsonArray Nodes = new JsonArray();
-
         // initialize the nodes from the graph to Nodes jsonArray object
         for(node_data runner : graph.getV()) {
             JsonObject v = new JsonObject();
@@ -174,16 +173,17 @@ public class DWGraph_Algo implements dw_graph_algorithms {
     }
 
     @Override
-    public boolean load(String file) {
-//
-//        try {
-//            Gson gson1 = new Gson();
-//            FileReader reader = new FileReader("A0.json");
-//            importGame importer = new importGame();
-//            importer = gson1.fromJson(reader,importGame.class);
-//        }catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        }
+    public boolean load(String file)  {
+        try {
+            GsonBuilder builder = new GsonBuilder()
+                    .registerTypeAdapter(directed_weighted_graph.class,new graphDeserialization());
+            Gson gson = builder.create();
+            FileReader fr= new FileReader(file);
+            directed_weighted_graph g = gson.fromJson(fr,directed_weighted_graph.class);
+            return true;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
         return false;
     }
 
@@ -206,7 +206,6 @@ public class DWGraph_Algo implements dw_graph_algorithms {
                 }
                 current = queue.poll();
             }
-
             while(!stack.isEmpty()) {
                 path.add(stack.pop());
             }

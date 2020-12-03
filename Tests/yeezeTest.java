@@ -1,10 +1,11 @@
 import api.*;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class yeezeTest {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws FileNotFoundException {
      directed_weighted_graph graph = new DWGraph_DS();
         node_data n1 = new Nodes();
         node_data n2 = new Nodes();
@@ -23,8 +24,10 @@ public class yeezeTest {
         graph.removeNode(0);
         dw_graph_algorithms tester = new DWGraph_Algo();
         tester.init(graph);
-        tester.save("sharmota");
+        tester.load("kardashin.json");
 
-    }
+        tester.getGraph().getV().stream().forEach(x->
+                System.out.println(x.getKey()));
+   }
 }
 
