@@ -172,19 +172,19 @@ public class DWGraph_Algo implements dw_graph_algorithms {
     }
 
     @Override
-    public boolean load(String file)  {
+    public boolean load(String file) {
         try {
             GsonBuilder builder = new GsonBuilder()
-                    .registerTypeAdapter(directed_weighted_graph.class,new graphDeserialization());
+                    .registerTypeAdapter(directed_weighted_graph.class, new graphDeserialization());
             Gson gson = builder.create();
-            FileReader fr= new FileReader(file);
-            directed_weighted_graph g = gson.fromJson(fr,directed_weighted_graph.class);
-           this.graph = g;
+            FileReader fr = new FileReader(file);
+            directed_weighted_graph g = gson.fromJson(fr, directed_weighted_graph.class);
+            this.graph = g;
             return true;
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         }
-        return false;
+        catch (FileNotFoundException f) {
+            return false;
+        }
     }
 
     private Collection<node_data> makePath(directed_weighted_graph graph , node_data source , node_data destination) {
