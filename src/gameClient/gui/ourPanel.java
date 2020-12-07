@@ -1,14 +1,17 @@
 package gameClient.gui;
 import api.*;
+import gameClient.util.*;
+
 import javax.swing.*;
 import java.awt.*;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.LinkedList;
+
 
 public class ourPanel extends JPanel {
     dw_graph_algorithms graph_algo;
     directed_weighted_graph graph;
+    private Range2Range _w2f;
+
 
     @Override
     public void paintComponent(Graphics g) {
@@ -38,10 +41,12 @@ public class ourPanel extends JPanel {
    }
 
    private void drawNode(Graphics g, node_data current) {
+
         geo_location geo = current.getLocation();
+        geo_location p = this._w2f.world2frame(geo);
         g.setColor(new Color(73,155,84));
         g.fillOval((int)geo.x(),(int)geo.y(),20,20);
-        g.drawString(""+current.getKey(),(int)geo.x()+10,(int)geo.y()+10);
+        g.drawString(""+current.getKey(),(int)geo.x()+50,(int)geo.y()+10);
    }
 
 }
