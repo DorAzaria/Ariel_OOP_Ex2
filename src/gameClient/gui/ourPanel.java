@@ -10,8 +10,11 @@ import gameClient.Pokemon;
 import gameClient.util.Point3D;
 import gameClient.util.Range2Range;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.Iterator;
 import java.util.List;
 
@@ -19,6 +22,7 @@ public class ourPanel extends JPanel {
     Arena ManageGame;
     Range2Range range;
     final int r = 7;
+
 
     public ourPanel(Arena arena,Range2Range r) {
         ManageGame = arena;
@@ -57,9 +61,16 @@ public class ourPanel extends JPanel {
                 if(c!=null) {
 
                     geo_location fp = this.range.world2frame(c);
-                    g.fillOval((int)fp.x()-r, (int)fp.y()-r, 2*r, 2*r);
-                    //	g.drawString(""+n.getKey(), fp.ix(), fp.iy()-4*r);
+                    try {
+                        BufferedImage img = ImageIO.read(new File("resource/pikachu.gif"));
+                        g.drawImage(img, (int)fp.x()-30, (int)fp.y()-30, 7*r, 5*r, this);
+                        g.drawString("Pikachu", (int)fp.x()-10, (int)fp.y()-5*r);
+                        g.drawString("Value:"+f.getValue(), (int)fp.x()-13, (int)fp.y()-4*r);
 
+                    } catch (Exception ex){
+                        ex.printStackTrace();
+                    }
+                    //	g.drawString(""+n.getKey(), fp.ix(), fp.iy()-4*r);
                 }
             }
         }
@@ -76,7 +87,14 @@ public class ourPanel extends JPanel {
             if(c!=null) {
 
                 geo_location fp = this.range.world2frame(c);
-                g.fillOval((int)fp.x()-r, (int)fp.y()-r, 2*r, 2*r);
+                try {
+                    BufferedImage img = ImageIO.read(new File("resource/ash.gif"));
+                    g.drawImage(img, (int)fp.x()-30, (int)fp.y()-30, 5*r, 5*r, this);
+                    g.drawString("Ash", (int)fp.x()-10, (int)fp.y()-5*r);
+
+                } catch (Exception ex){
+                    ex.printStackTrace();
+                }
             }
         }
     }
