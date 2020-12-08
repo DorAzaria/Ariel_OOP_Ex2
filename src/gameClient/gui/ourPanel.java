@@ -18,8 +18,7 @@ import java.util.List;
 public class ourPanel extends JPanel {
     Arena ManageGame;
     Range2Range range;
-    int ind;
-    final int r = 7; // im study at ariel university and they teach me to think like parrot
+    final int r = 7;
 
     public ourPanel(Arena arena,Range2Range r) {
         ManageGame = arena;
