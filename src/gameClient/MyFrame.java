@@ -8,8 +8,10 @@ import gameClient.util.Point3D;
 import gameClient.util.Range;
 import gameClient.util.Range2D;
 
+import javax.sound.sampled.Line;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.Line2D;
 import java.util.Iterator;
 import java.util.List;
 
@@ -40,26 +42,26 @@ public class MyFrame extends JFrame{
 		directed_weighted_graph g = _ar.getGraph();
 		_w2f = Arena.w2f(g,frame);
 	}
-	public void paint(Graphics g) {
+	public void paint(Graphics2D g) {
 		int w = this.getWidth();
 		int h = this.getHeight();
 		g.clearRect(0, 0, w, h);
-	//	updateFrame();
+		updateFrame();
 		drawPokemons(g);
 		drawGraph(g);
 		drawAgants(g);
 		drawInfo(g);
 		
 	}
-	private void drawInfo(Graphics g) {
-		List<String> str = _ar.get_info();
+	private void drawInfo(Graphics2D g) {
+		List<String> str = _ar.getInfo();
 		String dt = "none";
 		for(int i=0;i<str.size();i++) {
 			g.drawString(str.get(i)+" dt: "+dt,100,60+i*20);
 		}
 		
 	}
-	private void drawGraph(Graphics g) {
+	private void drawGraph(Graphics2D g) {
 		directed_weighted_graph gg = _ar.getGraph();
 		Iterator<node_data> iter = gg.getV().iterator();
 		while(iter.hasNext()) {
@@ -74,14 +76,14 @@ public class MyFrame extends JFrame{
 			}
 		}
 	}
-	private void drawPokemons(Graphics g) {
-		List<CL_Pokemon> fs = _ar.getPokemons();
+	private void drawPokemons(Graphics2D g) {
+		List<Pokemon> fs = _ar.getPokemons();
 		if(fs!=null) {
-		Iterator<CL_Pokemon> itr = fs.iterator();
+		Iterator<Pokemon> itr = fs.iterator();
 		
 		while(itr.hasNext()) {
 			
-			CL_Pokemon f = itr.next();
+			Pokemon f = itr.next();
 			Point3D c = f.getLocation();
 			int r=10;
 			g.setColor(Color.green);
@@ -96,8 +98,8 @@ public class MyFrame extends JFrame{
 		}
 		}
 	}
-	private void drawAgants(Graphics g) {
-		List<CL_Agent> rs = _ar.getAgents();
+	private void drawAgants(Graphics2D g) {
+		List<Agent> rs = _ar.getAgents();
 	//	Iterator<OOP_Point3D> itr = rs.iterator();
 		g.setColor(Color.red);
 		int i=0;
@@ -112,13 +114,15 @@ public class MyFrame extends JFrame{
 			}
 		}
 	}
-	private void drawNode(node_data n, int r, Graphics g) {
+	private void drawNode(node_data n, int r, Graphics2D g) {
 		geo_location pos = n.getLocation();
 		geo_location fp = this._w2f.world2frame(pos);
 		g.fillOval((int)fp.x()-r, (int)fp.y()-r, 2*r, 2*r);
 		g.drawString(""+n.getKey(), (int)fp.x(), (int)fp.y()-4*r);
 	}
-	private void drawEdge(edge_data e, Graphics g) {
+
+	private void drawEdge(edge_data e, Graphics2D g) {
+		g.setStroke(new BasicStroke(3041));
 		directed_weighted_graph gg = _ar.getGraph();
 		geo_location s = gg.getNode(e.getSrc()).getLocation();
 		geo_location d = gg.getNode(e.getDest()).getLocation();

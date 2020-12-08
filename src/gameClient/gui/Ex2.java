@@ -1,22 +1,22 @@
 package gameClient;
-
 import Server.Game_Server_Ex2;
 import api.*;
+import gameClient.gui.ourFrame;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import javax.swing.*;
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
 public class Ex2 implements Runnable{
-    private static MyFrame _win, log;
+    private static ourFrame _win, log;
     private static Arena _ar;
     private static long playerID;
     private static int  num_level;
+
     public static void main(String[] a){
         login();
         Thread client = new Thread(new Ex2());
@@ -25,15 +25,9 @@ public class Ex2 implements Runnable{
 
     @Override
     public void run() {
-        int scenario_num = 11;
         game_service game = Game_Server_Ex2.getServer(num_level); // you have [0,23] games
-//			int id = 999;
-//			game.login(id);
-        String g = game.getGraph();
-        String pks = game.getPokemons();
         directed_weighted_graph gg = game.getJava_Graph_Not_to_be_used();
         init(game);
-
         game.startGame();
         _win.setTitle("Ex2 - OOP: Pokemons! ");
         int ind=0;
@@ -64,18 +58,18 @@ public class Ex2 implements Runnable{
      */
     private static void moveAgants(game_service game, directed_weighted_graph gg) {
         String lg = game.move();
-        List<CL_Agent> log = Arena.getAgents(lg, gg);
+        List<Agent> log = Arena.getAgents(lg, gg);
         _ar.setAgents(log);
         //ArrayList<OOP_Point3D> rs = new ArrayList<OOP_Point3D>();
         String fs =  game.getPokemons();
-        List<CL_Pokemon> ffs = Arena.json2Pokemons(fs);
+        List<Pokemon> ffs = Arena.getPokemons(fs);
         _ar.setPokemons(ffs);
         for(int i=0;i<log.size();i++) {
-            CL_Agent ag = log.get(i);
+            Agent ag = log.get(i);
             int id = ag.getID();
             int dest = ag.getNextNode();
             int src = ag.getSrcNode();
-            double v = ag.getValue();
+            double v = ag.getKey();
             if(dest==-1) {
                 dest = nextNode(gg, src);
                 game.chooseNextEdge(ag.getID(), dest);
@@ -101,15 +95,13 @@ public class Ex2 implements Runnable{
         return ans;
     }
     private void init(game_service game) {
-        String g = game.getGraph();
         String fs = game.getPokemons();
         directed_weighted_graph gg = game.getJava_Graph_Not_to_be_used();
-        //gg.init(g);
         _ar = new Arena();
         _ar.setGraph(gg);
-        _ar.setPokemons(Arena.json2Pokemons(fs));
+        _ar.setPokemons(Arena.getPokemons(fs));
         _ar.setGame(game);
-        _win = new MyFrame("test Ex2");
+        _win = new ourFrame("test Ex2");
         _win.setSize(1000, 700);
         _win.update(_ar);
         _win.show();
@@ -122,13 +114,15 @@ public class Ex2 implements Runnable{
             System.out.println(info);
             System.out.println(game.getPokemons());
             int src_node = 0;  // arbitrary node, you should start at one of the pokemon
-            ArrayList<CL_Pokemon> cl_fs = Arena.json2Pokemons(game.getPokemons());
-            for(int a = 0;a<cl_fs.size();a++) { Arena.updateEdge(cl_fs.get(a),gg);}
+            ArrayList<Pokemon> cl_fs = Arena.getPokemons(game.getPokemons());
+            for(int a = 0;a<cl_fs.size();a++) {
+                Arena.updateEdge(cl_fs.get(a),gg);
+            }
             for(int a = 0;a<rs;a++) {
                 int ind = a%cl_fs.size();
-                CL_Pokemon c = cl_fs.get(ind);
-                int nn = c.get_edge().getDest();
-                if(c.getType()<0 ) {nn = c.get_edge().getSrc();}
+                Pokemon c = cl_fs.get(ind);
+                int nn = c.getEdges().getDest();
+                if(c.getType()<0 ) {nn = c.getEdges().getSrc();}
                 game.addAgent(nn);
             }
         }
