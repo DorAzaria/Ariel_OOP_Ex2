@@ -24,7 +24,6 @@ public class ourFrame extends JFrame {
         initPanel();
     }
 
-
     public void initPanel() {
         ourPanel panel = new ourPanel(ManageGame);
         this.add(panel);

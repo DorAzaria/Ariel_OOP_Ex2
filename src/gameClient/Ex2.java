@@ -131,7 +131,7 @@ public class Ex2 implements Runnable{
 
 
     private static void login(){
-        MyFrame frame = new MyFrame("log in ");
+        ourFrame frame = new ourFrame("log in ");
         frame.setBounds(200, 0, 500, 500);
         try {
 

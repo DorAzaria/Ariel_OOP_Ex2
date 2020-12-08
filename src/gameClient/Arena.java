@@ -111,7 +111,6 @@ public class Arena {
 	 * @param graph
 	 */
 	public static void updateEdge(Pokemon pk, directed_weighted_graph graph) {
-		//	oop_edge_data ans = null;
 		for (node_data runner : graph.getV()) {
 			for (edge_data edge : graph.getE(runner.getKey())) {
 				boolean flag = isOnEdge(pk.getLocation(), edge, pk.getType(), graph);

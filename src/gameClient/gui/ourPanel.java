@@ -1,11 +1,13 @@
 package gameClient.gui;
 
+import Server.Game_Server_Ex2;
 import api.directed_weighted_graph;
 import api.edge_data;
 import api.geo_location;
 import api.node_data;
 import gameClient.Agent;
 import gameClient.Arena;
+import gameClient.Ex2;
 import gameClient.Pokemon;
 import gameClient.util.Point3D;
 import gameClient.util.Range;
@@ -25,6 +27,8 @@ public class ourPanel extends JPanel {
     Arena ManageGame;
     Range2Range range;
     final int r = 7;
+    double grade = 0;
+    int moves = 0;
 
     public ourPanel(Arena arena) {
         ManageGame = arena;
@@ -38,7 +42,10 @@ public class ourPanel extends JPanel {
         drawGraph((Graphics2D)g);
         drawPokemons((Graphics2D)g);
         drawAgants((Graphics2D)g);
-        drawInfo((Graphics2D)g);
+        g.drawString("Time: "+ManageGame.getGame().timeToEnd(),10,30);
+        g.drawString("Grade: "+grade,10,50);
+        g.drawString("Moves: "+moves++,10,70);
+
     }
 
     private void resize() {
@@ -49,14 +56,6 @@ public class ourPanel extends JPanel {
         range = Arena.w2f(graph,frame);
     }
 
-    private void drawInfo(Graphics2D g) {
-        java.util.List<String> str = ManageGame.getInfo();
-        String dt = "none";
-        for(int i=0;i<str.size();i++) {
-            g.drawString(str.get(i)+" dt: "+dt,100,60+i*20);
-        }
-
-    }
     private void drawPokemons(Graphics2D g) {
         java.util.List<Pokemon> fs = ManageGame.getPokemons();
         if(fs!=null) {
@@ -80,18 +79,19 @@ public class ourPanel extends JPanel {
                     } catch (Exception ex){
                         ex.printStackTrace();
                     }
-                    //	g.drawString(""+n.getKey(), fp.ix(), fp.iy()-4*r);
                 }
             }
         }
     }
     private void drawAgants(Graphics2D g) {
         List<Agent> rs = ManageGame.getAgents();
-        //	Iterator<OOP_Point3D> itr = rs.iterator();
-        g.setColor(Color.red);
         int i=0;
-        while(rs!=null && i<rs.size()) {
+        while(rs != null && i < rs.size()) {
             geo_location c = rs.get(i).getLocation();
+            String value = String.valueOf(rs.get(i).getKey());
+            if(grade < rs.get(i).getKey() ) {
+                grade += rs.get(i).getKey();
+            }
             int r=8;
             i++;
             if(c!=null) {
@@ -101,7 +101,7 @@ public class ourPanel extends JPanel {
                     BufferedImage img = ImageIO.read(new File("resource/ash.gif"));
                     g.drawImage(img, (int)fp.x()-30, (int)fp.y()-30, 5*r, 5*r, this);
                     g.drawString("Ash", (int)fp.x()-20, (int)fp.y()-8*r);
-                    g.drawString("Points:", (int)fp.x()-30, (int)fp.y()-6*r);
+                    g.drawString("Points:"+value, (int)fp.x()-30, (int)fp.y()-6*r);
                 } catch (Exception ex){
                     ex.printStackTrace();
                 }
