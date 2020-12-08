@@ -36,7 +36,7 @@ public class Ex2 implements Runnable{
         while(game.isRunning()) {
             moveAgants(game, gg);
             try {
-                if(ind%3==0) {_win.repaint();}
+                if(ind%10==0) {_win.repaint();}
                 Thread.sleep(dt);
                 ind++;
             }

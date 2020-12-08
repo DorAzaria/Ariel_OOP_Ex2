@@ -17,6 +17,8 @@ import gameClient.util.Range2Range;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.GeneralPath;
+import java.awt.geom.Line2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -127,7 +129,7 @@ public class ourPanel extends JPanel {
         geo_location fp = this.range.world2frame(pos);
         try {
             BufferedImage pokador = ImageIO.read(new File("resource/pokador.png"));
-            g.drawImage(pokador, (int)fp.x()-30, (int)fp.y()-30, 4*r, 5*r, this);
+            g.drawImage(pokador, (int)fp.x()-15, (int)fp.y()-30, 4*r, 5*r, this);
             g.setFont(new Font("Segoe UI",Font.PLAIN,20));
             g.drawString(" "+n.getKey(), (int)fp.x()-25, (int)fp.y()-40);
         } catch (IOException e) {
@@ -144,5 +146,6 @@ public class ourPanel extends JPanel {
         geo_location s0 = this.range.world2frame(s);
         geo_location d0 = this.range.world2frame(d);
         g.drawLine((int)s0.x(), (int)s0.y(), (int)d0.x(), (int)d0.y());
+
     }
 }
