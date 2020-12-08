@@ -103,7 +103,6 @@ public class Ex2 implements Runnable{
         _ar.setGame(game);
         _win = new ourFrame("test Ex2");
         _win.setSize(1000, 700);
-
         _win.update(_ar);
         _win.show();
         String info = game.toString();

@@ -31,7 +31,8 @@ public class ourPanel extends JPanel {
     public void paint(Graphics g) {
         int width = this.getWidth();
         int height = this.getHeight();
-        g.clearRect(0, 0, width, height);
+        g.setColor(new Color(43,43,43));
+        g.fillRect(0,0,width,height);
         drawGraph((Graphics2D)g);
         drawPokemons((Graphics2D)g);
         drawAgants((Graphics2D)g);
@@ -59,7 +60,6 @@ public class ourPanel extends JPanel {
                 g.setColor(Color.green);
                 if(f.getType()<0) {g.setColor(Color.orange);}
                 if(c!=null) {
-
                     geo_location fp = this.range.world2frame(c);
                     try {
                         BufferedImage img = ImageIO.read(new File("resource/pikachu.gif"));
@@ -90,8 +90,8 @@ public class ourPanel extends JPanel {
                 try {
                     BufferedImage img = ImageIO.read(new File("resource/ash.gif"));
                     g.drawImage(img, (int)fp.x()-30, (int)fp.y()-30, 5*r, 5*r, this);
-                    g.drawString("Ash", (int)fp.x()-10, (int)fp.y()-5*r);
-
+                    g.drawString("Ash", (int)fp.x()-20, (int)fp.y()-6*r);
+                    g.drawString("Points:", (int)fp.x()-30, (int)fp.y()-5*r);
                 } catch (Exception ex){
                     ex.printStackTrace();
                 }

@@ -18,8 +18,8 @@ public class ourFrame extends JFrame {
     public ourFrame(String name) {
         super(name);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
     }
+
     public void update(Arena ar) {
         ManageGame = ar;
         updateFrame();
@@ -33,8 +33,9 @@ public class ourFrame extends JFrame {
         directed_weighted_graph g = ManageGame.getGraph();
         range = Arena.w2f(g,frame);
     }
+
     public void initPanel() {
-        ourPanel panel = new ourPanel(ManageGame,range);
+        ourPanel panel = new ourPanel(ManageGame, range);
         this.add(panel);
     }
 

@@ -72,7 +72,8 @@ public class Agent {
 			return ans;	
 		}
 		private void setMoney(double v) {
-			value = v;}
+			value = v;
+		}
 	
 		public boolean setNextNode(int dest) {
 			boolean ans = false;
