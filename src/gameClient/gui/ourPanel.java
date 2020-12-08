@@ -15,6 +15,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 
@@ -64,8 +65,8 @@ public class ourPanel extends JPanel {
                     try {
                         BufferedImage img = ImageIO.read(new File("resource/pikachu.gif"));
                         g.drawImage(img, (int)fp.x()-30, (int)fp.y()-30, 7*r, 5*r, this);
-                        g.drawString("Pikachu", (int)fp.x()-10, (int)fp.y()-5*r);
-                        g.drawString("Value:"+f.getValue(), (int)fp.x()-13, (int)fp.y()-4*r);
+                        g.drawString("Pikachu", (int)fp.x()-10, (int)fp.y()-8*r);
+                        g.drawString("Value:"+f.getValue(), (int)fp.x()-13, (int)fp.y()-6*r);
 
                     } catch (Exception ex){
                         ex.printStackTrace();
@@ -90,8 +91,8 @@ public class ourPanel extends JPanel {
                 try {
                     BufferedImage img = ImageIO.read(new File("resource/ash.gif"));
                     g.drawImage(img, (int)fp.x()-30, (int)fp.y()-30, 5*r, 5*r, this);
-                    g.drawString("Ash", (int)fp.x()-20, (int)fp.y()-6*r);
-                    g.drawString("Points:", (int)fp.x()-30, (int)fp.y()-5*r);
+                    g.drawString("Ash", (int)fp.x()-20, (int)fp.y()-8*r);
+                    g.drawString("Points:", (int)fp.x()-30, (int)fp.y()-6*r);
                 } catch (Exception ex){
                     ex.printStackTrace();
                 }
@@ -115,8 +116,14 @@ public class ourPanel extends JPanel {
         g.setColor(new Color(73,155,84));
         geo_location pos = n.getLocation();
         geo_location fp = this.range.world2frame(pos);
-        g.fillOval((int)fp.x()-r, (int)fp.y()-r, 5*r, 5*r);
-        g.drawString(""+n.getKey(), (int)fp.x(), (int)fp.y()-4*r);
+        try {
+            BufferedImage pokador = ImageIO.read(new File("resource/pokador.png"));
+            g.drawImage(pokador, (int)fp.x()-30, (int)fp.y()-30, 4*r, 5*r, this);
+            g.setFont(new Font("Segoe UI",Font.PLAIN,20));
+            g.drawString(" "+n.getKey(), (int)fp.x()-25, (int)fp.y()-40);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void drawEdge(edge_data e, Graphics2D g) {
