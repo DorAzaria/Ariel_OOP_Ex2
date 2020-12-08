@@ -8,6 +8,8 @@ import gameClient.Agent;
 import gameClient.Arena;
 import gameClient.Pokemon;
 import gameClient.util.Point3D;
+import gameClient.util.Range;
+import gameClient.util.Range2D;
 import gameClient.util.Range2Range;
 
 import javax.imageio.ImageIO;
@@ -24,20 +26,27 @@ public class ourPanel extends JPanel {
     Range2Range range;
     final int r = 7;
 
-
-    public ourPanel(Arena arena,Range2Range r) {
+    public ourPanel(Arena arena) {
         ManageGame = arena;
-        range = r;
     }
     public void paint(Graphics g) {
         int width = this.getWidth();
         int height = this.getHeight();
+        resize();
         g.setColor(new Color(43,43,43));
         g.fillRect(0,0,width,height);
         drawGraph((Graphics2D)g);
         drawPokemons((Graphics2D)g);
         drawAgants((Graphics2D)g);
         drawInfo((Graphics2D)g);
+    }
+
+    private void resize() {
+        Range rx = new Range(50,this.getWidth()-50);
+        Range ry = new Range(this.getHeight()-20,100);
+        Range2D frame = new Range2D(rx,ry);
+        directed_weighted_graph graph = ManageGame.getGraph();
+        range = Arena.w2f(graph,frame);
     }
 
     private void drawInfo(Graphics2D g) {
@@ -135,9 +144,5 @@ public class ourPanel extends JPanel {
         geo_location s0 = this.range.world2frame(s);
         geo_location d0 = this.range.world2frame(d);
         g.drawLine((int)s0.x(), (int)s0.y(), (int)d0.x(), (int)d0.y());
-
-        //	g.drawString(""+n.getKey(), fp.ix(), fp.iy()-4*r);
     }
-
-
 }
