@@ -10,6 +10,7 @@ public class Pokemon {
 	private Point3D position;
 	private double min_dist;
 	private int min_ro;
+	public boolean flag;
 	
 	public Pokemon(Point3D p, int t, double v, double s, edge_data e) {
 		type = t;
@@ -44,7 +45,9 @@ public class Pokemon {
 	}
 	public int getType() {return type;}
 	public double getValue() {return value;}
-	public double getMin_dist() {
+	public boolean isTarget(){return flag;}
+	public void setTarget() {flag = true;}
+		public double getMin_dist() {
 		return min_dist;
 	}
 	public void setMin_dist(double mid_dist) {

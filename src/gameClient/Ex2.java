@@ -42,7 +42,7 @@ public class Ex2 implements Runnable{
         while(game.isRunning()) {
             moveAgants(game);
             try {
-                if(ind% 1 == 0) {
+                if(ind % 1 == 0) {
                     Frame.repaint();}
                 Thread.sleep(dt);
                 ind++;
@@ -56,17 +56,6 @@ public class Ex2 implements Runnable{
         System.exit(0);
     }
 
-    private void loadGraph(String str) {
-        try {
-            GsonBuilder builder = new GsonBuilder()
-                    .registerTypeAdapter(directed_weighted_graph.class, new graphDeserialization());
-            Gson gson = builder.create();
-            graph = gson.fromJson(str, directed_weighted_graph.class);
-        }
-        catch (Exception f) {
-            f.printStackTrace();
-        }
-    }
     /**
      * Moves each of the agents along the edge,
      * in case the agent is on a node the next destination (next edge) is chosen (randomly).
@@ -81,15 +70,22 @@ public class Ex2 implements Runnable{
         List<Pokemon> ffs = Arena.getPokemons(fs);
         ManageGame.setPokemons(ffs);
         graph_algo.init(graph);
-
         for (Agent ag : log) {
             int id = ag.getID();
             int dest = ag.getNextNode();
             int src = ag.getSrcNode();
             double v = ag.getKey();
             if(dest == -1) {
-                game.chooseNextEdge(ag.getID(),nextNode(src));
-                System.out.println("Agent: " + id + ", val: " + v + "   turned to node: " + dest);
+//                if (ag.getCurrentPokemon()  == null) {
+//                    ag.setCurrentPokemon(ffs.get(0));
+//
+//                }
+                int source_poke = ffs.get(0).getEdges().getDest();
+                List <node_data> path = graph_algo.shortestPath(ag.getSrcNode(),source_poke);
+                for(node_data runner : path) {
+                    game.chooseNextEdge(ag.getID(),runner.getKey());
+                    System.out.println("Agent: " + id + ", val: " + v + "   turned to node: " + dest);
+                }
           }
         }
     }
@@ -113,6 +109,17 @@ public class Ex2 implements Runnable{
         return ans;
     }
 
+    private void loadGraph(String str) {
+        try {
+            GsonBuilder builder = new GsonBuilder()
+                    .registerTypeAdapter(directed_weighted_graph.class, new graphDeserialization());
+            Gson gson = builder.create();
+            graph = gson.fromJson(str, directed_weighted_graph.class);
+        }
+        catch (Exception f) {
+            f.printStackTrace();
+        }
+    }
     private void init(game_service game) {
         String fs = game.getPokemons();
         ManageGame = new Arena();
