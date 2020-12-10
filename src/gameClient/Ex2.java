@@ -76,10 +76,11 @@ public class Ex2 implements Runnable{
                 int desti = Target(ag,ffs);
                     if(desti != -1) {
                         game.chooseNextEdge(ag.getID(),desti);
-                        System.out.println("Agent: " + id + ", val: " + v + "   turned to node: " + dest);
+                        System.out.println("Agent: " + id + ", val: " + v + "   turned to node: " + desti);
                     }else {
-                        game.chooseNextEdge(ag.getID(),nextNode(graph,ag.getSrcNode()));
-                        System.out.println("Agent: " + id + ", val: " + v + "   turned to node: " + dest);
+                        int next = nextNode(graph,ag.getSrcNode());
+                        game.chooseNextEdge(ag.getID(),next);
+                        System.out.println("Agent: " + id + ", val: " + v + "   turned to node: " + next);
                     }
                 }
           }
@@ -102,20 +103,18 @@ public class Ex2 implements Runnable{
         Pokemon target = null;
         for (Pokemon p : pokemons) {
             Arena.updateEdge(p,graph);
+            if(!p.isTarget()) {
                 double minTemp = graph_algo.shortestPathDist(bond.getSrcNode(), p.getEdges().getDest());
-                if (minDest > minTemp && minTemp != -1) {
+                if (minDest > minTemp) {
                     minDest = minTemp;
                     target = p;
                 }
+            }
         }
         ArrayList<node_data> path = null;
         if(target != null) {
-            System.out.println("/////");
-            System.out.println("pokemon source: " + target.getEdges().getSrc() + " dest: "  + target.getEdges().getDest());
-            System.out.println("agent source: " + bond.getSrcNode());
-
+            bond.setCurrentPokemon(target);
             if(bond.getSrcNode() == target.getEdges().getDest()) {
-                bond.setCurrentPokemon(target);
                 return target.getEdges().getSrc();
             }
             else {

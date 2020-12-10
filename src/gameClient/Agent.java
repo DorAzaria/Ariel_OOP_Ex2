@@ -147,4 +147,22 @@ public class Agent {
 		public void set_sg_dt(long _sg_dt) {
 			this._sg_dt = _sg_dt;
 		}
+
+	public void set_SDT(long ddtt) {
+		long ddt = ddtt;
+		if(this.current_edge!=null) {
+			double w = getCurrent_edge().getWeight();
+			geo_location dest = graph.getNode(getCurrent_edge().getDest()).getLocation();
+			geo_location src = graph.getNode(getCurrent_edge().getSrc()).getLocation();
+			double de = src.distance(dest);
+			double dist = position.distance(dest);
+			if(this.getCurrentPokemon().getEdges()==this.getCurrent_edge()) {
+				dist = currentPokemon.getLocation().distance(this.position);
+			}
+			double norm = dist/de;
+			double dt = w*norm / this.getSpeed();
+			ddt = (long)(1000.0*dt);
+		}
+		this.set_sg_dt(ddt);
+	}
 	}
