@@ -16,6 +16,7 @@ public class Ex2 implements Runnable{
     private static Arena ManageGame;
     private static long playerID;
     private static int  num_level;
+    private  static directed_weighted_graph graph;
 
     public static void main(String[] a){
         login();
@@ -26,14 +27,14 @@ public class Ex2 implements Runnable{
     @Override
     public void run() {
         game_service game = Game_Server_Ex2.getServer(num_level); // you have [0,23] games
-        directed_weighted_graph gg = game.getJava_Graph_Not_to_be_used();
+        graph = game.getJava_Graph_Not_to_be_used();
         init(game);
         game.startGame();
         Frame.setTitle("Ex2 - OOP: Pokemons! ,  Game Number: " + num_level);
         int ind=0;
         long dt=100;
         while(game.isRunning()) {
-            moveAgants(game, gg);
+            moveAgants(game);
             try {
                 if(ind%2==0) {
                     Frame.repaint();}
@@ -52,12 +53,11 @@ public class Ex2 implements Runnable{
      * Moves each of the agents along the edge,
      * in case the agent is on a node the next destination (next edge) is chosen (randomly).
      * @param game
-     * @param gg
      * @param
      */
-    private static void moveAgants(game_service game, directed_weighted_graph gg) {
+    private static void moveAgants(game_service game) {
         String lg = game.move();
-        List<Agent> log = Arena.getAgents(lg, gg);
+        List<Agent> log = Arena.getAgents(lg, graph);
         ManageGame.setAgents(log);
         //ArrayList<OOP_Point3D> rs = new ArrayList<OOP_Point3D>();
         String fs =  game.getPokemons();
@@ -69,7 +69,7 @@ public class Ex2 implements Runnable{
             int src = ag.getSrcNode();
             double v = ag.getKey();
             if (dest == -1) {
-                dest = nextNode(gg, src);
+                dest = nextNode(src);
                 game.chooseNextEdge(ag.getID(), dest);
                 System.out.println("Agent: " + id + ", val: " + v + "   turned to node: " + dest);
             }
@@ -77,13 +77,12 @@ public class Ex2 implements Runnable{
     }
     /**
      * a very simple random walk implementation!
-     * @param g
      * @param src
      * @return
      */
-    private static int nextNode(directed_weighted_graph g, int src) {
+    private static int nextNode( int src) {
         int ans = -1;
-        Collection<edge_data> ee = g.getE(src);
+        Collection<edge_data> ee = graph.getE(src);
         Iterator<edge_data> itr = ee.iterator();
         int s = ee.size();
         int r = (int)(Math.random()*s);
@@ -94,9 +93,8 @@ public class Ex2 implements Runnable{
     }
     private void init(game_service game) {
         String fs = game.getPokemons();
-        directed_weighted_graph gg = game.getJava_Graph_Not_to_be_used();
         ManageGame = new Arena();
-        ManageGame.setGraph(gg);
+        ManageGame.setGraph(graph);
         ManageGame.setPokemons(Arena.getPokemons(fs));
         ManageGame.setGame(game);
         Frame = new ourFrame("test Ex2");
@@ -114,7 +112,7 @@ public class Ex2 implements Runnable{
             int src_node = 0;  // arbitrary node, you should start at one of the pokemon
             ArrayList<Pokemon> cl_fs = Arena.getPokemons(game.getPokemons());
             for (Pokemon cl_f : cl_fs) {
-                Arena.updateEdge(cl_f, gg);
+                Arena.updateEdge(cl_f, graph);
             }
             for(int a = 0;a<rs;a++) {
                 int ind = a%cl_fs.size();
