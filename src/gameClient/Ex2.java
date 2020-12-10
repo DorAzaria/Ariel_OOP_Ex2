@@ -15,7 +15,7 @@ import java.util.Iterator;
 import java.util.List;
 
 public class Ex2 implements Runnable{
-    private static ourFrame _win, log;
+    private static ourFrame _win;
     private static Arena _ar;
     private static long playerID;
     private static int  num_level;

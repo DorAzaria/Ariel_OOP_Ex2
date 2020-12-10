@@ -10,6 +10,7 @@ import java.io.File;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+
 public class ourPanel extends JPanel {
     Arena ManageGame;
     Range2Range range;
@@ -34,6 +35,7 @@ public class ourPanel extends JPanel {
         g.setColor(Color.black);
         g.drawImage(blur,-5, 0,170,150,this);
         g.drawImage(logo, 5,0,150,80, this);
+        g.setColor(Color.white);
         g.drawString("Time: 00:"+seconds,25,90);
         g.drawString("Grade: "+grade,25,110);
         g.drawString("Moves: "+moves++,25,130);
@@ -124,6 +126,8 @@ public class ourPanel extends JPanel {
         g.setColor(new Color(173, 122, 68));
         g.setStroke(new BasicStroke(10));
         g.drawLine((int)s0.x(), (int)s0.y(), (int)d0.x(), (int)d0.y());
+
+
     }
 
     private void pikachu(Graphics g, geo_location fp, Pokemon f, Color color) {
