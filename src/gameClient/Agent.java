@@ -8,19 +8,17 @@ import gameClient.util.Point3D;
 import org.json.JSONObject;
 
 public class Agent {
-		public static final double EPS = 0.0001;
-		private static int _count = 0;
-		private static int _seed = 3331;
+
 		private int key;
 		private geo_location position;
 		private double speed;
 		private edge_data current_edge;
 		private node_data current_node;
 		private directed_weighted_graph graph;
-		private Pokemon current_fruit;
+		private Pokemon currentPokemon;
 		private long _sg_dt;
 		private double value;
-		
+
 		public Agent(directed_weighted_graph g, int start_node) {
 			graph = g;
 			setMoney(0);
@@ -32,7 +30,6 @@ public class Agent {
 		public void update(String json) {
 			JSONObject line;
 			try {
-				// "GameServer":{"graph":"A0","pokemons":3,"agents":1}}
 				line = new JSONObject(json);
 				JSONObject ttt = line.getJSONObject("Agent");
 				int id = ttt.getInt("id");
@@ -57,7 +54,7 @@ public class Agent {
 			}
 		}
 		//@Override
-		public int getSrcNode() {return this.current_node.getKey();}
+		public int getSrcNode() {return current_node.getKey();}
 		public String toJSON() {
 			int d = this.getNextNode();
 			String ans = "{\"Agent\":{"
@@ -78,7 +75,7 @@ public class Agent {
 		public boolean setNextNode(int dest) {
 			boolean ans = false;
 			int src = this.current_node.getKey();
-			this.current_edge = graph.getEdge(src, dest);
+			current_edge = graph.getEdge(src, dest);
 			if(current_edge !=null) {
 				ans=true;
 			}
@@ -134,32 +131,12 @@ public class Agent {
 		public void setSpeed(double v) {
 			this.speed = v;
 		}
-		public Pokemon getCurrent_fruit() {
-			return current_fruit;
+		public Pokemon getCurrentPokemon() {
+			return currentPokemon;
 		}
-		public void setCurrent_fruit(Pokemon curr_fruit) {
-			this.current_fruit = curr_fruit;
-		}
-		public void set_SDT(long ddtt) {
-			long ddt = ddtt;
-			if(this.current_edge !=null) {
-				double w = getCurrent_edge().getWeight();
-				geo_location dest = graph.getNode(getCurrent_edge().getDest()).getLocation();
-				geo_location src = graph.getNode(getCurrent_edge().getSrc()).getLocation();
-				double de = src.distance(dest);
-				double dist = position.distance(dest);
-				if(this.getCurrent_fruit().getEdges()==this.getCurrent_edge()) {
-					 dist = current_fruit.getLocation().distance(this.position);
-				}
-				double norm = dist/de;
-				double dt = w*norm / this.getSpeed(); 
-				ddt = (long)(1000.0*dt);
-			}
-			this.set_sg_dt(ddt);
-		}
-		
+		public void setCurrentPokemon(Pokemon curr_pokemon) {currentPokemon = curr_pokemon;};
 		public edge_data getCurrent_edge() {
-			return this.current_edge;
+			return current_edge;
 		}
 		public long get_sg_dt() {
 			return _sg_dt;

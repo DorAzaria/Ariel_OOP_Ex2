@@ -14,8 +14,8 @@ import java.util.List;
 public class ourFrame extends JFrame {
     Arena ManageGame;
 
-    public ourFrame(String name) {
-        super(name);
+    public ourFrame() {
+        super();
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 

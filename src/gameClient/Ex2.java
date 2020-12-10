@@ -17,6 +17,8 @@ public class Ex2 implements Runnable{
     private static long playerID;
     private static int  num_level;
     private  static directed_weighted_graph graph;
+    private  static dw_graph_algorithms graph_algo = new DWGraph_Algo();
+
 
     public static void main(String[] a){
         login();
@@ -31,12 +33,12 @@ public class Ex2 implements Runnable{
         init(game);
         game.startGame();
         Frame.setTitle("Ex2 - OOP: Pokemons! ,  Game Number: " + num_level);
-        int ind=0;
-        long dt=100;
+        int ind = 0;
+        long dt = 100;
         while(game.isRunning()) {
             moveAgants(game);
             try {
-                if(ind%2==0) {
+                if(ind% 1 == 0) {
                     Frame.repaint();}
                 Thread.sleep(dt);
                 ind++;
@@ -49,6 +51,7 @@ public class Ex2 implements Runnable{
         System.out.println(res);
         System.exit(0);
     }
+
     /**
      * Moves each of the agents along the edge,
      * in case the agent is on a node the next destination (next edge) is chosen (randomly).
@@ -57,22 +60,22 @@ public class Ex2 implements Runnable{
      */
     private static void moveAgants(game_service game) {
         String lg = game.move();
-        List<Agent> log = Arena.getAgents(lg, graph);
+        List <Agent> log = Arena.getAgents(lg, graph);
         ManageGame.setAgents(log);
-        //ArrayList<OOP_Point3D> rs = new ArrayList<OOP_Point3D>();
         String fs =  game.getPokemons();
         List<Pokemon> ffs = Arena.getPokemons(fs);
         ManageGame.setPokemons(ffs);
+        graph_algo.init(graph);
         for (Agent ag : log) {
             int id = ag.getID();
             int dest = ag.getNextNode();
             int src = ag.getSrcNode();
+            int target = ffs.get(0).getEdges().getSrc();
             double v = ag.getKey();
             if (dest == -1) {
-                dest = nextNode(src);
-                game.chooseNextEdge(ag.getID(), dest);
+                game.chooseNextEdge(ag.getID(),nextNode(src));
                 System.out.println("Agent: " + id + ", val: " + v + "   turned to node: " + dest);
-            }
+          }
         }
     }
     /**
@@ -80,54 +83,61 @@ public class Ex2 implements Runnable{
      * @param src
      * @return
      */
-    private static int nextNode( int src) {
+    private static int nextNode(int src) {
         int ans = -1;
-        Collection<edge_data> ee = graph.getE(src);
-        Iterator<edge_data> itr = ee.iterator();
-        int s = ee.size();
+        Collection <edge_data> edge = graph.getE(src);
+        Iterator<edge_data> itr = edge.iterator();
+        int s = edge.size();
         int r = (int)(Math.random()*s);
-        int i=0;
-        while(i<r) {itr.next();i++;}
+        int i = 0;
+        while(i < r) {
+            itr.next();
+            i++;
+        }
         ans = itr.next().getDest();
         return ans;
     }
+
+
+
+
     private void init(game_service game) {
         String fs = game.getPokemons();
         ManageGame = new Arena();
         ManageGame.setGraph(graph);
         ManageGame.setPokemons(Arena.getPokemons(fs));
         ManageGame.setGame(game);
-        Frame = new ourFrame("test Ex2");
+        /// frame init
+        Frame = new ourFrame();
         Frame.setSize(1000, 700);
         Frame.update(ManageGame);
-        Frame.show();
+        Frame.setVisible(true);
         String info = game.toString();
-        JSONObject line;
         try {
-            line = new JSONObject(info);
+            // info about the game scenario
+            JSONObject line = new JSONObject(info);
             JSONObject ttt = line.getJSONObject("GameServer");
-            int rs = ttt.getInt("agents");
+            int num_of_agents = ttt.getInt("agents");
             System.out.println(info);
             System.out.println(game.getPokemons());
-            int src_node = 0;  // arbitrary node, you should start at one of the pokemon
-            ArrayList<Pokemon> cl_fs = Arena.getPokemons(game.getPokemons());
-            for (Pokemon cl_f : cl_fs) {
-                Arena.updateEdge(cl_f, graph);
+            ArrayList <Pokemon> pokemons = Arena.getPokemons(game.getPokemons());
+            for (Pokemon pk : pokemons) {
+                Arena.updateEdge(pk, graph);
             }
-            for(int a = 0;a<rs;a++) {
-                int ind = a%cl_fs.size();
-                Pokemon c = cl_fs.get(ind);
-                int nn = c.getEdges().getDest();
-                if(c.getType()<0 ) {nn = c.getEdges().getSrc();}
-                game.addAgent(nn);
+                for(int a = 0; a < num_of_agents; a++) {
+                int ind = a % pokemons.size();
+                Pokemon c = pokemons.get(ind);
+                int pos_on_graph = c.getEdges().getDest();
+                if(c.getType() < 0 ) {
+                    pos_on_graph = c.getEdges().getSrc();
+                }
+                game.addAgent(pos_on_graph);
             }
         }
         catch (JSONException e) {e.printStackTrace();}
     }
-
-
     private static void login(){
-        ourFrame frame = new ourFrame("log in ");
+        ourFrame frame = new ourFrame();
         frame.setBounds(200, 0, 500, 500);
         try {
             String id= JOptionPane.showInputDialog(frame, "Please insert ID");

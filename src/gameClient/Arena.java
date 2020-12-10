@@ -16,7 +16,7 @@ import java.util.List;
  */
 public class Arena {
 	public static final double EPS1 = 0.001, EPS2=EPS1*EPS1, EPS=EPS2;
-	private directed_weighted_graph graph;
+	private static directed_weighted_graph graph;
 	private List<Agent> agents;
 	private List<Pokemon> pokemons;
 	private List<String> info;
@@ -24,15 +24,9 @@ public class Arena {
 	private static Point3D MAX = new Point3D(0, 100,0);
 	private static game_service game;
 
-	public Arena() {;
-		info = new ArrayList<String>();
+	public Arena() {
 	}
 
-	private Arena(directed_weighted_graph g, List<Agent> a, List<Pokemon> p) {
-		graph = g;
-		setAgents(a);
-		setPokemons(p);
-	}
 	public void setPokemons(List<Pokemon> p) {
 		pokemons = p;
 	}
@@ -98,6 +92,7 @@ public class Arena {
 				//double s = 0;//pk.getDouble("speed");
 				String p = pk.getString("pos");
 				Pokemon f = new Pokemon(new Point3D(p), t, v, 0, null);
+				updateEdge(f,graph);
 				pokemons_arraylist.add(f);
 			}
 		}
