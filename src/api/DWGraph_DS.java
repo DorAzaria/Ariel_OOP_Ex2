@@ -108,6 +108,17 @@ public class DWGraph_DS implements directed_weighted_graph {
     }
 
     @Override
+    public String toString() {
+        return "DWGraph_DS{" +
+                "vertices=" + vertices +
+                ", adjacency=" + adjacency +
+                ", edges=" + edges +
+                ", e=" + e +
+                ", mc=" + mc +
+                '}';
+    }
+
+    @Override
     public int nodeSize() {
         return vertices.size();
     }

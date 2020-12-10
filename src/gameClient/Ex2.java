@@ -5,18 +5,15 @@ import gameClient.gui.ourFrame;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
-import java.awt.*;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
 public class Ex2 implements Runnable{
-    private static ourFrame _win;
-    private static Arena _ar;
+    private static ourFrame Frame;
+    private static Arena ManageGame;
     private static long playerID;
     private static int  num_level;
 
@@ -32,14 +29,14 @@ public class Ex2 implements Runnable{
         directed_weighted_graph gg = game.getJava_Graph_Not_to_be_used();
         init(game);
         game.startGame();
-        _win.setTitle("Ex2 - OOP: Pokemons! ,  Game Number: " + num_level);
+        Frame.setTitle("Ex2 - OOP: Pokemons! ,  Game Number: " + num_level);
         int ind=0;
         long dt=100;
-
         while(game.isRunning()) {
             moveAgants(game, gg);
             try {
-                if(ind%2==0) {_win.repaint();}
+                if(ind%2==0) {
+                    Frame.repaint();}
                 Thread.sleep(dt);
                 ind++;
             }
@@ -61,11 +58,11 @@ public class Ex2 implements Runnable{
     private static void moveAgants(game_service game, directed_weighted_graph gg) {
         String lg = game.move();
         List<Agent> log = Arena.getAgents(lg, gg);
-        _ar.setAgents(log);
+        ManageGame.setAgents(log);
         //ArrayList<OOP_Point3D> rs = new ArrayList<OOP_Point3D>();
         String fs =  game.getPokemons();
         List<Pokemon> ffs = Arena.getPokemons(fs);
-        _ar.setPokemons(ffs);
+        ManageGame.setPokemons(ffs);
         for (Agent ag : log) {
             int id = ag.getID();
             int dest = ag.getNextNode();
@@ -98,14 +95,14 @@ public class Ex2 implements Runnable{
     private void init(game_service game) {
         String fs = game.getPokemons();
         directed_weighted_graph gg = game.getJava_Graph_Not_to_be_used();
-        _ar = new Arena();
-        _ar.setGraph(gg);
-        _ar.setPokemons(Arena.getPokemons(fs));
-        _ar.setGame(game);
-        _win = new ourFrame("test Ex2");
-        _win.setSize(1000, 700);
-        _win.update(_ar);
-        _win.show();
+        ManageGame = new Arena();
+        ManageGame.setGraph(gg);
+        ManageGame.setPokemons(Arena.getPokemons(fs));
+        ManageGame.setGame(game);
+        Frame = new ourFrame("test Ex2");
+        Frame.setSize(1000, 700);
+        Frame.update(ManageGame);
+        Frame.show();
         String info = game.toString();
         JSONObject line;
         try {

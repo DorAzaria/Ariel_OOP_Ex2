@@ -29,8 +29,8 @@ public class ourPanel extends JPanel {
         resize();
         g.drawImage(background, 0,0,width,height, this);
         drawGraph((Graphics2D)g);
-        drawPokemons((Graphics2D)g);
-        drawAgants((Graphics2D)g);
+        drawPokemon((Graphics2D)g);
+        drawAgents((Graphics2D)g);
         long seconds = TimeUnit.MILLISECONDS.toSeconds(ManageGame.getGame().timeToEnd());
         g.setColor(Color.black);
         g.drawImage(blur,-5, 0,170,150,this);
@@ -49,7 +49,7 @@ public class ourPanel extends JPanel {
         range = Arena.w2f(graph,frame);
     }
 
-    private void drawPokemons(Graphics2D g) {
+    private void drawPokemon(Graphics2D g) {
         java.util.List<Pokemon> fs = ManageGame.getPokemons();
         if(fs!=null) {
 
@@ -72,19 +72,19 @@ public class ourPanel extends JPanel {
             }
         }
     }
-    private void drawAgants(Graphics2D g) {
+    private void drawAgents(Graphics2D g) {
         List<Agent> rs = ManageGame.getAgents();
-        int i=0;
+        int i = 0;
         while(rs != null && i < rs.size()) {
-            geo_location c = rs.get(i).getLocation();
+            geo_location agent_location = rs.get(i).getLocation();
             String value = String.valueOf(rs.get(i).getKey());
             if(grade < rs.get(i).getKey() ) {
                 grade += rs.get(i).getKey();
             }
-            int r=8;
+            int r = 8 ;
             i++;
-            if(c!=null) {
-                geo_location fp = this.range.world2frame(c);
+            if(agent_location != null) {
+                geo_location fp = this.range.world2frame(agent_location);
                 g.drawImage(ash, (int)fp.x()-30, (int)fp.y()-30, 5*r, 5*r, this);
                 g.drawImage(blur,(int)fp.x()-55, (int)fp.y()-85,120,50,this);
                 g.setColor(Color.RED);
