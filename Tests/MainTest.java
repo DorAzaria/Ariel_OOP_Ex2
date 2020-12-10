@@ -1,38 +1,39 @@
-package gameClient;
 import Server.Game_Server_Ex2;
 import api.*;
+import gameClient.*;
 import gameClient.gui.ourFrame;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.*;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-public class Ex2 implements Runnable{
+public class MainTest {
     private static ourFrame _win, log;
     private static Arena _ar;
     private static long playerID;
     private static int  num_level;
+    private static int  j;
 
-    public static void main(String[] a){
-        login();
-        Thread client = new Thread(new Ex2());
-        client.start();
+    public static void main(String[] args) {
+        num_level = 0;
+        j = 0;
+        while(num_level < 24) {
+            if(num_level == j) {
+                num_level++;
+                test();
+            }
+        }
+
     }
 
-    @Override
-    public void run() {
+    public static void test() {
         game_service game = Game_Server_Ex2.getServer(num_level); // you have [0,23] games
         directed_weighted_graph gg = game.getJava_Graph_Not_to_be_used();
         init(game);
         game.startGame();
-        _win.setTitle("Ex2 - OOP: Pokemons! ,  Game Number: " + num_level);
+        _win.setTitle("Ex2 - OOP: Pokemons! ");
         int ind=0;
         long dt=100;
 
@@ -49,7 +50,8 @@ public class Ex2 implements Runnable{
         }
         String res = game.toString();
         System.out.println(res);
-        System.exit(0);
+        _win.setVisible(false);
+        j++;
     }
     /**
      * Moves each of the agents along the edge,
@@ -74,7 +76,6 @@ public class Ex2 implements Runnable{
             if (dest == -1) {
                 dest = nextNode(gg, src);
                 game.chooseNextEdge(ag.getID(), dest);
-                System.out.println("Agent: " + id + ", val: " + v + "   turned to node: " + dest);
             }
         }
     }
@@ -95,7 +96,7 @@ public class Ex2 implements Runnable{
         ans = itr.next().getDest();
         return ans;
     }
-    private void init(game_service game) {
+    private static void init(game_service game) {
         String fs = game.getPokemons();
         directed_weighted_graph gg = game.getJava_Graph_Not_to_be_used();
         _ar = new Arena();
@@ -112,8 +113,6 @@ public class Ex2 implements Runnable{
             line = new JSONObject(info);
             JSONObject ttt = line.getJSONObject("GameServer");
             int rs = ttt.getInt("agents");
-            System.out.println(info);
-            System.out.println(game.getPokemons());
             int src_node = 0;  // arbitrary node, you should start at one of the pokemon
             ArrayList<Pokemon> cl_fs = Arena.getPokemons(game.getPokemons());
             for (Pokemon cl_f : cl_fs) {
@@ -130,25 +129,5 @@ public class Ex2 implements Runnable{
         catch (JSONException e) {e.printStackTrace();}
     }
 
-
-    private static void login(){
-        ourFrame frame = new ourFrame("log in ");
-        frame.setBounds(200, 0, 500, 500);
-        try {
-            String id= JOptionPane.showInputDialog(frame, "Please insert ID");
-
-            String level = JOptionPane.showInputDialog(frame, "Please insert level number [0-23]");
-
-            playerID = Long.parseLong(id);
-            num_level = Integer.parseInt(level);
-
-            if (num_level > 23 || num_level < 0 )
-                throw new RuntimeException();
-
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(frame, "Invalid input.\nPlaying default game", "Error",
-                    JOptionPane.ERROR_MESSAGE);
-            num_level = 0;
-        }
-    }
 }
+
