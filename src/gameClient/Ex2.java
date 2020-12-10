@@ -33,7 +33,7 @@ public class Ex2 implements Runnable{
     @Override
     public void run() {
         game_service game = Game_Server_Ex2.getServer(num_level); // you have [0,23] games
-        graph = game.getJava_Graph_Not_to_be_used();
+        loadGraph(game.getGraph());
         init(game);
         game.startGame();
         Frame.setTitle("Ex2 - OOP: Pokemons! ,  Game Number: " + num_level);
@@ -61,12 +61,10 @@ public class Ex2 implements Runnable{
             GsonBuilder builder = new GsonBuilder()
                     .registerTypeAdapter(directed_weighted_graph.class, new graphDeserialization());
             Gson gson = builder.create();
-            FileReader fr = new FileReader(str);
-            graph = gson.fromJson(fr, directed_weighted_graph.class);
-
+            graph = gson.fromJson(str, directed_weighted_graph.class);
         }
-        catch (FileNotFoundException f) {
-
+        catch (Exception f) {
+            f.printStackTrace();
         }
     }
     /**
