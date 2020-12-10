@@ -18,11 +18,11 @@ public class Ex2 implements Runnable{
     private static int  num_level;
     private  static directed_weighted_graph graph;
     private  static dw_graph_algorithms graph_algo = new DWGraph_Algo();
-
+    static long dt;
+    static Thread client = new Thread(new Ex2());
 
     public static void main(String[] a){
         login();
-        Thread client = new Thread(new Ex2());
         client.start();
     }
 
@@ -34,7 +34,7 @@ public class Ex2 implements Runnable{
         game.startGame();
         Frame.setTitle("Ex2 - OOP: Pokemons! ,  Game Number: " + num_level);
         int ind = 0;
-        long dt = 100;
+        dt = 100;
         while(game.isRunning()) {
             moveAgants(game);
             try {
@@ -66,13 +66,13 @@ public class Ex2 implements Runnable{
         List<Pokemon> ffs = Arena.getPokemons(fs);
         ManageGame.setPokemons(ffs);
         graph_algo.init(graph);
+
         for (Agent ag : log) {
             int id = ag.getID();
             int dest = ag.getNextNode();
             int src = ag.getSrcNode();
-            int target = ffs.get(0).getEdges().getSrc();
             double v = ag.getKey();
-            if (dest == -1) {
+            if(dest == -1) {
                 game.chooseNextEdge(ag.getID(),nextNode(src));
                 System.out.println("Agent: " + id + ", val: " + v + "   turned to node: " + dest);
           }

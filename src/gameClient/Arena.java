@@ -84,12 +84,13 @@ public class Arena {
 		try {
 			JSONObject pokemons_status = new JSONObject(actual);
 			JSONArray actual_pokemons = pokemons_status.getJSONArray("Pokemons");
+
 			for(int i = 0; i < actual_pokemons.length() ; i++) {
 				JSONObject pokemon = actual_pokemons.getJSONObject(i);
 				JSONObject pk = pokemon.getJSONObject("Pokemon");
+
 				int t = pk.getInt("type");
 				double v = pk.getDouble("value");
-				//double s = 0;//pk.getDouble("speed");
 				String p = pk.getString("pos");
 				Pokemon f = new Pokemon(new Point3D(p), t, v, 0, null);
 				updateEdge(f,graph);

@@ -5,6 +5,8 @@ import gameClient.util.*;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Line2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.List;
@@ -17,6 +19,7 @@ public class ourPanel extends JPanel {
     final int r = 7;
     double grade = 0;
     int moves = 0;
+
 
     public ourPanel(Arena arena) {
         ManageGame = arena;
@@ -124,11 +127,23 @@ public class ourPanel extends JPanel {
         geo_location s0 = this.range.world2frame(s);
         geo_location d0 = this.range.world2frame(d);
         g.setColor(new Color(173, 122, 68));
-        g.setStroke(new BasicStroke(10));
-        g.drawLine((int)s0.x(), (int)s0.y(), (int)d0.x(), (int)d0.y());
-
-
+        drawArrow(g,(int)s0.x(), (int)s0.y(), (int)d0.x(), (int)d0.y());
     }
+    void drawArrow(Graphics g1, int x1, int y1, int x2, int y2) {
+        Graphics2D g = (Graphics2D) g1.create();
+        double dx = x2 - x1, dy = y2 - y1;
+        double angle = Math.atan2(dy, dx);
+        int len = (int) Math.sqrt(dx*dx + dy*dy);
+        AffineTransform at = AffineTransform.getTranslateInstance(x1, y1);
+        at.concatenate(AffineTransform.getRotateInstance(angle));
+        g.transform(at);
+        int ARR_SIZE = 10;
+        g.setStroke(new BasicStroke(5));
+        // Draw horizontal arrow starting in (0, 0)
+        g.drawLine(0, 0, len, 0);
+        g.fillPolygon(new int[] {len-10, len-ARR_SIZE-20, len-ARR_SIZE-20, len-10}, new int[] {0, -ARR_SIZE, ARR_SIZE, 0}, 4);
+    }
+
 
     private void pikachu(Graphics g, geo_location fp, Pokemon f, Color color) {
         g.drawImage(pikachu, (int)fp.x()-30, (int)fp.y()-30, 8*r, 5*r, this);
