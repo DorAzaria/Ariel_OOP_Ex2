@@ -10,10 +10,7 @@ import org.json.JSONObject;
 import javax.swing.*;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public class Ex2 implements Runnable{
     private static ourFrame Frame;
@@ -70,43 +67,66 @@ public class Ex2 implements Runnable{
         List<Pokemon> ffs = Arena.getPokemons(fs);
         ManageGame.setPokemons(ffs);
         graph_algo.init(graph);
+
         for (Agent ag : log) {
             int id = ag.getID();
             int dest = ag.getNextNode();
-            int src = ag.getSrcNode();
             double v = ag.getKey();
             if(dest == -1) {
-//                if (ag.getCurrentPokemon()  == null) {
-//                    ag.setCurrentPokemon(ffs.get(0));
-//
-//                }
-                int source_poke = ffs.get(0).getEdges().getDest();
-                List <node_data> path = graph_algo.shortestPath(ag.getSrcNode(),source_poke);
-                for(node_data runner : path) {
-                    game.chooseNextEdge(ag.getID(),runner.getKey());
-                    System.out.println("Agent: " + id + ", val: " + v + "   turned to node: " + dest);
+                int desti = Target(ag,ffs);
+                    if(desti != -1) {
+                        game.chooseNextEdge(ag.getID(),desti);
+                        System.out.println("Agent: " + id + ", val: " + v + "   turned to node: " + dest);
+                    }else {
+                        game.chooseNextEdge(ag.getID(),nextNode(graph,ag.getSrcNode()));
+                        System.out.println("Agent: " + id + ", val: " + v + "   turned to node: " + dest);
+                    }
                 }
           }
-        }
+
     }
-    /**
-     * a very simple random walk implementation!
-     * @param src
-     * @return
-     */
-    private static int nextNode(int src) {
+    private static int nextNode(directed_weighted_graph g, int src) {
         int ans = -1;
-        Collection <edge_data> edge = graph.getE(src);
-        Iterator<edge_data> itr = edge.iterator();
-        int s = edge.size();
+        Collection<edge_data> ee = g.getE(src);
+        Iterator<edge_data> itr = ee.iterator();
+        int s = ee.size();
         int r = (int)(Math.random()*s);
-        int i = 0;
-        while(i < r) {
-            itr.next();
-            i++;
-        }
+        int i=0;
+        while(i<r) {itr.next();i++;}
         ans = itr.next().getDest();
         return ans;
+    }
+
+    private static int Target(Agent bond , List<Pokemon> pokemons) {
+        double minDest = Double.MAX_VALUE;
+        Pokemon target = null;
+        for (Pokemon p : pokemons) {
+            Arena.updateEdge(p,graph);
+                double minTemp = graph_algo.shortestPathDist(bond.getSrcNode(), p.getEdges().getDest());
+                if (minDest > minTemp && minTemp != -1) {
+                    minDest = minTemp;
+                    target = p;
+                }
+        }
+        ArrayList<node_data> path = null;
+        if(target != null) {
+            System.out.println("/////");
+            System.out.println("pokemon source: " + target.getEdges().getSrc() + " dest: "  + target.getEdges().getDest());
+            System.out.println("agent source: " + bond.getSrcNode());
+
+            if(bond.getSrcNode() == target.getEdges().getDest()) {
+                bond.setCurrentPokemon(target);
+                return target.getEdges().getSrc();
+            }
+            else {
+                path = new ArrayList<>(graph_algo.shortestPath(bond.getSrcNode(), target.getEdges().getDest()));
+            }
+
+        }
+        if(path == null) {
+            return -1;
+        }
+        return path.get(1).getKey();
     }
 
     private void loadGraph(String str) {
@@ -143,7 +163,7 @@ public class Ex2 implements Runnable{
             for (Pokemon pk : pokemons) {
                 Arena.updateEdge(pk, graph);
             }
-                for(int a = 0; a < num_of_agents; a++) {
+                for(int a = 0; a <= num_of_agents; a++) {
                 int ind = a % pokemons.size();
                 Pokemon c = pokemons.get(ind);
                 int pos_on_graph = c.getEdges().getDest();
