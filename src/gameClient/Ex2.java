@@ -1,11 +1,15 @@
 package gameClient;
 import Server.Game_Server_Ex2;
 import api.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import gameClient.gui.ourFrame;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import javax.swing.*;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -52,6 +56,19 @@ public class Ex2 implements Runnable{
         System.exit(0);
     }
 
+    private void loadGraph(String str) {
+        try {
+            GsonBuilder builder = new GsonBuilder()
+                    .registerTypeAdapter(directed_weighted_graph.class, new graphDeserialization());
+            Gson gson = builder.create();
+            FileReader fr = new FileReader(str);
+            graph = gson.fromJson(fr, directed_weighted_graph.class);
+
+        }
+        catch (FileNotFoundException f) {
+
+        }
+    }
     /**
      * Moves each of the agents along the edge,
      * in case the agent is on a node the next destination (next edge) is chosen (randomly).
@@ -97,9 +114,6 @@ public class Ex2 implements Runnable{
         ans = itr.next().getDest();
         return ans;
     }
-
-
-
 
     private void init(game_service game) {
         String fs = game.getPokemons();
