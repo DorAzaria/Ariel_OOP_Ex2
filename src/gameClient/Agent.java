@@ -22,18 +22,19 @@ public class Agent {
 		public Agent(directed_weighted_graph g, int start_node) {
 			graph = g;
 			setMoney(0);
-			this.current_node = graph.getNode(start_node);
+			current_node = graph.getNode(start_node);
 			position = current_node.getLocation();
 			key = -1;
 			setSpeed(0);
 		}
+
 		public void update(String json) {
 			JSONObject line;
 			try {
 				line = new JSONObject(json);
 				JSONObject ttt = line.getJSONObject("Agent");
 				int id = ttt.getInt("id");
-				if(id==this.getID() || this.getID() == -1) {
+				if(id == this.getID() || this.getID() == -1) {
 					if(this.getID() == -1) {
 						key = id;}
 					double speed = ttt.getDouble("speed");
@@ -53,6 +54,7 @@ public class Agent {
 				e.printStackTrace();
 			}
 		}
+
 		//@Override
 		public int getSrcNode() {return current_node.getKey();}
 		public String toJSON() {
@@ -111,9 +113,6 @@ public class Agent {
 			// TODO Auto-generated method stub
 			return this.value;
 		}
-
-
-
 		public int getNextNode() {
 			int ans = -2;
 			if(this.current_edge ==null) {
@@ -127,7 +126,6 @@ public class Agent {
 		public double getSpeed() {
 			return this.speed;
 		}
-
 		public void setSpeed(double v) {
 			this.speed = v;
 		}
@@ -137,28 +135,8 @@ public class Agent {
 		public edge_data getCurrent_edge() {
 			return current_edge;
 		}
-		public long get_sg_dt() {
-			return _sg_dt;
-		}
 		public void set_sg_dt(long _sg_dt) {
 			this._sg_dt = _sg_dt;
 		}
 
-	public void set_SDT(long ddtt) {
-		long ddt = ddtt;
-		if(this.current_edge!=null) {
-			double w = getCurrent_edge().getWeight();
-			geo_location dest = graph.getNode(getCurrent_edge().getDest()).getLocation();
-			geo_location src = graph.getNode(getCurrent_edge().getSrc()).getLocation();
-			double de = src.distance(dest);
-			double dist = position.distance(dest);
-			if(this.getCurrentPokemon().getEdges()==this.getCurrent_edge()) {
-				dist = currentPokemon.getLocation().distance(this.position);
-			}
-			double norm = dist/de;
-			double dt = w*norm / this.getSpeed();
-			ddt = (long)(1000.0*dt);
-		}
-		this.set_sg_dt(ddt);
-	}
 	}

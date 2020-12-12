@@ -7,6 +7,7 @@ import gameClient.gui.ourFrame;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import javax.sql.PooledConnection;
 import javax.swing.*;
 import java.util.*;
 
@@ -20,7 +21,6 @@ public class Ex2 implements Runnable {
     static long dt;
     static Thread client = new Thread(new Ex2());
     static HashMap<Integer,Integer> attack;
-
     public static void main(String[] a) {
         login();
         client.start();
@@ -46,7 +46,6 @@ public class Ex2 implements Runnable {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
         }
         String res = game.toString();
         System.out.println(res);
@@ -65,7 +64,7 @@ public class Ex2 implements Runnable {
             int id = ag.getID();
             double v = ag.getKey();
             int dest = ag.getNextNode();
-            if(dest==-1) {
+            if(dest == -1) {
                 if(ag.getSrcNode() == attack.get(ag.getID())) {
                     attack.put(ag.getID(),-1);
                 }
@@ -73,22 +72,21 @@ public class Ex2 implements Runnable {
                 System.out.println("Agent: " + id + ", val: " + v + "   turned to node: " + Dijkstra(ag, ffs));
             }
         }
-
     }
-
     private static int Dijkstra(Agent bond , List<Pokemon> pokemons) {
-        double minimum = Double.MAX_VALUE;
+        PriorityQueue<Pokemon> biggie = new PriorityQueue<>(new ComparatorValue());
+        PriorityQueue<Pokemon> smalls = new PriorityQueue<>(new ComparatorDist());
         Pokemon target = null;
         for (Pokemon p : pokemons) {
             Arena.updateEdge(p, graph);
-            if(!attack.containsValue(p.getEdges().getDest()) || attack.get(bond.getID()) == p.getEdges().getDest()) {
-                double minDest = graph_algo.shortestPathDist(bond.getSrcNode(), p.getEdges().getDest());
-                if (minimum > minDest) {
-                    minimum = minDest;
-                    target = p;
-                }
+            if (!attack.containsValue(p.getEdges().getDest()) || attack.get(bond.getID()) == p.getEdges().getDest()) {
+                double dest = graph_algo.shortestPathDist(bond.getSrcNode(), p.getEdges().getDest());
+                p.setDistance(dest);
+                biggie.add(p); smalls.add(p);
             }
         }
+        Pokemon smallest = smalls.poll();
+        target = smallest;
         ArrayList<node_data> path = null;
         if(target != null) {
             attack.put(bond.getID(), target.getEdges().getDest());
@@ -99,12 +97,8 @@ public class Ex2 implements Runnable {
                 path = new ArrayList<>(graph_algo.shortestPath(bond.getSrcNode(), target.getEdges().getDest()));
             }
         }
-        if(path == null) {
-            return -1;
-        }
         return path.get(1).getKey();
     }
-
     private void loadGraph(String str) {
         try {
             GsonBuilder builder = new GsonBuilder()
@@ -172,6 +166,19 @@ public class Ex2 implements Runnable {
             JOptionPane.showMessageDialog(frame, "Invalid input.\nPlaying default game", "Error",
                     JOptionPane.ERROR_MESSAGE);
             num_level = 17;
+        }
+    }
+
+    public static class ComparatorValue implements java.util.Comparator <Pokemon> {
+        @Override
+        public int compare(Pokemon o1, Pokemon o2) {
+            return Double.compare(o2.getValue(),o1.getValue());
+        }
+    }
+    public static class ComparatorDist implements java.util.Comparator <Pokemon> {
+        @Override
+        public int compare(Pokemon o1, Pokemon o2) {
+            return Double.compare(o1.getDistance(),o2.getDistance());
         }
     }
 }

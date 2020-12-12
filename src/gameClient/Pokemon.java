@@ -8,29 +8,16 @@ public class Pokemon {
 	private double value;
 	private int type;
 	private Point3D position;
-	private double min_dist;
-	private int min_ro;
+	private double distance;
+
 
 	public Pokemon(Point3D p, int t, double v, double s, edge_data e) {
 		type = t;
 		value = v;
 		position = p;
-		min_dist = -1;
-		min_ro = -1;
 		setEdges(e);
 	}
 
-	public static Pokemon init_from_json(String json) {
-		Pokemon ans = null;
-		try {
-			JSONObject p = new JSONObject(json);
-			int id = p.getInt("id");
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return ans;
-	}
 
 	public edge_data getEdges() {
 		return edges;
@@ -53,24 +40,16 @@ public class Pokemon {
 	}
 
 
-	public double getMin_dist() {
-		return min_dist;
+	public int getSource() {
+		return edges.getSrc();
 	}
-
-	public void setMin_dist(double mid_dist) {
-		this.min_dist = mid_dist;
+	public int getDest(){
+		return edges.getDest();
 	}
-
-	public int getMin_ro() {
-		return min_ro;
+	public void setDistance(double dis) {
+		distance = dis;
 	}
-
-	public void setMin_ro(int min_ro) {
-		this.min_ro = min_ro;
-	}
-
-	public int generateID() {
-	int x = (int)(position.x()*100 + position.y()*100);
-	return x;
+	public Double getDistance(){
+		return distance;
 	}
 }

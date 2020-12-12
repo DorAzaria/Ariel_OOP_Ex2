@@ -60,10 +60,10 @@ public class Arena {
 		ArrayList<Agent> agents_arraylist = new ArrayList<Agent>();
 		try {
 			JSONObject agents_status = new JSONObject(status);
-			JSONArray current_agents = agents_status.getJSONArray("Agents");
-			for(int i = 0 ; i < current_agents.length() ; i++) {
-				Agent a = new Agent(graph,0);
-				a.update(current_agents.get(i).toString());
+			JSONArray agents_JSONArray = agents_status.getJSONArray("Agents");
+			for(int i = 0 ; i < agents_JSONArray.length() ; i++) {
+				Agent a = new Agent(graph,i);
+				a.update(agents_JSONArray.get(i).toString());
 				agents_arraylist.add(a);
 			}
 		} catch (JSONException e) {
