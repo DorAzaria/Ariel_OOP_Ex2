@@ -6,10 +6,7 @@ import com.google.gson.GsonBuilder;
 import gameClient.gui.ourFrame;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import javax.swing.*;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.util.*;
 
 public class Ex2 implements Runnable{
