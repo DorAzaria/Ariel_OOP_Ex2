@@ -134,10 +134,6 @@ public class Agent {
 		public Pokemon getCurrentPokemon() {
 			return currentPokemon;
 		}
-		public void setCurrentPokemon(Pokemon curr_pokemon) {
-			currentPokemon = curr_pokemon;
-			curr_pokemon.setTarget();
-		};
 		public edge_data getCurrent_edge() {
 			return current_edge;
 		}

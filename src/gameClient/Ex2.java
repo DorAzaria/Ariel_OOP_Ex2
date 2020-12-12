@@ -19,6 +19,7 @@ public class Ex2 implements Runnable {
     private static dw_graph_algorithms graph_algo = new DWGraph_Algo();
     static long dt;
     static Thread client = new Thread(new Ex2());
+    static HashMap<Integer,Integer> attack;
 
     public static void main(String[] a) {
         login();
@@ -33,7 +34,7 @@ public class Ex2 implements Runnable {
         game.startGame();
         Frame.setTitle("Ex2 - OOP: Pokemons! ,  Game Number: " + num_level);
         int ind = 0;
-        dt = 50;
+        dt = 100;
         while (game.isRunning()) {
             moveAgents(game);
             try {
@@ -63,9 +64,14 @@ public class Ex2 implements Runnable {
         for (Agent ag : log) {
             int id = ag.getID();
             double v = ag.getKey();
-            game.chooseNextEdge(ag.getID(),Dijkstra(ag, ffs));
-            System.out.println("Agent: " + id + ", val: " + v + "   turned to node: " + Dijkstra(ag, ffs));
-
+            int dest = ag.getNextNode();
+            if(dest==-1) {
+                if(ag.getSrcNode() == attack.get(ag.getID())) {
+                    attack.put(ag.getID(),-1);
+                }
+                game.chooseNextEdge(ag.getID(), Dijkstra(ag, ffs));
+                System.out.println("Agent: " + id + ", val: " + v + "   turned to node: " + Dijkstra(ag, ffs));
+            }
         }
 
     }
@@ -75,14 +81,17 @@ public class Ex2 implements Runnable {
         Pokemon target = null;
         for (Pokemon p : pokemons) {
             Arena.updateEdge(p, graph);
-            double minDest = graph_algo.shortestPathDist(bond.getSrcNode(), p.getEdges().getDest());
+            if(!attack.containsValue(p.getEdges().getDest()) || attack.get(bond.getID()) == p.getEdges().getDest()) {
+                double minDest = graph_algo.shortestPathDist(bond.getSrcNode(), p.getEdges().getDest());
                 if (minimum > minDest) {
                     minimum = minDest;
                     target = p;
                 }
             }
+        }
         ArrayList<node_data> path = null;
         if(target != null) {
+            attack.put(bond.getID(), target.getEdges().getDest());
             if(bond.getSrcNode() == target.getEdges().getDest()) {
                 return target.getEdges().getSrc();
             }
@@ -109,6 +118,7 @@ public class Ex2 implements Runnable {
     }
 
     private void init(game_service game) {
+        attack = new HashMap<>();
         String fs = game.getPokemons();
         ManageGame = new Arena();
         ManageGame.setGraph(graph);
@@ -139,6 +149,7 @@ public class Ex2 implements Runnable {
                     pos_on_graph = c.getEdges().getSrc();
                 }
                 game.addAgent(pos_on_graph);
+                attack.put(a,-1);
             }
         }
         catch (JSONException e) {e.printStackTrace();}
@@ -160,7 +171,7 @@ public class Ex2 implements Runnable {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(frame, "Invalid input.\nPlaying default game", "Error",
                     JOptionPane.ERROR_MESSAGE);
-            num_level = 0;
+            num_level = 17;
         }
     }
 }

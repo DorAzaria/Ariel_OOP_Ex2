@@ -27,17 +27,7 @@ public class Arena {
 	public Arena() {
 	}
 
-	public void setPokemons(List<Pokemon> p) {
-		if(pokemons != null) {
-			for(Pokemon poke : p) {
-				int i = p.indexOf(poke);
-				if(i != -1 && pokemons.get(i).isTarget()) {
-					p.get(i).setTarget();
-				}
-			}
-		}
-		pokemons = p;
-	}
+	public void setPokemons(List<Pokemon> p) { pokemons = p; }
 	public void setAgents(List<Agent> a) {
 		agents = a;
 	}
