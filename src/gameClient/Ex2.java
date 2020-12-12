@@ -6,6 +6,7 @@ import com.google.gson.GsonBuilder;
 import gameClient.gui.ourFrame;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import javax.swing.*;
 import java.util.*;
 
@@ -32,7 +33,7 @@ public class Ex2 implements Runnable{
         game.startGame();
         Frame.setTitle("Ex2 - OOP: Pokemons! ,  Game Number: " + num_level);
         int ind = 0;
-        dt = 100;
+        dt = 50;
         while(game.isRunning()) {
             moveAgants(game);
             try {
@@ -44,18 +45,13 @@ public class Ex2 implements Runnable{
             catch(Exception e) {
                 e.printStackTrace();
             }
+
         }
         String res = game.toString();
         System.out.println(res);
         System.exit(0);
     }
 
-    /**
-     * Moves each of the agents along the edge,
-     * in case the agent is on a node the next destination (next edge) is chosen (randomly).
-     * @param game
-     * @param
-     */
     private static void moveAgants(game_service game) {
         String lg = game.move();
         List <Agent> log = Arena.getAgents(lg, graph);
@@ -64,23 +60,23 @@ public class Ex2 implements Runnable{
         List<Pokemon> ffs = Arena.getPokemons(fs);
         ManageGame.setPokemons(ffs);
         graph_algo.init(graph);
-
         for (Agent ag : log) {
             int id = ag.getID();
             int dest = ag.getNextNode();
             double v = ag.getKey();
             if(dest == -1) {
                 int desti = Target(ag,ffs);
-                    if(desti != -1) {
-                        game.chooseNextEdge(ag.getID(),desti);
-                        System.out.println("Agent: " + id + ", val: " + v + "   turned to node: " + desti);
-                    }else {
-                        int next = nextNode(graph,ag.getSrcNode());
-                        game.chooseNextEdge(ag.getID(),next);
-                        System.out.println("Agent: " + id + ", val: " + v + "   turned to node: " + next);
-                    }
+                if(desti != -1) {
+                    game.chooseNextEdge(ag.getID(),desti);
+                    System.out.println("Agent: " + id + ", val: " + v + "   turned to node: " + desti);
+                }else {
+                    System.out.println("DA");
+                    int next = nextNode(graph,ag.getSrcNode());
+                    game.chooseNextEdge(ag.getID(),next);
+                    System.out.println("Agent: " + id + ", val: " + v + "   turned to node: " + next);
                 }
-          }
+            }
+        }
 
     }
     private static int nextNode(directed_weighted_graph g, int src) {
@@ -98,16 +94,16 @@ public class Ex2 implements Runnable{
     private static int Target(Agent bond , List<Pokemon> pokemons) {
         double minDest = Double.MAX_VALUE;
         Pokemon target = null;
+
         for (Pokemon p : pokemons) {
-            Arena.updateEdge(p,graph);
-            if(!p.isTarget()) {
+                Arena.updateEdge(p, graph);
                 double minTemp = graph_algo.shortestPathDist(bond.getSrcNode(), p.getEdges().getDest());
                 if (minDest > minTemp) {
                     minDest = minTemp;
                     target = p;
                 }
             }
-        }
+
         ArrayList<node_data> path = null;
         if(target != null) {
             bond.setCurrentPokemon(target);
@@ -117,7 +113,6 @@ public class Ex2 implements Runnable{
             else {
                 path = new ArrayList<>(graph_algo.shortestPath(bond.getSrcNode(), target.getEdges().getDest()));
             }
-
         }
         if(path == null) {
             return -1;
@@ -159,7 +154,7 @@ public class Ex2 implements Runnable{
             for (Pokemon pk : pokemons) {
                 Arena.updateEdge(pk, graph);
             }
-                for(int a = 0; a <= num_of_agents; a++) {
+            for(int a = 0; a <= num_of_agents; a++) {
                 int ind = a % pokemons.size();
                 Pokemon c = pokemons.get(ind);
                 int pos_on_graph = c.getEdges().getDest();

@@ -28,11 +28,20 @@ public class Arena {
 	}
 
 	public void setPokemons(List<Pokemon> p) {
+		if(pokemons != null) {
+			for(Pokemon poke : p) {
+				int i = p.indexOf(poke);
+				if(i != -1 && pokemons.get(i).isTarget()) {
+					p.get(i).setTarget();
+				}
+			}
+		}
 		pokemons = p;
 	}
 	public void setAgents(List<Agent> a) {
 		agents = a;
 	}
+
 	public void setGraph(directed_weighted_graph g) {
 		graph = g;
 	}
@@ -88,7 +97,6 @@ public class Arena {
 			for(int i = 0; i < actual_pokemons.length() ; i++) {
 				JSONObject pokemon = actual_pokemons.getJSONObject(i);
 				JSONObject pk = pokemon.getJSONObject("Pokemon");
-
 				int t = pk.getInt("type");
 				double v = pk.getDouble("value");
 				String p = pk.getString("pos");
