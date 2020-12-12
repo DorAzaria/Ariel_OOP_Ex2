@@ -10,6 +10,7 @@ import org.json.JSONObject;
 import javax.sql.PooledConnection;
 import javax.swing.*;
 import java.util.*;
+import java.util.Timer;
 
 public class Ex2 implements Runnable {
     private static ourFrame Frame;
@@ -21,6 +22,8 @@ public class Ex2 implements Runnable {
     static long dt;
     static Thread client = new Thread(new Ex2());
     static HashMap<Integer,Integer> attack;
+    static Timer agent0 , agent1, agent2;
+    static edge_data agent0Edge, agent1Edge, agent2Edge;
     public static void main(String[] a) {
         login();
         client.start();
@@ -65,6 +68,10 @@ public class Ex2 implements Runnable {
             double v = ag.getKey();
             int dest = ag.getNextNode();
             if(dest == -1) {
+                if(ag.getSpeed() >= 5.0 && game.timeToEnd() < 5000) {
+                    dt = 30;
+                }
+
                 if(ag.getSrcNode() == attack.get(ag.getID())) {
                     attack.put(ag.getID(),-1);
                 }
@@ -167,6 +174,10 @@ public class Ex2 implements Runnable {
                     JOptionPane.ERROR_MESSAGE);
             num_level = 17;
         }
+    }
+
+    private void manageDT(long time, edge_data edge) {
+
     }
 
     public static class ComparatorValue implements java.util.Comparator <Pokemon> {
