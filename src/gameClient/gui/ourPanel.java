@@ -131,15 +131,10 @@ public class ourPanel extends JPanel {
         geo_location s0 = this.range.world2frame(s);
         geo_location d0 = this.range.world2frame(d);
         g.setColor(new Color(173, 122, 68));
-        drawArrow(g,(int)s0.x(), (int)s0.y(), (int)d0.x(), (int)d0.y());
+        drawArrow(g,(int)s0.x(), (int)s0.y(), (int)d0.x(), (int)d0.y(), e);
         g.setColor(Color.BLACK);
-        if((int)s0.y()-(int)d0.y()>0) {
-            g.drawString(String.format("%.2f", e.getWeight()),((int)s0.x()+(int)d0.x())/2,(((int)s0.y()+(int)d0.y())/2)-15);
-        } else {
-            g.drawString(String.format("%.2f", e.getWeight()),((int)s0.x()+(int)d0.x())/2,(((int)s0.y()+(int)d0.y())/2)+25);
-        }
     }
-    void drawArrow(Graphics g1, int x1, int y1, int x2, int y2) {
+    void drawArrow(Graphics g1, int x1, int y1, int x2, int y2, edge_data e) {
         Graphics2D g = (Graphics2D) g1.create();
         double dx = x2 - x1, dy = y2 - y1;
         double angle = Math.atan2(dy, dx);
@@ -152,6 +147,7 @@ public class ourPanel extends JPanel {
         // Draw horizontal arrow starting in (0, 0)
         g.drawLine(0, 0, len, 0);
         g.fillPolygon(new int[] {len-10, len-ARR_SIZE-20, len-ARR_SIZE-20, len-10}, new int[] {0, -ARR_SIZE, ARR_SIZE, 0}, 4);
+
     }
 
 
