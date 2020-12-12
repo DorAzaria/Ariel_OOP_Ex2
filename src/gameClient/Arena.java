@@ -71,7 +71,6 @@ public class Arena {
 		try {
 			JSONObject agents_status = new JSONObject(status);
 			JSONArray current_agents = agents_status.getJSONArray("Agents");
-			
 			for(int i = 0 ; i < current_agents.length() ; i++) {
 				Agent a = new Agent(graph,0);
 				a.update(current_agents.get(i).toString());

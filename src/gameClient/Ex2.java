@@ -10,17 +10,17 @@ import org.json.JSONObject;
 import javax.swing.*;
 import java.util.*;
 
-public class Ex2 implements Runnable{
+public class Ex2 implements Runnable {
     private static ourFrame Frame;
     private static Arena ManageGame;
     private static long playerID;
-    private static int  num_level;
-    private  static directed_weighted_graph graph;
-    private  static dw_graph_algorithms graph_algo = new DWGraph_Algo();
+    private static int num_level;
+    private static directed_weighted_graph graph;
+    private static dw_graph_algorithms graph_algo = new DWGraph_Algo();
     static long dt;
     static Thread client = new Thread(new Ex2());
 
-    public static void main(String[] a){
+    public static void main(String[] a) {
         login();
         client.start();
     }
@@ -34,15 +34,15 @@ public class Ex2 implements Runnable{
         Frame.setTitle("Ex2 - OOP: Pokemons! ,  Game Number: " + num_level);
         int ind = 0;
         dt = 50;
-        while(game.isRunning()) {
-            moveAgants(game);
+        while (game.isRunning()) {
+            moveAgents(game);
             try {
-                if(ind % 1 == 0) {
-                    Frame.repaint();}
+                if (ind % 1 == 0) {
+                    Frame.repaint();
+                }
                 Thread.sleep(dt);
                 ind++;
-            }
-            catch(Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
@@ -52,61 +52,37 @@ public class Ex2 implements Runnable{
         System.exit(0);
     }
 
-    private static void moveAgants(game_service game) {
+    private static void moveAgents(game_service game) {
         String lg = game.move();
-        List <Agent> log = Arena.getAgents(lg, graph);
+        List<Agent> log = Arena.getAgents(lg, graph);
         ManageGame.setAgents(log);
-        String fs =  game.getPokemons();
+        String fs = game.getPokemons();
         List<Pokemon> ffs = Arena.getPokemons(fs);
         ManageGame.setPokemons(ffs);
         graph_algo.init(graph);
         for (Agent ag : log) {
             int id = ag.getID();
-            int dest = ag.getNextNode();
             double v = ag.getKey();
-            if(dest == -1) {
-                int desti = Target(ag,ffs);
-                if(desti != -1) {
-                    game.chooseNextEdge(ag.getID(),desti);
-                    System.out.println("Agent: " + id + ", val: " + v + "   turned to node: " + desti);
-                }else {
-                    System.out.println("DA");
-                    int next = nextNode(graph,ag.getSrcNode());
-                    game.chooseNextEdge(ag.getID(),next);
-                    System.out.println("Agent: " + id + ", val: " + v + "   turned to node: " + next);
-                }
-            }
+            game.chooseNextEdge(ag.getID(),Dijkstra(ag, ffs));
+            System.out.println("Agent: " + id + ", val: " + v + "   turned to node: " + Dijkstra(ag, ffs));
+
         }
 
     }
-    private static int nextNode(directed_weighted_graph g, int src) {
-        int ans = -1;
-        Collection<edge_data> ee = g.getE(src);
-        Iterator<edge_data> itr = ee.iterator();
-        int s = ee.size();
-        int r = (int)(Math.random()*s);
-        int i=0;
-        while(i<r) {itr.next();i++;}
-        ans = itr.next().getDest();
-        return ans;
-    }
 
-    private static int Target(Agent bond , List<Pokemon> pokemons) {
-        double minDest = Double.MAX_VALUE;
+    private static int Dijkstra(Agent bond , List<Pokemon> pokemons) {
+        double minimum = Double.MAX_VALUE;
         Pokemon target = null;
-
         for (Pokemon p : pokemons) {
-                Arena.updateEdge(p, graph);
-                double minTemp = graph_algo.shortestPathDist(bond.getSrcNode(), p.getEdges().getDest());
-                if (minDest > minTemp) {
-                    minDest = minTemp;
+            Arena.updateEdge(p, graph);
+            double minDest = graph_algo.shortestPathDist(bond.getSrcNode(), p.getEdges().getDest());
+                if (minimum > minDest) {
+                    minimum = minDest;
                     target = p;
                 }
             }
-
         ArrayList<node_data> path = null;
         if(target != null) {
-            bond.setCurrentPokemon(target);
             if(bond.getSrcNode() == target.getEdges().getDest()) {
                 return target.getEdges().getSrc();
             }
@@ -131,6 +107,7 @@ public class Ex2 implements Runnable{
             f.printStackTrace();
         }
     }
+
     private void init(game_service game) {
         String fs = game.getPokemons();
         ManageGame = new Arena();
