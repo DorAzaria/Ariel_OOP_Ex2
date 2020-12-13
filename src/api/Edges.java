@@ -10,7 +10,6 @@ import java.awt.Color;
     String info;
     Color tag;
 
-
     public Edges(node_data source , node_data desti , double weight) {
         src = source.getKey();
         dest = desti.getKey();

@@ -15,8 +15,6 @@ public class Agent {
 		private edge_data current_edge;
 		private node_data current_node;
 		private directed_weighted_graph graph;
-		private Pokemon currentPokemon;
-		private long _sg_dt;
 		private double value;
 
 		public Agent(directed_weighted_graph g, int start_node) {
@@ -57,6 +55,7 @@ public class Agent {
 
 		//@Override
 		public int getSrcNode() {return current_node.getKey();}
+
 		public String toJSON() {
 			int d = this.getNextNode();
 			String ans = "{\"Agent\":{"
@@ -85,19 +84,15 @@ public class Agent {
 				current_edge = null;}
 			return ans;
 		}
+
 		public void setCurrNode(int src) {
 			this.current_node = graph.getNode(src);
 		}
-		public boolean isMoving() {
-			return this.current_edge !=null;
-		}
+
 		public String toString() {
 			return toJSON();
 		}
-		public String toString1() {
-			String ans=""+this.getID()+","+ position +", "+isMoving()+","+this.getKey();
-			return ans;
-		}
+
 		public int getID() {
 			// TODO Auto-generated method stub
 			return this.key;
@@ -108,11 +103,11 @@ public class Agent {
 			return position;
 		}
 
-		
 		public double getKey() {
 			// TODO Auto-generated method stub
 			return this.value;
 		}
+
 		public int getNextNode() {
 			int ans = -2;
 			if(this.current_edge ==null) {
@@ -126,17 +121,10 @@ public class Agent {
 		public double getSpeed() {
 			return this.speed;
 		}
+
 		public void setSpeed(double v) {
 			this.speed = v;
 		}
-		public Pokemon getCurrentPokemon() {
-			return currentPokemon;
-		}
-		public edge_data getCurrent_edge() {
-			return current_edge;
-		}
-		public void set_sg_dt(long _sg_dt) {
-			this._sg_dt = _sg_dt;
-		}
 
-	}
+
+}

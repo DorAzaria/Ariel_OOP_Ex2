@@ -19,7 +19,6 @@ public class ourPanel extends JPanel {
     double grade = 0;
     int moves = 0;
 
-
     public ourPanel(Arena arena) {
         ManageGame = arena;
         importPictures();
@@ -131,13 +130,8 @@ public class ourPanel extends JPanel {
         geo_location d0 = this.range.world2frame(d);
         g.setColor(new Color(173, 122, 68));
         drawArrow(g,(int)s0.x(), (int)s0.y(), (int)d0.x(), (int)d0.y());
-        g.setColor(Color.BLACK);
-        if((int)s0.y()-(int)d0.y()>0) {
-            g.drawString(String.format("%.2f", e.getWeight()),((int)s0.x()+(int)d0.x())/2,(((int)s0.y()+(int)d0.y())/2)-15);
-        } else {
-            g.drawString(String.format("%.2f", e.getWeight()),((int)s0.x()+(int)d0.x())/2,(((int)s0.y()+(int)d0.y())/2)+25);
-        }
     }
+
     void drawArrow(Graphics g1, int x1, int y1, int x2, int y2) {
         Graphics2D g = (Graphics2D) g1.create();
         double dx = x2 - x1, dy = y2 - y1;
@@ -152,8 +146,6 @@ public class ourPanel extends JPanel {
         g.drawLine(0, 0, len, 0);
         g.fillPolygon(new int[] {len-10, len-ARR_SIZE-20, len-ARR_SIZE-20, len-10}, new int[] {0, -ARR_SIZE, ARR_SIZE, 0}, 4);
     }
-
-
     private void pikachu(Graphics g, geo_location fp, Pokemon f, Color color) {
         g.drawImage(pikachu, (int)fp.x()-30, (int)fp.y()-30, 8*r, 5*r, this);
         g.drawImage(blur,(int)fp.x()-36, (int)fp.y()-78,120,50,this);
@@ -178,7 +170,6 @@ public class ourPanel extends JPanel {
         g.setColor(Color.WHITE);
         g.drawString("Value:"+f.getValue(), (int)fp.x()-42, (int)fp.y()-38);
     }
-
     ///// import pictures /////
     static BufferedImage background = null;
     static BufferedImage logo = null;

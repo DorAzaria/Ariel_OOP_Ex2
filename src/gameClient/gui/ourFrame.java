@@ -1,15 +1,6 @@
 package gameClient.gui;
-import api.*;
 import gameClient.*;
-import gameClient.util.Point3D;
-import gameClient.util.Range;
-import gameClient.util.Range2D;
-import gameClient.util.Range2Range;
-
 import javax.swing.*;
-import java.awt.*;
-import java.util.Iterator;
-import java.util.List;
 
 public class ourFrame extends JFrame {
     Arena ManageGame;

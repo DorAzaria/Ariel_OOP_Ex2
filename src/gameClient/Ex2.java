@@ -6,11 +6,8 @@ import com.google.gson.GsonBuilder;
 import gameClient.gui.ourFrame;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import javax.sql.PooledConnection;
 import javax.swing.*;
 import java.util.*;
-import java.util.Timer;
 
 public class Ex2 implements Runnable {
     private static ourFrame Frame;
@@ -22,8 +19,7 @@ public class Ex2 implements Runnable {
     static long dt;
     static Thread client = new Thread(new Ex2());
     static HashMap<Integer,Integer> attack;
-    static Timer agent0 , agent1, agent2;
-    static edge_data agent0Edge, agent1Edge, agent2Edge;
+
     public static void main(String[] a) {
         login();
         client.start();
@@ -36,16 +32,12 @@ public class Ex2 implements Runnable {
         init(game);
         game.startGame();
         Frame.setTitle("Ex2 - OOP: Pokemons! ,  Game Number: " + num_level);
-        int ind = 0;
         dt = 100;
         while (game.isRunning()) {
             moveAgents(game);
             try {
-                if (ind % 1 == 0) {
-                    Frame.repaint();
-                }
+                Frame.repaint();
                 Thread.sleep(dt);
-                ind++;
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -67,36 +59,34 @@ public class Ex2 implements Runnable {
             int id = ag.getID();
             double v = ag.getKey();
             int dest = ag.getNextNode();
+            if(ag.getSpeed() >= 5.0 && game.timeToEnd() < 7000) {
+                dt = 30;
+            }
             if(dest == -1) {
-                if(ag.getSpeed() >= 5.0 && game.timeToEnd() < 5000) {
-                    dt = 30;
-                }
-
                 if(ag.getSrcNode() == attack.get(ag.getID())) {
                     attack.put(ag.getID(),-1);
                 }
-                game.chooseNextEdge(ag.getID(), Dijkstra(ag, ffs));
-                System.out.println("Agent: " + id + ", val: " + v + "   turned to node: " + Dijkstra(ag, ffs));
+                int nextNode = Dijkstra(ag, ffs);
+                game.chooseNextEdge(ag.getID(),nextNode);
+                System.out.println("Agent: " + id + ", val: " + v + "   turned to node: " + nextNode);
             }
         }
     }
     private static int Dijkstra(Agent bond , List<Pokemon> pokemons) {
-        PriorityQueue<Pokemon> biggie = new PriorityQueue<>(new ComparatorValue());
-        PriorityQueue<Pokemon> smalls = new PriorityQueue<>(new ComparatorDist());
-        Pokemon target = null;
+        PriorityQueue<Pokemon> closest = new PriorityQueue<>(new ComparatorDist());
         for (Pokemon p : pokemons) {
             Arena.updateEdge(p, graph);
             if (!attack.containsValue(p.getEdges().getDest()) || attack.get(bond.getID()) == p.getEdges().getDest()) {
-                double dest = graph_algo.shortestPathDist(bond.getSrcNode(), p.getEdges().getDest());
-                p.setDistance(dest);
-                biggie.add(p); smalls.add(p);
+                double distance = graph_algo.shortestPathDist(bond.getSrcNode(), p.getEdges().getDest());
+                p.setDistance(distance);
+                closest.add(p);
             }
         }
-        Pokemon smallest = smalls.poll();
-        target = smallest;
         ArrayList<node_data> path = null;
-        if(target != null) {
+        if(!closest.isEmpty()) {
+            Pokemon target = closest.poll();
             attack.put(bond.getID(), target.getEdges().getDest());
+
             if(bond.getSrcNode() == target.getEdges().getDest()) {
                 return target.getEdges().getSrc();
             }
@@ -104,8 +94,12 @@ public class Ex2 implements Runnable {
                 path = new ArrayList<>(graph_algo.shortestPath(bond.getSrcNode(), target.getEdges().getDest()));
             }
         }
+        if(path == null || path.isEmpty()) {
+            return -1;
+        }
         return path.get(1).getKey();
     }
+
     private void loadGraph(String str) {
         try {
             GsonBuilder builder = new GsonBuilder()
@@ -157,11 +151,11 @@ public class Ex2 implements Runnable {
     }
     private static void login(){
         ourFrame frame = new ourFrame();
-        frame.setBounds(200, 0, 500, 500);
+        frame.setBounds(300, 0, 700, 700);
         try {
-            String id= JOptionPane.showInputDialog(frame, "Please insert ID");
+            String id= JOptionPane.showInputDialog(frame, "Please insert your ID");
 
-            String level = JOptionPane.showInputDialog(frame, "Please insert level number [0-23]");
+            String level = JOptionPane.showInputDialog(frame, "Please insert game number [0-23]");
 
             playerID = Long.parseLong(id);
             num_level = Integer.parseInt(level);
@@ -170,22 +164,12 @@ public class Ex2 implements Runnable {
                 throw new RuntimeException();
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(frame, "Invalid input.\nPlaying default game", "Error",
+            JOptionPane.showMessageDialog(frame, "Invalid input.", "Error",
                     JOptionPane.ERROR_MESSAGE);
-            num_level = 17;
+            num_level = 0;
         }
     }
 
-    private void manageDT(long time, edge_data edge) {
-
-    }
-
-    public static class ComparatorValue implements java.util.Comparator <Pokemon> {
-        @Override
-        public int compare(Pokemon o1, Pokemon o2) {
-            return Double.compare(o2.getValue(),o1.getValue());
-        }
-    }
     public static class ComparatorDist implements java.util.Comparator <Pokemon> {
         @Override
         public int compare(Pokemon o1, Pokemon o2) {

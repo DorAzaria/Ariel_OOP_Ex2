@@ -1,10 +1,6 @@
 package api;
-
 import com.google.gson.*;
-
 import java.lang.reflect.Type;
-import java.security.KeyStore;
-import java.util.Map;
 
 public class graphDeserialization implements JsonDeserializer<directed_weighted_graph> {
     @Override
@@ -38,7 +34,6 @@ public class graphDeserialization implements JsonDeserializer<directed_weighted_
             return null;
         }
     }
-
 
     public double[] separateString(String location) {
         double arr[] = new double[3]; // this value is because the point (x,y,z)

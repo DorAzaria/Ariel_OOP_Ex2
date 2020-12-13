@@ -1,10 +1,8 @@
 package api;
 
 import com.google.gson.*;
-
 import java.awt.*;
 import java.io.*;
-import java.lang.reflect.Type;
 import java.util.*;
 import java.util.List;
 
@@ -26,18 +24,18 @@ public class DWGraph_Algo implements dw_graph_algorithms {
 
     @Override
     public directed_weighted_graph copy() {
-        if(graph.getV().size() != 0) { // its implies that the graph is not empty
-            DWGraph_DS graphcopy = new DWGraph_DS();
-            for(node_data runner : graph.getV()) {  // for loop that's copies the vertices
-                graphcopy.addNode(new Nodes(runner)); // copies the current "runner" node
-                for(edge_data edge : graph.getE(runner.getKey())) { // for loop that's copies the edges
-                    if(!graphcopy.hasNode(edge.getDest())) { // if its neighbour isn't in the new graph yet
-                        graphcopy.addNode(new Nodes(((Edges)edge).destination));// getting the dest node by casting to EdgeData.
+        if(graph.getV().size() != 0) {
+            DWGraph_DS copied = new DWGraph_DS();
+            for(node_data runner : graph.getV()) {
+                copied.addNode(new Nodes(runner));
+                for(edge_data edge : graph.getE(runner.getKey())) {
+                    if(!copied.hasNode(edge.getDest())) {
+                        copied.addNode(new Nodes(((Edges)edge).destination));
                     }
-                    graphcopy.connect(runner.getKey(),edge.getDest(),edge.getWeight());
+                    copied.connect(runner.getKey(),edge.getDest(),edge.getWeight());
                 }
             }
-            return graphcopy;
+            return copied;
         }
         return null;
     }
@@ -54,8 +52,7 @@ public class DWGraph_Algo implements dw_graph_algorithms {
           node_data second = graph.getNode(first.getKey());
           pairs = new HashSet<>();
           Kosaraju(graph_transpose,second);
-          if(pairs.size() == graph.edgeSize()) return true;
-          return false;
+           return pairs.size() == graph.edgeSize();
        }
     return true;
     }
@@ -81,6 +78,7 @@ public class DWGraph_Algo implements dw_graph_algorithms {
             }
         }
     }
+
     private Collection<node_data> Dijkstra(node_data source , node_data destination) {
             if(graph.getV().contains(source) && graph.getV().contains(destination) && source != destination
             && source != null && destination !=null) {
@@ -161,7 +159,7 @@ public class DWGraph_Algo implements dw_graph_algorithms {
         jsonGraph.add("Nodes",Nodes);
         String json = gson.toJson(jsonGraph);
         try {
-            PrintWriter pw = new PrintWriter(new File(file));
+            PrintWriter pw = new PrintWriter(file);
             pw.write(json);
             pw.close();
             return true;
@@ -178,8 +176,7 @@ public class DWGraph_Algo implements dw_graph_algorithms {
                     .registerTypeAdapter(directed_weighted_graph.class, new graphDeserialization());
             Gson gson = builder.create();
             FileReader fr = new FileReader(file);
-            directed_weighted_graph g = gson.fromJson(fr, directed_weighted_graph.class);
-            this.graph = g;
+            this.graph = gson.fromJson(fr, directed_weighted_graph.class);
             return true;
         }
         catch (FileNotFoundException f) {
@@ -228,5 +225,4 @@ public class DWGraph_Algo implements dw_graph_algorithms {
         }
     }
 
-
-    }
+}

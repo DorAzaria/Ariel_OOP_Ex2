@@ -19,15 +19,13 @@ public class Arena {
 	private static directed_weighted_graph graph;
 	private List<Agent> agents;
 	private List<Pokemon> pokemons;
-	private List<String> info;
-	private static Point3D MIN = new Point3D(0, 100,0);
-	private static Point3D MAX = new Point3D(0, 100,0);
 	private static game_service game;
 
 	public Arena() {
 	}
 
 	public void setPokemons(List<Pokemon> p) { pokemons = p; }
+
 	public void setAgents(List<Agent> a) {
 		agents = a;
 	}
@@ -41,8 +39,6 @@ public class Arena {
 	public List<Pokemon> getPokemons() {return pokemons;}
 
 	public directed_weighted_graph getGraph() {return graph;}
-
-	public List<String> getInfo() {return info;}
 
 	public void setGame(game_service g){game =g;}
 

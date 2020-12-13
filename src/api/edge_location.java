@@ -1,5 +1,4 @@
 package api;
-
 /**
  * This class represents a position on the graph (a relative position
  * on an edge - between two consecutive nodes).
