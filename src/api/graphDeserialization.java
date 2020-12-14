@@ -18,8 +18,8 @@ public class graphDeserialization implements JsonDeserializer<directed_weighted_
                 double x = geolocation[0];
                 double y = geolocation[1];
                 double z = geolocation[2];
-                geo_location location = new Nodes.GeoLocation(x, y, z);
-                node_data node = new Nodes(id, location);
+                geo_location location = new Node.GeoLocation(x, y, z);
+                node_data node = new Node(id, location);
                 graph.addNode(node);
             }
             for (JsonElement e : edges) {

@@ -25,6 +25,27 @@ public class Ex2 implements Runnable {
         client.start();
     }
 
+    private static void login(){
+        ourFrame frame = new ourFrame();
+        frame.setBounds(300, 0, 700, 700);
+        try {
+            String id= JOptionPane.showInputDialog(frame, "Please insert your ID");
+
+            String level = JOptionPane.showInputDialog(frame, "Please insert game number [0-23]");
+
+            playerID = Long.parseLong(id);
+            num_level = Integer.parseInt(level);
+
+            if (num_level > 23 || num_level < 0 )
+                throw new RuntimeException();
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(frame, "Invalid input.", "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            num_level = 0;
+        }
+    }
+
     @Override
     public void run() {
         game_service game = Game_Server_Ex2.getServer(num_level); // you have [0,23] games
@@ -50,79 +71,6 @@ public class Ex2 implements Runnable {
         String res = game.toString();
         System.out.println(res);
         System.exit(0);
-    }
-
-    private static void timeManager(long gameTime, game_service game, int movesCounter) {
-        long totalTime = gameTime * 1000;
-        long getDt = (game.timeToEnd() * movesCounter) / totalTime;
-
-        if(gameTime == 60) {
-            if (getDt < 100)
-                dt = getDt + 40;
-            else
-                dt = getDt;
-        } else {
-            if (getDt < 100)
-                dt = getDt + 60;
-            else
-                dt = getDt;
-        }
-    }
-
-    private static void moveAgents(game_service game) {
-        String lg = game.move();
-        List<Agent> log = Arena.getAgents(lg, graph);
-        ManageGame.setAgents(log);
-        String fs = game.getPokemons();
-        List<Pokemon> ffs = Arena.getPokemons(fs);
-        ManageGame.setPokemons(ffs);
-        graph_algo.init(graph);
-        int grade = 0;
-        for (Agent ag : log) {
-            int id = ag.getID();
-            double v = ag.getKey();
-            grade += (int)v;
-            int dest = ag.getNextNode();
-            if(ag.getSpeed() >= 5.0 && game.timeToEnd() < 7000) {
-                dt = 30;
-            }
-            if(dest == -1) {
-                if(ag.getSrcNode() == attack.get(ag.getID())) {
-                    attack.put(ag.getID(),-1);
-                }
-                int nextNode = Dijkstra(ag, ffs);
-                game.chooseNextEdge(ag.getID(),nextNode);
-                System.out.println("Agent: " + id + ", val: " + v + "   turned to node: " + nextNode);
-            }
-        }
-        Frame.getPanel().setGrade(grade);
-    }
-    private static int Dijkstra(Agent bond , List<Pokemon> pokemons) {
-        PriorityQueue<Pokemon> closest = new PriorityQueue<>(new ComparatorDist());
-        for (Pokemon p : pokemons) {
-            Arena.updateEdge(p, graph);
-            if (!attack.containsValue(p.getEdges().getDest()) || attack.get(bond.getID()) == p.getEdges().getDest()) {
-                double distance = graph_algo.shortestPathDist(bond.getSrcNode(), p.getEdges().getDest());
-                p.setDistance(distance);
-                closest.add(p);
-            }
-        }
-        ArrayList<node_data> path = null;
-        if(!closest.isEmpty()) {
-            Pokemon target = closest.poll();
-            attack.put(bond.getID(), target.getEdges().getDest());
-
-            if(bond.getSrcNode() == target.getEdges().getDest()) {
-                return target.getEdges().getSrc();
-            }
-            else {
-                path = new ArrayList<>(graph_algo.shortestPath(bond.getSrcNode(), target.getEdges().getDest()));
-            }
-        }
-        if(path == null || path.isEmpty()) {
-            return -1;
-        }
-        return path.get(1).getKey();
     }
 
     private void loadGraph(String str) {
@@ -174,24 +122,77 @@ public class Ex2 implements Runnable {
         }
         catch (JSONException e) {e.printStackTrace();}
     }
-    private static void login(){
-        ourFrame frame = new ourFrame();
-        frame.setBounds(300, 0, 700, 700);
-        try {
-            String id= JOptionPane.showInputDialog(frame, "Please insert your ID");
 
-            String level = JOptionPane.showInputDialog(frame, "Please insert game number [0-23]");
+    private static void moveAgents(game_service game) {
+        String lg = game.move();
+        List<Agent> log = Arena.getAgents(lg, graph);
+        ManageGame.setAgents(log);
+        String fs = game.getPokemons();
+        List<Pokemon> ffs = Arena.getPokemons(fs);
+        ManageGame.setPokemons(ffs);
+        graph_algo.init(graph);
+        int grade = 0;
+        for (Agent ag : log) {
+            int id = ag.getID();
+            double v = ag.getKey();
+            grade += (int)v;
+            int dest = ag.getNextNode();
+            if(ag.getSpeed() >= 5.0 && game.timeToEnd() < 7000) {
+                dt = 30;
+            }
+            if(dest == -1) {
+                if(ag.getSrcNode() == attack.get(ag.getID())) {
+                    attack.put(ag.getID(),-1);
+                }
+                int nextNode = Dijkstra(ag, ffs);
+                game.chooseNextEdge(ag.getID(),nextNode);
+                System.out.println("Agent: " + id + ", val: " + v + "   turned to node: " + nextNode);
+            }
+        }
+        Frame.getPanel().setGrade(grade);
+    }
+    private static int Dijkstra(Agent bond , List<Pokemon> pokemons) {
+        PriorityQueue<Pokemon> closest = new PriorityQueue<>(new ComparatorDist());
+        for (Pokemon p : pokemons) {
+            Arena.updateEdge(p, graph);
+            if (!attack.containsValue(p.getEdges().getDest()) || attack.get(bond.getID()) == p.getEdges().getDest()) {
+                    double distance = graph_algo.shortestPathDist(bond.getSrcNode(), p.getEdges().getDest());
+                    p.setDistance(distance);
+                    closest.add(p);
+            }
+        }
+        ArrayList<node_data> path = null;
+        if(!closest.isEmpty()) {
+            Pokemon target = closest.poll();
+            attack.put(bond.getID(), target.getEdges().getDest());
 
-            playerID = Long.parseLong(id);
-            num_level = Integer.parseInt(level);
+            if(bond.getSrcNode() == target.getEdges().getDest()) {
+                return target.getEdges().getSrc();
+            }
+            else {
+                path = new ArrayList<>(graph_algo.shortestPath(bond.getSrcNode(), target.getEdges().getDest()));
+            }
+        }
+        if(path == null || path.isEmpty()) {
+            return -1;
+        }
+        return path.get(1).getKey();
+    }
 
-            if (num_level > 23 || num_level < 0 )
-                throw new RuntimeException();
+    private static void timeManager(long gameTime, game_service game, int movesCounter) {
+        long totalTime = gameTime * 1000;
+        long getDt = (game.timeToEnd() * movesCounter) / totalTime;
 
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(frame, "Invalid input.", "Error",
-                    JOptionPane.ERROR_MESSAGE);
-            num_level = 0;
+        if(gameTime == 60) {
+            if (getDt < 100)
+                dt = getDt + 40;
+            else
+                dt = getDt;
+        } else {
+            if (getDt < 100)
+                dt = getDt + 60;
+            else
+                dt = getDt;
         }
     }
 
