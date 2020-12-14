@@ -31,11 +31,15 @@ public class Ex2 implements Runnable {
         loadGraph(game.getGraph());
         init(game);
         game.startGame();
+        long gameTime = game.timeToEnd()/1000;
         Frame.setTitle("Ex2 - OOP: Pokemons! ,  Game Number: " + num_level);
         dt = 100;
+        int movesCounter = 0;
         while (game.isRunning()) {
             moveAgents(game);
+            movesCounter++;
             try {
+                timeManager(gameTime,game,movesCounter);
                 Frame.repaint();
                 Thread.sleep(dt);
             } catch (Exception e) {
@@ -45,6 +49,23 @@ public class Ex2 implements Runnable {
         String res = game.toString();
         System.out.println(res);
         System.exit(0);
+    }
+    private static void timeManager(long gameTime, game_service game, int movesCounter) {
+        if(gameTime == 60 || gameTime == 59) {
+            long outOf = gameTime * 1000;
+            long getDt = (game.timeToEnd() * movesCounter) / outOf;
+            if (getDt < 100)
+                dt = getDt + 40;
+            else
+                dt = getDt;
+        } else {
+            long outOf = gameTime * 1000;
+            long getDt = (game.timeToEnd() * movesCounter) / outOf;
+            if (getDt < 100)
+                dt = getDt + 60;
+            else
+                dt = getDt;
+        }
     }
 
     private static void moveAgents(game_service game) {

@@ -46,7 +46,7 @@ public class Arena {
 
 	/**
 	 * This method return a collection of agents objects by taking them from json file
-	 	that represent the actual status of them
+	 that represent the actual status of them
 	 * @param status string that representing status of all the agents
 	 * @param graph the graph that the agents will insert
 	 * @return collection of all the agents objects

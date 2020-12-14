@@ -21,4 +21,3 @@ public class ourFrame extends JFrame {
     }
 
 }
-
