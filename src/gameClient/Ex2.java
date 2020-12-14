@@ -39,6 +39,7 @@ public class Ex2 implements Runnable {
             moveAgents(game);
             movesCounter++;
             try {
+                Frame.getPanel().setMoves(movesCounter);
                 timeManager(gameTime,game,movesCounter);
                 Frame.repaint();
                 Thread.sleep(dt);
@@ -76,9 +77,11 @@ public class Ex2 implements Runnable {
         List<Pokemon> ffs = Arena.getPokemons(fs);
         ManageGame.setPokemons(ffs);
         graph_algo.init(graph);
+        int grade = 0;
         for (Agent ag : log) {
             int id = ag.getID();
             double v = ag.getKey();
+            grade += (int)v;
             int dest = ag.getNextNode();
             if(ag.getSpeed() >= 5.0 && game.timeToEnd() < 7000) {
                 dt = 30;
@@ -92,6 +95,7 @@ public class Ex2 implements Runnable {
                 System.out.println("Agent: " + id + ", val: " + v + "   turned to node: " + nextNode);
             }
         }
+        Frame.getPanel().setGrade(grade);
     }
     private static int Dijkstra(Agent bond , List<Pokemon> pokemons) {
         PriorityQueue<Pokemon> closest = new PriorityQueue<>(new ComparatorDist());

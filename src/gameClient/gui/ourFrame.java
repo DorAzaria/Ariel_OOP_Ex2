@@ -4,7 +4,7 @@ import javax.swing.*;
 
 public class ourFrame extends JFrame {
     Arena ManageGame;
-
+    ourPanel panel;
     public ourFrame() {
         super();
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -16,8 +16,10 @@ public class ourFrame extends JFrame {
     }
 
     public void initPanel() {
-        ourPanel panel = new ourPanel(ManageGame);
+        panel = new ourPanel(ManageGame);
         this.add(panel);
     }
+
+    public ourPanel getPanel() { return panel;}
 
 }

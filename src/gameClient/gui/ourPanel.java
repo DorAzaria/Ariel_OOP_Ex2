@@ -39,7 +39,7 @@ public class ourPanel extends JPanel {
         g.setColor(Color.white);
         g.drawString("Time: 00:"+seconds,25,90);
         g.drawString("Grade: "+grade,25,110);
-        g.drawString("Moves: "+moves++,25,130);
+        g.drawString("Moves: "+moves,25,130);
     }
 
     private void resize() {
@@ -79,9 +79,6 @@ public class ourPanel extends JPanel {
         while(rs != null && i < rs.size()) {
             geo_location agent_location = rs.get(i).getLocation();
             String value = String.valueOf((int)rs.get(i).getKey());
-            if(grade < rs.get(i).getKey() ) {
-                grade += rs.get(i).getKey();
-            }
             int r = 8 ;
             if(agent_location != null) {
                 geo_location fp = this.range.world2frame(agent_location);
@@ -147,7 +144,7 @@ public class ourPanel extends JPanel {
         g.fillPolygon(new int[] {len-10, len-ARR_SIZE-20, len-ARR_SIZE-20, len-10}, new int[] {0, -ARR_SIZE, ARR_SIZE, 0}, 4);
     }
     private void pikachu(Graphics g, geo_location fp, Pokemon f, Color color) {
-        g.drawImage(pikachu, (int)fp.x()-30, (int)fp.y()-30, 8*r, 5*r, this);
+        g.drawImage(pikachu, (int)fp.x()-30, (int)fp.y()-30, 9*r, 8*r, this);
         g.drawImage(blur,(int)fp.x()-36, (int)fp.y()-78,120,50,this);
         g.setColor(color);
         g.drawString("Pikachu", (int)fp.x()-12, (int)fp.y()-60);
@@ -155,7 +152,7 @@ public class ourPanel extends JPanel {
         g.drawString("Value:"+f.getValue(), (int)fp.x()-18, (int)fp.y()-39);
     }
     private void charizard(Graphics g, geo_location fp, Pokemon f, Color color) {
-        g.drawImage(charizard, (int)fp.x()-30, (int)fp.y()-30, 8*r, 8*r, this);
+        g.drawImage(charizard, (int)fp.x()-30, (int)fp.y()-30, 10*r, 12*r, this);
         g.drawImage(blur,(int)fp.x()-65, (int)fp.y()-12*r,130,50,this);
         g.setColor(color);
         g.drawString("Charizard", (int)fp.x()-45, (int)fp.y()-9*r);
@@ -174,23 +171,31 @@ public class ourPanel extends JPanel {
     static BufferedImage background = null;
     static BufferedImage logo = null;
     static BufferedImage blur = null;
-    static BufferedImage ash = null;
+    static Image ash = null;
     static BufferedImage pokador = null;
-    static BufferedImage pikachu = null;
-    static BufferedImage charizard = null;
-    static BufferedImage mewtwo = null;
+    static Image pikachu = null;
+    static Image charizard = null;
+    static Image mewtwo = null;
     public static void importPictures() {
         try {
             background = ImageIO.read(new File("resource/background.jpg"));
             logo = ImageIO.read(new File("resource/logo.png"));
             blur = ImageIO.read(new File("resource/blur.png"));
-            ash = ImageIO.read(new File("resource/ash.gif"));
+            ash = Toolkit.getDefaultToolkit().createImage("resource/ash.gif");
             pokador = ImageIO.read(new File("resource/pokador.png"));
-            pikachu = ImageIO.read(new File("resource/pikachu.gif"));
-            charizard = ImageIO.read(new File("resource/charizard.png"));
-            mewtwo = ImageIO.read(new File("resource/mewtwo.png"));
+            pikachu = Toolkit.getDefaultToolkit().createImage("resource/pikachu.gif");
+            charizard = Toolkit.getDefaultToolkit().createImage("resource/charizard.gif");
+            mewtwo = Toolkit.getDefaultToolkit().createImage("resource/mewtwo.gif");
         } catch (Exception ex){
             ex.printStackTrace();
         }
+    }
+
+    public void setMoves(int move) {
+        moves = move;
+    }
+
+    public void setGrade(int newGrade) {
+        grade = newGrade;
     }
 }
