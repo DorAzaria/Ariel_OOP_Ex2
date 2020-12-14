@@ -95,7 +95,7 @@ public class Ex2 implements Runnable {
         /// frame init
         Frame = new ourFrame();
         Frame.setSize(1000, 700);
-        Frame.update(ManageGame);
+        Frame.initFrame(ManageGame);
         Frame.setVisible(true);
         String info = game.toString();
         try {
@@ -134,7 +134,7 @@ public class Ex2 implements Runnable {
         int grade = 0;
         for (Agent ag : log) {
             int id = ag.getID();
-            double v = ag.getKey();
+            double v = ag.getPoints();
             grade += (int)v;
             int dest = ag.getNextNode();
             if(ag.getSpeed() >= 5.0 && game.timeToEnd() < 7000) {
@@ -174,7 +174,8 @@ public class Ex2 implements Runnable {
             }
         }
         if(path == null || path.isEmpty()) {
-            return -1;
+            LinkedList<edge_data> edgeData = new LinkedList<>(graph.getE(bond.getSrcNode()));
+            return edgeData.getFirst().getDest();
         }
         return path.get(1).getKey();
     }
@@ -186,6 +187,8 @@ public class Ex2 implements Runnable {
         if(gameTime == 60) {
             if (getDt < 100)
                 dt = getDt + 40;
+            else if(game.timeToEnd()/1000 == 25)
+                dt = 30;
             else
                 dt = getDt;
         } else {

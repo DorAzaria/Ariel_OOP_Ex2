@@ -2,6 +2,9 @@ package api;
 import com.google.gson.*;
 import java.lang.reflect.Type;
 
+/**
+ * This class deserialize every given detail from a pre-known structure of a JSON file.
+ */
 public class graphDeserialization implements JsonDeserializer<directed_weighted_graph> {
     @Override
     public directed_weighted_graph deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) {
@@ -35,8 +38,13 @@ public class graphDeserialization implements JsonDeserializer<directed_weighted_
         }
     }
 
+    /**
+     * Separating the given string into x , y , z using the ',' char as the separator.
+     * @param location a string representing a point (x,y,z).
+     * @return a double array of each x , y , z double value.
+     */
     public double[] separateString(String location) {
-        double arr[] = new double[3]; // this value is because the point (x,y,z)
+        double[] arr = new double[3]; // this value is because the point (x,y,z)
         String str = "";
         int c = 0;
         for(int i = 0; i < location.length() ; i++ ){

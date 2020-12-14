@@ -14,18 +14,27 @@ public class Agent {
 	private double speed;
 	private edge_data current_edge;
 	private node_data current_node;
-	private directed_weighted_graph graph;
-	private double value;
+	private final directed_weighted_graph graph;
+	private double points;
 
+	/**
+	 * a constructor.
+	 * @param g a directed_weighted_graph type.
+	 * @param start_node the first spot the agent to start with.
+	 */
 	public Agent(directed_weighted_graph g, int start_node) {
 		graph = g;
-		setMoney(0);
+		setPoints(0);
 		current_node = graph.getNode(start_node);
 		position = current_node.getLocation();
 		key = -1;
 		setSpeed(0);
 	}
 
+	/**
+	 *  updates the agent in every run-step.
+	 * @param json a given JSON string from the server.
+	 */
 	public void update(String json) {
 		JSONObject line;
 		try {
@@ -45,7 +54,7 @@ public class Agent {
 				this.setCurrNode(src);
 				this.setSpeed(speed);
 				this.setNextNode(dest);
-				this.setMoney(value);
+				this.setPoints(value);
 			}
 		}
 		catch(Exception e) {
@@ -53,26 +62,23 @@ public class Agent {
 		}
 	}
 
-	//@Override
+	/**
+	 * @return the key node of where the agent is standing.
+	 */
 	public int getSrcNode() {return current_node.getKey();}
 
-	public String toJSON() {
-		int d = this.getNextNode();
-		String ans = "{\"Agent\":{"
-				+ "\"id\":"+this.key +","
-				+ "\"value\":"+this.value +","
-				+ "\"src\":"+this.current_node.getKey()+","
-				+ "\"dest\":"+d+","
-				+ "\"speed\":"+this.getSpeed()+","
-				+ "\"pos\":\""+ position.toString()+"\""
-				+ "}"
-				+ "}";
-		return ans;
-	}
-	private void setMoney(double v) {
-		value = v;
+	/**
+	 * a point setter.
+	 * @param p is given from the server.
+	 */
+	private void setPoints(double p) {
+		points = p;
 	}
 
+	/**
+	 * a next node setter.
+	 * @param dest is given from the server.
+	 */
 	public boolean setNextNode(int dest) {
 		boolean ans = false;
 		int src = this.current_node.getKey();
@@ -85,29 +91,41 @@ public class Agent {
 		return ans;
 	}
 
+	/**
+	 * the current node setter, where the agent is now standing on.
+	 * @param src is given from the server.
+	 */
 	public void setCurrNode(int src) {
 		this.current_node = graph.getNode(src);
 	}
 
-	public String toString() {
-		return toJSON();
-	}
-
+	/**
+	 * @return the agent unique ID.
+	 */
 	public int getID() {
 		// TODO Auto-generated method stub
 		return this.key;
 	}
 
+	/**
+	 * @return the agent's location.
+	 */
 	public geo_location getLocation() {
 		// TODO Auto-generated method stub
 		return position;
 	}
 
-	public double getKey() {
+	/**
+	 * @return the points of this agent.
+	 */
+	public double getPoints() {
 		// TODO Auto-generated method stub
-		return this.value;
+		return this.points;
 	}
 
+	/**
+	 * @return the next move key-node.
+	 */
 	public int getNextNode() {
 		int ans = -2;
 		if(this.current_edge ==null) {
@@ -118,13 +136,19 @@ public class Agent {
 		return ans;
 	}
 
+	/**
+	 * @return the agent's speed.
+	 */
 	public double getSpeed() {
 		return this.speed;
 	}
 
+	/**
+	 * a speed setter given from the server.
+	 * @param v a double type.
+	 */
 	public void setSpeed(double v) {
 		this.speed = v;
 	}
-
 
 }
