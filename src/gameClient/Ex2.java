@@ -50,17 +50,17 @@ public class Ex2 implements Runnable {
         System.out.println(res);
         System.exit(0);
     }
+
     private static void timeManager(long gameTime, game_service game, int movesCounter) {
-        if(gameTime == 60 || gameTime == 59) {
-            long outOf = gameTime * 1000;
-            long getDt = (game.timeToEnd() * movesCounter) / outOf;
+        long totalTime = gameTime * 1000;
+        long getDt = (game.timeToEnd() * movesCounter) / totalTime;
+
+        if(gameTime == 60) {
             if (getDt < 100)
                 dt = getDt + 40;
             else
                 dt = getDt;
         } else {
-            long outOf = gameTime * 1000;
-            long getDt = (game.timeToEnd() * movesCounter) / outOf;
             if (getDt < 100)
                 dt = getDt + 60;
             else
