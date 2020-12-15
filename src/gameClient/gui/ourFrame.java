@@ -1,5 +1,7 @@
 package gameClient.gui;
+
 import gameClient.*;
+
 import javax.swing.*;
 
 /**
@@ -22,6 +24,7 @@ public class ourFrame extends JFrame {
     /**
      * init the frame and the panel.
      * also this is the connector between the logical and the graphical.
+     *
      * @param ar the Arena.
      */
     public void initFrame(Arena ar) {
@@ -40,6 +43,8 @@ public class ourFrame extends JFrame {
     /**
      * @return ourPanel type.
      */
-    public ourPanel getPanel() { return panel;}
+    public ourPanel getPanel() {
+        return panel;
+    }
 
 }

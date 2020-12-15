@@ -1,7 +1,9 @@
 package gameClient.gui;
+
 import api.*;
 import gameClient.*;
 import gameClient.util.*;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -23,6 +25,7 @@ public class ourPanel extends JPanel {
 
     /**
      * a constructor.
+     *
      * @param arena the Arena.
      */
     public ourPanel(Arena arena) {
@@ -32,44 +35,46 @@ public class ourPanel extends JPanel {
 
     /**
      * paint in each run-step all graphics contexts.
+     *
      * @param g The Graphics class is the abstract base class for all graphics contexts.
      */
     public void paint(Graphics g) {
         int width = this.getWidth();
         int height = this.getHeight();
         resize();
-        g.drawImage(background, 0,0,width,height, this);
-        drawGraph((Graphics2D)g);
-        drawPokemon((Graphics2D)g);
-        drawAgents((Graphics2D)g);
+        g.drawImage(background, 0, 0, width, height, this);
+        drawGraph((Graphics2D) g);
+        drawPokemon((Graphics2D) g);
+        drawAgents((Graphics2D) g);
         long seconds = TimeUnit.MILLISECONDS.toSeconds(ManageGame.getGame().timeToEnd());
         g.setColor(Color.black);
-        g.drawImage(blur,-5, 0,170,150,this);
-        g.drawImage(logo, 5,0,150,80, this);
+        g.drawImage(blur, -5, 0, 170, 150, this);
+        g.drawImage(logo, 5, 0, 150, 80, this);
         g.setColor(Color.white);
-        g.drawString("Time: 00:"+seconds,25,90);
-        g.drawString("Grade: "+grade,25,110);
-        g.drawString("Moves: "+moves,25,130);
+        g.drawString("Time: 00:" + seconds, 25, 90);
+        g.drawString("Grade: " + grade, 25, 110);
+        g.drawString("Moves: " + moves, 25, 130);
     }
 
     /**
      * This method is used to resize the frame if it happen.
      */
     private void resize() {
-        Range rx = new Range(120,this.getWidth()-120);
-        Range ry = new Range(this.getHeight()-70,170);
-        Range2D frame = new Range2D(rx,ry);
+        Range rx = new Range(120, this.getWidth() - 120);
+        Range ry = new Range(this.getHeight() - 70, 170);
+        Range2D frame = new Range2D(rx, ry);
         directed_weighted_graph graph = ManageGame.getGraph();
-        range = Arena.w2f(graph,frame);
+        range = Arena.w2f(graph, frame);
     }
 
     /**
      * draws the pokemons and their stats in the panel.
+     *
      * @param g - This Graphics2D class extends the Graphics class to provide more sophisticated control.
      */
     private void drawPokemon(Graphics2D g) {
         java.util.List<Pokemon> fs = ManageGame.getPokemons();
-        if(fs!=null) {
+        if (fs != null) {
 
             for (Pokemon f : fs) {
                 Point3D c = f.getLocation();
@@ -93,27 +98,28 @@ public class ourPanel extends JPanel {
 
     /**
      * draws the agents and their stats in the panel.
+     *
      * @param g - This Graphics2D class extends the Graphics class to provide more sophisticated control.
      */
     private void drawAgents(Graphics2D g) {
         List<Agent> rs = ManageGame.getAgents();
         int i = 0;
-        while(rs != null && i < rs.size()) {
+        while (rs != null && i < rs.size()) {
             geo_location agent_location = rs.get(i).getLocation();
-            String value = String.valueOf((int)rs.get(i).getPoints());
-            int r = 8 ;
-            if(agent_location != null) {
+            String value = String.valueOf((int) rs.get(i).getPoints());
+            int r = 8;
+            if (agent_location != null) {
                 geo_location fp = this.range.world2frame(agent_location);
-                g.drawImage(ash, (int)fp.x()-30, (int)fp.y()-30, 5*r, 5*r, this);
-                g.drawImage(blur,(int)fp.x()-75, (int)fp.y()-70,140,35,this);
+                g.drawImage(ash, (int) fp.x() - 30, (int) fp.y() - 30, 5 * r, 5 * r, this);
+                g.drawImage(blur, (int) fp.x() - 75, (int) fp.y() - 70, 140, 35, this);
                 g.setColor(Color.RED);
-                g.setFont(new Font("Segoe UI",Font.BOLD,25));
-                g.drawString("Ash", (int)fp.x()-70, (int)fp.y()-44);
+                g.setFont(new Font("Segoe UI", Font.BOLD, 25));
+                g.drawString("Ash", (int) fp.x() - 70, (int) fp.y() - 44);
                 g.setColor(Color.WHITE);
-                g.setFont(new Font("Segoe UI",Font.BOLD,15));
-                g.drawString("Points:"+value, (int)fp.x()-20, (int)fp.y()-7*r);
-                g.drawString("Speed:"+(int)rs.get(i).getSpeed(), (int)fp.x()-20, (int)fp.y()-5*r);
-                g.setFont(new Font("Segoe UI",Font.BOLD,20));
+                g.setFont(new Font("Segoe UI", Font.BOLD, 15));
+                g.drawString("Points:" + value, (int) fp.x() - 20, (int) fp.y() - 7 * r);
+                g.drawString("Speed:" + (int) rs.get(i).getSpeed(), (int) fp.x() - 20, (int) fp.y() - 5 * r);
+                g.setFont(new Font("Segoe UI", Font.BOLD, 20));
             }
             i++;
         }
@@ -121,37 +127,40 @@ public class ourPanel extends JPanel {
 
     /**
      * draws the graph and its nodes and edges in the panel.
+     *
      * @param g - This Graphics2D class extends the Graphics class to provide more sophisticated control.
      */
     private void drawGraph(Graphics2D g) {
         directed_weighted_graph graph = ManageGame.getGraph();
-        for(node_data runner : graph.getV()) {
+        for (node_data runner : graph.getV()) {
             for (edge_data edge : graph.getE(runner.getKey())) {
                 drawEdge(edge, g);
             }
         }
-        for(node_data runner : graph.getV()) {
+        for (node_data runner : graph.getV()) {
             drawNode(runner, g);
         }
     }
 
     /**
      * draws the nodes and their keys in the panel.
+     *
      * @param n - a node_data type.
      * @param g - This Graphics2D class extends the Graphics class to provide more sophisticated control.
      */
     private void drawNode(node_data n, Graphics2D g) {
-        g.setColor(new Color(73,155,84));
+        g.setColor(new Color(73, 155, 84));
         geo_location pos = n.getLocation();
         geo_location fp = this.range.world2frame(pos);
-        g.drawImage(pokador, (int)fp.x()-15, (int)fp.y()-30, 4*r, 5*r, this);
-        g.setFont(new Font("Segoe UI",Font.BOLD,20));
+        g.drawImage(pokador, (int) fp.x() - 15, (int) fp.y() - 30, 4 * r, 5 * r, this);
+        g.setFont(new Font("Segoe UI", Font.BOLD, 20));
         g.setColor(Color.black);
-        g.drawString(" "+n.getKey(), (int)fp.x()-14, (int)fp.y()-34);
+        g.drawString(" " + n.getKey(), (int) fp.x() - 14, (int) fp.y() - 34);
     }
 
     /**
      * draws the edges and their keys in the panel.
+     *
      * @param e - an edge_data type.
      * @param g - This Graphics2D class extends the Graphics class to provide more sophisticated control.
      */
@@ -162,11 +171,12 @@ public class ourPanel extends JPanel {
         geo_location s0 = this.range.world2frame(s);
         geo_location d0 = this.range.world2frame(d);
         g.setColor(new Color(173, 122, 68));
-        drawArrow(g,(int)s0.x(), (int)s0.y(), (int)d0.x(), (int)d0.y());
+        drawArrow(g, (int) s0.x(), (int) s0.y(), (int) d0.x(), (int) d0.y());
     }
 
     /**
      * draws an arrow between two given points.
+     *
      * @param g1 The Graphics class is the abstract base class for all graphics contexts.
      * @param x1 int type.
      * @param y1 int type.
@@ -177,7 +187,7 @@ public class ourPanel extends JPanel {
         Graphics2D g = (Graphics2D) g1.create();
         double dx = x2 - x1, dy = y2 - y1;
         double angle = Math.atan2(dy, dx);
-        int len = (int) Math.sqrt(dx*dx + dy*dy);
+        int len = (int) Math.sqrt(dx * dx + dy * dy);
         AffineTransform at = AffineTransform.getTranslateInstance(x1, y1);
         at.concatenate(AffineTransform.getRotateInstance(angle));
         g.transform(at);
@@ -185,56 +195,60 @@ public class ourPanel extends JPanel {
         g.setStroke(new BasicStroke(5));
         // Draw horizontal arrow starting in (0, 0)
         g.drawLine(0, 0, len, 0);
-        g.fillPolygon(new int[] {len-10, len-ARR_SIZE-20, len-ARR_SIZE-20, len-10}, new int[] {0, -ARR_SIZE, ARR_SIZE, 0}, 4);
+        g.fillPolygon(new int[]{len - 10, len - ARR_SIZE - 20, len - ARR_SIZE - 20, len - 10}, new int[]{0, -ARR_SIZE, ARR_SIZE, 0}, 4);
     }
 
     /**
      * draws pikachu.
-     * @param g The Graphics class is the abstract base class for all graphics contexts.
-     * @param fp the Pokemon's location.
-     * @param f the Pokemon.
+     *
+     * @param g     The Graphics class is the abstract base class for all graphics contexts.
+     * @param fp    the Pokemon's location.
+     * @param f     the Pokemon.
      * @param color this color represents if the pokemon is going up or down.
      */
     private void pikachu(Graphics g, geo_location fp, Pokemon f, Color color) {
-        g.drawImage(pikachu, (int)fp.x()-30, (int)fp.y()-30, 9*r, 8*r, this);
-        g.drawImage(blur,(int)fp.x()-36, (int)fp.y()-78,120,50,this);
+        g.drawImage(pikachu, (int) fp.x() - 30, (int) fp.y() - 30, 9 * r, 8 * r, this);
+        g.drawImage(blur, (int) fp.x() - 36, (int) fp.y() - 78, 120, 50, this);
         g.setColor(color);
-        g.drawString("Pikachu", (int)fp.x()-12, (int)fp.y()-60);
+        g.drawString("Pikachu", (int) fp.x() - 12, (int) fp.y() - 60);
         g.setColor(Color.WHITE);
-        g.drawString("Value:"+f.getValue(), (int)fp.x()-18, (int)fp.y()-39);
+        g.drawString("Value:" + f.getValue(), (int) fp.x() - 18, (int) fp.y() - 39);
     }
 
     /**
      * draws charizard.
-     * @param g The Graphics class is the abstract base class for all graphics contexts.
-     * @param fp the Pokemon's location.
-     * @param f the Pokemon.
+     *
+     * @param g     The Graphics class is the abstract base class for all graphics contexts.
+     * @param fp    the Pokemon's location.
+     * @param f     the Pokemon.
      * @param color this color represents if the pokemon is going up or down.
      */
     private void charizard(Graphics g, geo_location fp, Pokemon f, Color color) {
-        g.drawImage(charizard, (int)fp.x()-30, (int)fp.y()-30, 10*r, 12*r, this);
-        g.drawImage(blur,(int)fp.x()-65, (int)fp.y()-12*r,130,50,this);
+        g.drawImage(charizard, (int) fp.x() - 30, (int) fp.y() - 30, 10 * r, 12 * r, this);
+        g.drawImage(blur, (int) fp.x() - 65, (int) fp.y() - 12 * r, 130, 50, this);
         g.setColor(color);
-        g.drawString("Charizard", (int)fp.x()-45, (int)fp.y()-9*r);
+        g.drawString("Charizard", (int) fp.x() - 45, (int) fp.y() - 9 * r);
         g.setColor(Color.WHITE);
-        g.drawString("Value:"+f.getValue(), (int)fp.x()-42, (int)fp.y()-6*r);
+        g.drawString("Value:" + f.getValue(), (int) fp.x() - 42, (int) fp.y() - 6 * r);
     }
 
     /**
      * draws mewtwo.
-     * @param g The Graphics class is the abstract base class for all graphics contexts.
-     * @param fp the Pokemon's location.
-     * @param f the Pokemon.
+     *
+     * @param g     The Graphics class is the abstract base class for all graphics contexts.
+     * @param fp    the Pokemon's location.
+     * @param f     the Pokemon.
      * @param color this color represents if the pokemon is going up or down.
      */
     private void mewtwo(Graphics g, geo_location fp, Pokemon f, Color color) {
-        g.drawImage(mewtwo, (int)fp.x()-40, (int)fp.y()-30, 8*r, 8*r, this);
-        g.drawImage(blur,(int)fp.x()-60, (int)fp.y()-78,130,50,this);
+        g.drawImage(mewtwo, (int) fp.x() - 40, (int) fp.y() - 30, 8 * r, 8 * r, this);
+        g.drawImage(blur, (int) fp.x() - 60, (int) fp.y() - 78, 130, 50, this);
         g.setColor(color);
-        g.drawString("Mewtwo", (int)fp.x()-35, (int)fp.y()-58);
+        g.drawString("Mewtwo", (int) fp.x() - 35, (int) fp.y() - 58);
         g.setColor(Color.WHITE);
-        g.drawString("Value:"+f.getValue(), (int)fp.x()-42, (int)fp.y()-38);
+        g.drawString("Value:" + f.getValue(), (int) fp.x() - 42, (int) fp.y() - 38);
     }
+
     ///// import pictures /////
     static BufferedImage background = null;
     static BufferedImage logo = null;
@@ -258,13 +272,14 @@ public class ourPanel extends JPanel {
             pikachu = Toolkit.getDefaultToolkit().createImage("resource/pikachu.gif");
             charizard = Toolkit.getDefaultToolkit().createImage("resource/charizard.gif");
             mewtwo = Toolkit.getDefaultToolkit().createImage("resource/mewtwo.gif");
-        } catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
 
     /**
      * this method is used to allow set the move in the panel right from the Ex2.
+     *
      * @param move the number of current moves in the game.
      */
     public void setMoves(int move) {
@@ -273,6 +288,7 @@ public class ourPanel extends JPanel {
 
     /**
      * this method is used to allow set the grade in the panel right from the Ex2.
+     *
      * @param newGrade the number of current grade in the game.
      */
     public void setGrade(int newGrade) {

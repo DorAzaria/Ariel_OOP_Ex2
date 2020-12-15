@@ -1,49 +1,87 @@
 package gameClient;
+
 import api.edge_data;
 import gameClient.util.Point3D;
-import org.json.JSONObject;
 
 public class Pokemon {
-	private edge_data edges;
-	private double value;
-	private int type;
-	private Point3D position;
-	private double distance;
+    private edge_data edges;
+    private final double value;
+    private final int type;
+    private final Point3D position;
+    private double distance;
 
-	public Pokemon(Point3D p, int t, double v, double s, edge_data e) {
-		type = t;
-		value = v;
-		position = p;
-		setEdges(e);
-	}
+    /**
+     * a parametric constructor.
+     *
+     * @param p - a Point3D type.
+     * @param t - (type - going up or down), int type.
+     * @param v - (the value of this Pokemon), double type.
+     * @param e - (the edge the Pokemon is on), edge_data type.
+     */
+    public Pokemon(Point3D p, int t, double v, edge_data e) {
+        type = t;
+        value = v;
+        position = p;
+        setEdges(e);
+    }
 
-	public edge_data getEdges() {
-		return edges;
-	}
+    /**
+     * @return the edge that the Pokemon is standing on.
+     */
+    public edge_data getEdges() {
+        return edges;
+    }
 
-	public void setEdges(edge_data edges) {
-		this.edges = edges;
-	}
+    /**
+     * allows to change the edge in each update from the server.
+     *
+     * @param edges - an edge_data type.
+     */
+    public void setEdges(edge_data edges) {
+        this.edges = edges;
+    }
 
-	public Point3D getLocation() {
-		return position;
-	}
+    /**
+     * @return a Point3D location of where the Pokemon is seen.
+     */
+    public Point3D getLocation() {
+        return position;
+    }
 
-	public int getType() {
-		return type;
-	}
+    /**
+     * @return -1 if the Pokemon is doing down or 1 is its going up.
+     */
+    public int getType() {
+        return type;
+    }
 
-	public double getValue() {
-		return value;
-	}
+    /**
+     * @return return the value of this Pokemon.
+     */
+    public double getValue() {
+        return value;
+    }
 
-	public int getDest(){
-		return edges.getDest();
-	}
+    /**
+     * @return the destination of the Pokemon move.
+     */
+    public int getDest() {
+        return edges.getDest();
+    }
 
-	public void setDistance(double dis) {
-		distance = dis;
-	}
+    /**
+     * allows setting the distance from a specific Agent to this Pokemon (in each update).
+     *
+     * @param dis - a double type.
+     */
+    public void setDistance(double dis) {
+        distance = dis;
+    }
 
-	public Double getDistance(){ return distance; }
+    /**
+     * @return the distance from a specific Agent to this Pokemon.
+     */
+    public Double getDistance() {
+        return distance;
+    }
 }
