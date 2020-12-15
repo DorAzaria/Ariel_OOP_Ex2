@@ -190,6 +190,8 @@ public class Ex2 implements Runnable {
      * When its done, it calculates by Dijkstra (shortestPath) the shortest path between this Agent to its closest Pokemon and return
      * A list of the path, this method will return the first node (next move) of this path to the Pokemon,
      * and so on in each iteration till the Agent catch it.
+     * This method is also fix the "stuckProblem" of the Agents when it gets to speed 5, so if an Agent is standing
+     * on the same edge more than 8 times in a row it means it stuck because of the FPS, so the dt is changed to 30 for a while.
      *
      * @param bond     an Agent.
      * @param pokemons a List of the Pokemons in the game.
