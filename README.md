@@ -1,7 +1,7 @@
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <p align="center">
-  <img width="460" height="300" src="https://i.ibb.co/M2BwdDW/background.jpg">
+  <img width="800" height="400" src="https://i.ibb.co/M2BwdDW/background.jpg">
 </p>
 <p>&nbsp;</p>
 <h2>Pokémon Game</h2>
