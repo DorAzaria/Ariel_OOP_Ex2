@@ -1,6 +1,8 @@
 <p>&nbsp;</p>
 <p>&nbsp;</p>
-<p><img src="https://i.ibb.co/M2BwdDW/background.jpg"></p>
+<p align="center">
+  <img width="460" height="300" src="https://i.ibb.co/M2BwdDW/background.jpg">
+</p>
 <p>&nbsp;</p>
 <h2>Pokémon Game</h2>
 <p>Project as part of the object-oriented course JAVA language.</p>
