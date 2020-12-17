@@ -61,7 +61,7 @@ public class DWGraph_DS implements directed_weighted_graph {
      */
     @Override
     public void addNode(node_data n) {
-        if (!hasNode(n.getKey())) {
+        if ( n!= null && !hasNode(n.getKey())) {
             vertices.put(n.getKey(), n);
             adjacency.put(n.getKey(), new HashMap<>());
             mc++;
@@ -91,6 +91,7 @@ public class DWGraph_DS implements directed_weighted_graph {
         if (hasNode(src) && hasNode(dest) && src != dest && w >= 0) {
             node_data source = getNode(src), destination = getNode(dest);
             if (adjacency.get(src).containsKey(destination)) {
+                if(getEdge(src,dest).getWeight() == w) return;
                 ((Edge) getEdge(src, dest)).setWeight(w);
                 edges.add(getEdge(src, dest));
                 mc++;
@@ -205,4 +206,25 @@ public class DWGraph_DS implements directed_weighted_graph {
         return mc;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DWGraph_DS that = (DWGraph_DS) o;
+        if (e != that.e) return false;
+        if (mc != that.mc) return false;
+        if (!Objects.equals(vertices, that.vertices)) return false;
+        if (!Objects.equals(adjacency, that.adjacency)) return false;
+        return Objects.equals(edges, that.edges);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = vertices != null ? vertices.hashCode() : 0;
+        result = 31 * result + (adjacency != null ? adjacency.hashCode() : 0);
+        result = 31 * result + (edges != null ? edges.hashCode() : 0);
+        result = 31 * result + e;
+        result = 31 * result + mc;
+        return result;
+    }
 }

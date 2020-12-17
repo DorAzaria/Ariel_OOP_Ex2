@@ -337,4 +337,18 @@ public class DWGraph_Algo implements dw_graph_algorithms {
         }
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        DWGraph_Algo that = (DWGraph_Algo) o;
+
+        return graph != null ? graph.equals(that.graph) : that.graph == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return graph != null ? graph.hashCode() : 0;
+    }
 }

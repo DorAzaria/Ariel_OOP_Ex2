@@ -123,4 +123,34 @@ public class Edge implements edge_data {
                 '}';
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Edge edge = (Edge) o;
+
+        if (src != edge.src) return false;
+        if (dest != edge.dest) return false;
+        if (Double.compare(edge.w, w) != 0) return false;
+        if (source != null ? !source.equals(edge.source) : edge.source != null) return false;
+        if (destination != null ? !destination.equals(edge.destination) : edge.destination != null) return false;
+        if (info != null ? !info.equals(edge.info) : edge.info != null) return false;
+        return tag != null ? tag.equals(edge.tag) : edge.tag == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result;
+        long temp;
+        result = src;
+        result = 31 * result + dest;
+        temp = Double.doubleToLongBits(w);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + (source != null ? source.hashCode() : 0);
+        result = 31 * result + (destination != null ? destination.hashCode() : 0);
+        result = 31 * result + (info != null ? info.hashCode() : 0);
+        result = 31 * result + (tag != null ? tag.hashCode() : 0);
+        return result;
+    }
 }

@@ -26,7 +26,7 @@ public class Ex2 implements Runnable {
 
     public static void main(String[] a) {
         login();
-        client.start();
+        client.run();
     }
 
     /**

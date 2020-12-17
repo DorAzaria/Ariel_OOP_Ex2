@@ -184,4 +184,31 @@ public class Node implements node_data {
             return point.distance(g);
         }
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Node node = (Node) o;
+
+        if (key != node.key) return false;
+        if (Double.compare(node.weight, weight) != 0) return false;
+        if (pos != null ? !pos.equals(node.pos) : node.pos != null) return false;
+        if (tag != null ? !tag.equals(node.tag) : node.tag != null) return false;
+        return info != null ? info.equals(node.info) : node.info == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result;
+        long temp;
+        result = pos != null ? pos.hashCode() : 0;
+        result = 31 * result + key;
+        result = 31 * result + (tag != null ? tag.hashCode() : 0);
+        temp = Double.doubleToLongBits(weight);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + (info != null ? info.hashCode() : 0);
+        return result;
+    }
 }

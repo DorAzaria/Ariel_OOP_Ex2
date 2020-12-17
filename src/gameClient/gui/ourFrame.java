@@ -2,7 +2,11 @@ package gameClient.gui;
 
 import gameClient.*;
 
+import javax.sound.sampled.*;
 import javax.swing.*;
+import java.io.*;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 /**
  * this class is expending JFrame.
