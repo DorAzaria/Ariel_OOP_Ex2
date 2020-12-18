@@ -2,6 +2,7 @@ package api;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import java.awt.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class EdgeTest {
@@ -70,10 +71,14 @@ public class EdgeTest {
 
     @Test
     void getTag() {
-
+        assertEquals(testingEdge.getTag(), Color.RED.getRGB());
+        assertEquals(copiedEdge.getTag(), Color.RED.getRGB());
     }
 
     @Test
     void setTag() {
+        testingEdge.setTag(43);
+        assertEquals(testingEdge.getTag(),new Color(43).getRGB());
+        assertNotEquals(testingEdge.getTag(),copiedEdge.getTag());
     }
 }
