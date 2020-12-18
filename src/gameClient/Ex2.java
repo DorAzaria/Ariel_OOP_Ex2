@@ -173,14 +173,13 @@ public class Ex2 implements Runnable {
                 if (ag.getSrcNode() == attack.get(ag.getID())) {
                     attack.put(ag.getID(), -1);
                 }
-                int nextNode = nextNode(ag, ffs);
-                game.chooseNextEdge(ag.getID(), nextNode);
-                System.out.println("Agent: " + id + ", val: " + v + "   turned to node: " + nextNode);
+                    int nextNode = nextNode(ag, ffs);
+                    game.chooseNextEdge(ag.getID(), nextNode);
+                    System.out.println("Agent: " + id + ", val: " + v + "   turned to node: " + nextNode);
             }
         }
         Frame.getPanel().setGrade(grade);
     }
-
     /**
      * calculating the closest Pokemon to this Agent (bond).
      * It iterate all the Pokemons in the game, if a Pokemon isn't targeted by some other Agent,

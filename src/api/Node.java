@@ -3,6 +3,7 @@ package api;
 import gameClient.util.Point3D;
 
 import java.awt.*;
+import java.util.Objects;
 
 /**
  * This class represents a node with some fields.
@@ -209,17 +210,11 @@ public class Node implements node_data {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Node node = (Node) o;
-
-        if (key != node.key) return false;
-        if (Double.compare(node.weight, weight) != 0) return false;
-        if (pos != null ? !pos.equals(node.pos) : node.pos != null) return false;
-        if (tag != null ? !tag.equals(node.tag) : node.tag != null) return false;
-        return info != null ? info.equals(node.info) : node.info == null;
+        public boolean equals(Object o) {
+            if (o == null) return false;
+            if (!(o instanceof node_data)) return false;
+            int key = ((node_data) o).getKey();
+            if (getKey() != key) return false;
+            return true;
     }
-
 }

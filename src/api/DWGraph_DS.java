@@ -91,7 +91,9 @@ public class DWGraph_DS implements directed_weighted_graph {
         if (hasNode(src) && hasNode(dest) && src != dest && w >= 0) {
             node_data source = getNode(src), destination = getNode(dest);
             if (adjacency.get(src).containsKey(destination)) {
-                if(getEdge(src,dest).getWeight() == w) return;
+                if(getEdge(src,dest).getWeight() == w){
+                    return;
+                }
                 ((Edge) getEdge(src, dest)).setWeight(w);
                 edges.add(getEdge(src, dest));
                 mc++;
@@ -208,16 +210,14 @@ public class DWGraph_DS implements directed_weighted_graph {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof DWGraph_DS)) return false;
+        HashMap v = ((DWGraph_DS) o).vertices;
+        if (!(vertices.equals(v))) return false;
+        HashMap e = ((DWGraph_DS) o).adjacency;
+        if (!(adjacency.equals(e))) return false;
+        return true;
 
-        DWGraph_DS that = (DWGraph_DS) o;
-
-        if (e != that.e) return false;
-        if (mc != that.mc) return false;
-        if (vertices != null ? !vertices.equals(that.vertices) : that.vertices != null) return false;
-        if (adjacency != null ? !adjacency.equals(that.adjacency) : that.adjacency != null) return false;
-        return edges != null ? edges.equals(that.edges) : that.edges == null;
     }
+
 
 }

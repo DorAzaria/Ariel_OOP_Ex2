@@ -65,7 +65,7 @@ public class DWGraph_Algo implements dw_graph_algorithms {
     /**
      * @note a graph is said to be <strong>strongly connected</strong> if every vertex is reachable<br>
              from every other vertex.
-     * @note This method implements the <strong>Kosaraju algorithm</strong>.<br>
+     * @note This method implements the <strong> Kosaraju algorithm</strong>.<br>
              The first DFS is to find all the vertices u that are reachable from vertex v.<br>
              The second DFS is to check the reverse, i.e if all u can reach v. <br>
              The reverse check on the second DFS is made
@@ -337,14 +337,5 @@ public class DWGraph_Algo implements dw_graph_algorithms {
         }
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        DWGraph_Algo that = (DWGraph_Algo) o;
-
-        return graph != null ? graph.equals(that.graph) : that.graph == null;
-    }
 
 }
