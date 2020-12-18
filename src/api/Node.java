@@ -55,6 +55,18 @@ public class Node implements node_data {
         weight = Double.MAX_VALUE;
         tag = Color.RED;
     }
+    /**
+     * a parametric constructor, used especially for test methods.
+     *
+     * @param id  a key of the node.
+     */
+    public Node(int id) {
+        pos = new GeoLocation(0, 0, 0);
+        key = id;
+        info = "unvisited";
+        weight = Double.MAX_VALUE;
+        tag = Color.RED;
+    }
 
     /**
      * @return the key of this node.

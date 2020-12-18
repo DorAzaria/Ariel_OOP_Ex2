@@ -59,15 +59,18 @@ public class EdgeTest {
     void getInfo() {
         assertEquals(testingEdge.getInfo(),"");
         assertEquals(copiedEdge.getInfo(),"");
-
     }
 
     @Test
     void setInfo() {
+        testingEdge.setInfo("hello!");
+        assertNotEquals(testingEdge.getInfo(),copiedEdge.getInfo());
+        assertEquals("hello!",testingEdge.getInfo());
     }
 
     @Test
     void getTag() {
+
     }
 
     @Test
