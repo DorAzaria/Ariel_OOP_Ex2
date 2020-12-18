@@ -183,6 +183,21 @@ public class Node implements node_data {
         public double distance(geo_location g) {
             return point.distance(g);
         }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+
+            GeoLocation that = (GeoLocation) o;
+
+            return point != null ? point.equals(that.point) : that.point == null;
+        }
+
+        @Override
+        public int hashCode() {
+            return point != null ? point.hashCode() : 0;
+        }
     }
 
     @Override
