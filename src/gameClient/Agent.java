@@ -87,7 +87,7 @@ public class Agent {
      */
     public void setNextNode(int dest) {
         int src = this.current_node.getKey();
-        if (graph.getEdge(src, dest) != null) {
+        if(graph.getEdge(src, dest) != null) {
             current_edge = graph.getEdge(src, dest);
         }
     }

@@ -191,12 +191,12 @@ public class Node implements node_data {
 
             GeoLocation that = (GeoLocation) o;
 
-            return point != null ? point.equals(that.point) : that.point == null;
+            return point.equals(that.point);
         }
 
         @Override
         public int hashCode() {
-            return point != null ? point.hashCode() : 0;
+            return point.hashCode();
         }
     }
 
@@ -209,21 +209,9 @@ public class Node implements node_data {
 
         if (key != node.key) return false;
         if (Double.compare(node.weight, weight) != 0) return false;
-        if (pos != null ? !pos.equals(node.pos) : node.pos != null) return false;
-        if (tag != null ? !tag.equals(node.tag) : node.tag != null) return false;
-        return info != null ? info.equals(node.info) : node.info == null;
+        if (!pos.equals(node.pos)) return false;
+        if (!tag.equals(node.tag)) return false;
+        return info.equals(node.info);
     }
 
-    @Override
-    public int hashCode() {
-        int result;
-        long temp;
-        result = pos != null ? pos.hashCode() : 0;
-        result = 31 * result + key;
-        result = 31 * result + (tag != null ? tag.hashCode() : 0);
-        temp = Double.doubleToLongBits(weight);
-        result = 31 * result + (int) (temp ^ (temp >>> 32));
-        result = 31 * result + (info != null ? info.hashCode() : 0);
-        return result;
-    }
 }

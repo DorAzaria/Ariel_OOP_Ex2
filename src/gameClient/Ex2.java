@@ -236,4 +236,5 @@ public class Ex2 implements Runnable {
             return Double.compare(o1.getDistance(), o2.getDistance());
         }
     }
+
 }
