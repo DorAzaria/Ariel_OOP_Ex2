@@ -43,6 +43,7 @@ class DWGraph_AlgoTest {
         graph_algorithms.init(graph);
         directed_weighted_graph copied = graph_algorithms.copy();
         assertNotSame(graph,copied); // check whether two graphs object do not refer to the same object.
+        assertEquals(graph,copied);
     }
 
     @Test

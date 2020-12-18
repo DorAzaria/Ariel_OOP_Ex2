@@ -210,11 +210,15 @@ public class Node implements node_data {
     }
 
     @Override
-        public boolean equals(Object o) {
-            if (o == null) return false;
-            if (!(o instanceof node_data)) return false;
-            int key = ((node_data) o).getKey();
-            if (getKey() != key) return false;
-            return true;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Node nodeInfo = (Node) o;
+        return key == nodeInfo.key;
+    }
+
+    @Override
+    public int hashCode() {
+        return key;
     }
 }

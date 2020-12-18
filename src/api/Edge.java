@@ -124,12 +124,22 @@ public class Edge implements edge_data {
     }
 
     @Override
-        public boolean equals(Object o) {
-            if (!(o instanceof edge_data)) return false;
-            if (this.w != (((edge_data) o).getWeight())) return false;
-            if (this.src != ((edge_data) o).getSrc()) return false;
-            if (this.dest != ((edge_data) o).getDest()) return false;
-            return true;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Edge edge = (Edge) o;
+
+        if (src != edge.src) return false;
+        if (dest != edge.dest) return false;
+        return Double.compare(edge.w, w) == 0;
     }
 
+    @Override
+    public int hashCode() {
+        int result;
+        result = src;
+        result = 31 * result + dest;
+        return result;
+    }
 }
