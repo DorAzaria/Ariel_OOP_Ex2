@@ -2,8 +2,9 @@ package api;
 
 import api.Node.GeoLocation;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import java.awt.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -48,26 +49,35 @@ public class NodeTest {
 
     @Test
     void getWeight() {
+        assertEquals(testingNode.getWeight(),Double.MAX_VALUE);
     }
 
     @Test
     void setWeight() {
+        testingNode.setWeight(90.3);
+        assertEquals(testingNode.getWeight(),90.3);
     }
 
     @Test
     void getInfo() {
+        assertEquals("unvisited",testingNode.getInfo());
     }
 
     @Test
     void setInfo() {
+        testingNode.setInfo("look");
+        assertEquals("look",testingNode.getInfo());
     }
 
     @Test
     void getTag() {
+        assertEquals(testingNode.getTag(), Color.RED.getRGB());
     }
 
     @Test
     void setTag() {
+        testingNode.setTag(43);
+        assertEquals(testingNode.getTag(),new Color(43).getRGB());
     }
 
 }

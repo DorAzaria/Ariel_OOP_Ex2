@@ -22,7 +22,7 @@ class DWGraph_DSTest {
 
     public void smallGraph() {
         for (int i = 0 ; i < 6 ; i++) {
-            Node new_node = new Node();
+            Node new_node = new Node(i, new Node.GeoLocation(0,0,0));
             graph.addNode(new_node);
         }
         graph.connect(0,1,1.2);

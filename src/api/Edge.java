@@ -133,10 +133,10 @@ public class Edge implements edge_data {
         if (src != edge.src) return false;
         if (dest != edge.dest) return false;
         if (Double.compare(edge.w, w) != 0) return false;
-        if (!source.equals(edge.source)) return false;
-        if (!destination.equals(edge.destination)) return false;
-        if (!info.equals(edge.info)) return false;
-        return tag.equals(edge.tag);
+        if (source != null ? !source.equals(edge.source) : edge.source != null) return false;
+        if (destination != null ? !destination.equals(edge.destination) : edge.destination != null) return false;
+        if (info != null ? !info.equals(edge.info) : edge.info != null) return false;
+        return tag != null ? tag.equals(edge.tag) : edge.tag == null;
     }
 
 }

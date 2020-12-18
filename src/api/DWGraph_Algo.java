@@ -347,8 +347,4 @@ public class DWGraph_Algo implements dw_graph_algorithms {
         return graph != null ? graph.equals(that.graph) : that.graph == null;
     }
 
-    @Override
-    public int hashCode() {
-        return graph != null ? graph.hashCode() : 0;
-    }
 }

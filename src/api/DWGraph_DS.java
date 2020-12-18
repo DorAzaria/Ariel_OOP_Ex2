@@ -210,21 +210,14 @@ public class DWGraph_DS implements directed_weighted_graph {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         DWGraph_DS that = (DWGraph_DS) o;
+
         if (e != that.e) return false;
         if (mc != that.mc) return false;
-        if (!Objects.equals(vertices, that.vertices)) return false;
-        if (!Objects.equals(adjacency, that.adjacency)) return false;
-        return Objects.equals(edges, that.edges);
+        if (vertices != null ? !vertices.equals(that.vertices) : that.vertices != null) return false;
+        if (adjacency != null ? !adjacency.equals(that.adjacency) : that.adjacency != null) return false;
+        return edges != null ? edges.equals(that.edges) : that.edges == null;
     }
 
-    @Override
-    public int hashCode() {
-        int result = vertices != null ? vertices.hashCode() : 0;
-        result = 31 * result + (adjacency != null ? adjacency.hashCode() : 0);
-        result = 31 * result + (edges != null ? edges.hashCode() : 0);
-        result = 31 * result + e;
-        result = 31 * result + mc;
-        return result;
-    }
 }

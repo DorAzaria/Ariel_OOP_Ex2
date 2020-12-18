@@ -194,10 +194,6 @@ public class Node implements node_data {
             return point.equals(that.point);
         }
 
-        @Override
-        public int hashCode() {
-            return point.hashCode();
-        }
     }
 
     @Override
@@ -209,9 +205,9 @@ public class Node implements node_data {
 
         if (key != node.key) return false;
         if (Double.compare(node.weight, weight) != 0) return false;
-        if (!pos.equals(node.pos)) return false;
-        if (!tag.equals(node.tag)) return false;
-        return info.equals(node.info);
+        if (pos != null ? !pos.equals(node.pos) : node.pos != null) return false;
+        if (tag != null ? !tag.equals(node.tag) : node.tag != null) return false;
+        return info != null ? info.equals(node.info) : node.info == null;
     }
 
 }
