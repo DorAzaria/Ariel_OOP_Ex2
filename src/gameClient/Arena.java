@@ -106,6 +106,7 @@ public class Arena {
      * @return collection of all the agents objects
      */
     public static List<Agent> getAgents(String status, directed_weighted_graph graph) {
+        System.out.println(status);
         ArrayList<Agent> agents_arraylist = new ArrayList<>();
         try {
             JSONObject agents_status = new JSONObject(status);

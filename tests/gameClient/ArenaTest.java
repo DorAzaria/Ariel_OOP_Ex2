@@ -98,9 +98,10 @@ public class ArenaTest {
 
     @Test
     void testGetAgents() {
-        game_service game = Game_Server_Ex2.getServer(0);
-        String agents = game.getAgents();
-
+        String json = "{\"Agents\":[{\"Agent\":{\"id\":0,\"value\":13.0,\"src\":12,\"dest\":11,\"speed\":1.0,\"pos\":\"35.21230684673214,32.10468155769369,0.0\"}},{\"Agent\":{\"id\":1,\"value\":14.0,\"src\":10,\"dest\":39,\"speed\":1.0,\"pos\":\"35.21227186246549,32.10634786323765,0.0\"}},{\"Agent\":{\"id\":2,\"value\":8.0,\"src\":17,\"dest\":16,\"speed\":1.0,\"pos\":\"35.20548428358274,32.101401977467404,0.0\"}}]}";
+        graphAlgo.load("data/A4");
+        graph = graphAlgo.getGraph();
+        List<Agent> agentList = Arena.getAgents(json,graph);
 
     }
 

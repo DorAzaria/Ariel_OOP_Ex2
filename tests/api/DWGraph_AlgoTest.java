@@ -52,7 +52,6 @@ class DWGraph_AlgoTest {
         boolean actual = graph_algorithms.isConnected();
         assertTrue(actual);
         graph.removeNode(5);
-        assertFalse();
     }
 
     @Test
