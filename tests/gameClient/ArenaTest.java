@@ -103,8 +103,8 @@ public class ArenaTest {
         graph = graphAlgo.getGraph();
         List<Agent> agentList = Arena.getAgents(json,graph);
         manageGame.setAgents(agentList);
-        int expected_source = manageGame.getAgents().get(0).getSrcNode();
-
+        int source = manageGame.getAgents().get(0).getSrcNode();
+        assertEquals(12,source);
     }
 
     @Test
