@@ -34,7 +34,6 @@ public class Ex2 implements Runnable {
      * is something is wrong, it shows an error and send the player to the default game level which is 0.
      */
     private static void login() {
-
         try {
             String id = JOptionPane.showInputDialog("Enter your ID", "Your ID");
             String level = JOptionPane.showInputDialog("Enter level number", "Levels between [0-23]");

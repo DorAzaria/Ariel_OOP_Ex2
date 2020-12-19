@@ -144,4 +144,7 @@ public class Agent {
     public void setSpeed(double v) {
         this.speed = v;
     }
+    public void setPosition(geo_location g) {
+        this.position = g;
+    }
 }
