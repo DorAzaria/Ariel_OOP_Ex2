@@ -74,6 +74,7 @@ public class Ex2 implements Runnable {
         game_service game = Game_Server_Ex2.getServer(num_level); // you have [0,23] games
         loadGraph(game.getGraph());
         init(game);
+        game.login(playerID);
         game.startGame();
         Frame.setTitle("Ex2 - OOP: Pokemons! ,  Game Number: " + num_level);
         while (game.isRunning()) {
