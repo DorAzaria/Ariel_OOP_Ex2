@@ -21,7 +21,6 @@ public class Ex2 implements Runnable {
     private static final dw_graph_algorithms graph_algo = new DWGraph_Algo();
     static long dt;
     static int movesCounter = 0;
-    static Thread client = new Thread(new Ex2());
     static HashMap<Integer, Integer> attack;
 
     public static void main(String[] a) {
@@ -32,6 +31,7 @@ public class Ex2 implements Runnable {
             playerID = -1;
             num_level = -1;
         }
+        Thread client = new Thread(new Ex2());
         client.run();
     }
 
