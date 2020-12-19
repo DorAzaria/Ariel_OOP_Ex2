@@ -48,6 +48,11 @@ class DWGraph_AlgoTest {
 
     @Test
     void isConnected() {
+        graph_algorithms.init(graph);
+        boolean actual = graph_algorithms.isConnected();
+        assertTrue(actual);
+        graph.removeNode(5);
+        assertFalse();
     }
 
     @Test

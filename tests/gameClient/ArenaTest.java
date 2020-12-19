@@ -98,6 +98,9 @@ public class ArenaTest {
 
     @Test
     void testGetAgents() {
+        game_service game = Game_Server_Ex2.getServer(0);
+        String agents = game.getAgents();
+
 
     }
 
