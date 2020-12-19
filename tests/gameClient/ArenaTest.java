@@ -11,6 +11,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ArenaTest {
@@ -98,17 +99,51 @@ public class ArenaTest {
 
     @Test
     void testGetAgents() {
-        String json = "{\"Agents\":[{\"Agent\":{\"id\":0,\"value\":13.0,\"src\":12,\"dest\":11,\"speed\":1.0,\"pos\":\"35.21230684673214,32.10468155769369,0.0\"}},{\"Agent\":{\"id\":1,\"value\":14.0,\"src\":10,\"dest\":39,\"speed\":1.0,\"pos\":\"35.21227186246549,32.10634786323765,0.0\"}},{\"Agent\":{\"id\":2,\"value\":8.0,\"src\":17,\"dest\":16,\"speed\":1.0,\"pos\":\"35.20548428358274,32.101401977467404,0.0\"}}]}";
+        String json = "{\"Agents\":[{\"Agent\":{\"id\":0,\"value\":0.0,\"src\":17,\"dest\":-1,\"speed\":1.0,\"pos\":\"35.20737758999193,32.101092638655466,0.0\"}},{\"Agent\":{\"id\":1,\"value\":0.0,\"src\":33,\"dest\":-1,\"speed\":1.0,\"pos\":\"35.20476669410815,32.108579959663864,0.0\"}}]}\n";
         graphAlgo.load("data/A4");
         graph = graphAlgo.getGraph();
         List<Agent> agentList = Arena.getAgents(json,graph);
-        manageGame.setAgents(agentList);
-        int source = manageGame.getAgents().get(0).getSrcNode();
-        assertEquals(12,source);
+        Agent agent0 = agentList.get(0);
+        Agent agent1 = agentList.get(1);
+
+        assertAll("Check Agent0: ",
+                ()-> assertEquals(0,agent0.getID()),
+                ()-> assertEquals(0.0,agent0.getPoints()),
+                ()-> assertEquals(17,agent0.getSrcNode()),
+                ()-> assertEquals(-1,agent0.getNextNode()),
+                ()-> assertEquals(1.0,agent0.getSpeed()),
+                ()-> assertEquals(35.20737758999193,agent0.getLocation().x()),
+                ()-> assertEquals(32.101092638655466,agent0.getLocation().y()),
+                ()-> assertEquals(0.0,agent0.getLocation().z())
+                );
+        assertAll("Check Agent1: ",
+                ()-> assertEquals(1,agent1.getID()),
+                ()-> assertEquals(0.0,agent1.getPoints()),
+                ()-> assertEquals(33,agent1.getSrcNode()),
+                ()-> assertEquals(-1,agent1.getNextNode()),
+                ()-> assertEquals(1.0,agent1.getSpeed()),
+                ()-> assertEquals(35.20476669410815,agent1.getLocation().x()),
+                ()-> assertEquals(32.108579959663864,agent1.getLocation().y()),
+                ()-> assertEquals(0.0,agent1.getLocation().z())
+        );
+
     }
 
     @Test
     void testGetPokemons() {
+        String json = "{\"Pokemons\":[{\"Pokemon\":{\"value\":5.0,\"type\":-1,\"pos\":\"35.197656770719604,32.10191878639921,0.0\"}},{\"Pokemon\":{\"value\":9.0,\"type\":-1,\"pos\":\"35.19038634163924,32.10748920705224,0.0\"}},{\"Pokemon\":{\"value\":12.0,\"type\":-1,\"pos\":\"35.1992728373109,32.105605979924384,0.0\"}}]}";
+        List<Pokemon> pokemonList = Arena.getPokemons(json);
+        Pokemon pokemon0 = pokemonList.get(0);
+        Pokemon pokemon1 = pokemonList.get(1);
+        Pokemon pokemon2 = pokemonList.get(2);
+
+        assertAll("Check pokemon0",
+                ()-> assertEquals(5.0,pokemon0.getValue()),
+                ()-> assertEquals(-1,pokemon0.getType()),
+                ()-> assertEquals(35.197656770719604,pokemon0.getLocation().x()),
+                ()-> assertEquals(32.10191878639921,pokemon0.getLocation().y()),
+                ()-> assertEquals(0.0,pokemon0.getLocation().z())
+                );
 
     }
 
