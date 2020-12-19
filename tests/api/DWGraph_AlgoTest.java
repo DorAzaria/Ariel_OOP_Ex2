@@ -67,7 +67,7 @@ class DWGraph_AlgoTest {
         double expected_shortest_path = 5.52;
         assertEquals(actual_shortest_path,expected_shortest_path,EPSILON);
         double expected = -1;
-        graph.removeNode()5;
+        graph.removeNode(5);
         double actual = graph_algorithms.shortestPathDist(0,5);
         assertEquals(expected,actual);
     }

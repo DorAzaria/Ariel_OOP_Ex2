@@ -137,6 +137,7 @@ public class ArenaTest {
         Pokemon pokemon1 = pokemonList.get(1);
         Pokemon pokemon2 = pokemonList.get(2);
 
+
         assertAll("Check pokemon0",
                 ()-> assertEquals(5.0,pokemon0.getValue()),
                 ()-> assertEquals(-1,pokemon0.getType()),
@@ -144,30 +145,21 @@ public class ArenaTest {
                 ()-> assertEquals(32.10191878639921,pokemon0.getLocation().y()),
                 ()-> assertEquals(0.0,pokemon0.getLocation().z())
                 );
+        assertAll("Check pokemon0",
+                ()-> assertEquals(9.0,pokemon1.getValue()),
+                ()-> assertEquals(-1,pokemon1.getType()),
+                ()-> assertEquals(35.19038634163924,pokemon1.getLocation().x()),
+                ()-> assertEquals(32.10748920705224,pokemon1.getLocation().y()),
+                ()-> assertEquals(0.0,pokemon1.getLocation().z())
+        );
+        assertAll("Check pokemon0",
+                ()-> assertEquals(12.0,pokemon2.getValue()),
+                ()-> assertEquals(-1,pokemon2.getType()),
+                ()-> assertEquals(35.1992728373109,pokemon2.getLocation().x()),
+                ()-> assertEquals(32.105605979924384,pokemon2.getLocation().y()),
+                ()-> assertEquals(0.0,pokemon2.getLocation().z())
+        );
 
     }
 
-    @Test
-    void updateEdge() {
-    }
-
-    @Test
-    void w2f() {
-    }
-
-    @Test
-    void valueOfEdge() {
-    }
-
-    @Test
-    void getBestValue() {
-    }
-
-    @Test
-    void getPokemonsOnEdge() {
-    }
-
-    @Test
-    void computeStuckProblem() {
-    }
 }
