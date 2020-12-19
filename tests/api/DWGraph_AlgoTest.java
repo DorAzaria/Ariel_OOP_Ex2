@@ -3,11 +3,15 @@ package api;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class DWGraph_AlgoTest {
     static dw_graph_algorithms graph_algorithms;
     static directed_weighted_graph graph;
+    static final double EPSILON = 0.001;
 
     @BeforeAll
     static void smallGraph() {
@@ -31,6 +35,7 @@ class DWGraph_AlgoTest {
     @Test
     void init() {
         graph_algorithms.init(graph);
+        assertSame(graph,graph_algorithms.getGraph());
     }
 
     @Test
@@ -52,25 +57,59 @@ class DWGraph_AlgoTest {
         boolean actual = graph_algorithms.isConnected();
         assertTrue(actual);
         graph.removeNode(5);
+        assertFalse(graph_algorithms.isConnected());
     }
 
     @Test
     void shortestPathDist() {
+        graph_algorithms.init(graph);
+        double actual_shortest_path = graph_algorithms.shortestPathDist(0,2);
+        double expected_shortest_path = 5.52;
+        assertEquals(actual_shortest_path,expected_shortest_path,EPSILON);
+        double expected = -1;
+        graph.removeNode(5);
+        double actual = graph_algorithms.shortestPathDist(0,5);
+        assertEquals(expected,actual);
     }
 
     @Test
     void shortestPath() {
+        graph_algorithms.init(graph);
+        directed_weighted_graph copied = graph_algorithms.copy();
+        copied.removeNode(5);
+        graph_algorithms.init(copied);
+        assertNull(graph_algorithms.shortestPath(0,5));
+        node_data n0 = copied.getNode(0);
+        node_data n1 = copied.getNode(1);
+        node_data n2 = copied.getNode(2);
+        List<node_data> actual_path = graph_algorithms.shortestPath(0,2);
+        List<node_data> expected_path = new LinkedList<>();
+        expected_path.add(n0); expected_path.add(n1); expected_path.add(n2);
+        assertEquals(actual_path,expected_path);
     }
 
     @Test
     void save() {
+        String file_name = "newGraph.bin";
+        try {
+            graph_algorithms.save(file_name);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
     void load() {
+        try {
+            graph_algorithms.load("data/A0");
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        int actual_num_of_nodes = graph_algorithms.getGraph().getV().size();
+        int expected_num_of_nodes = 11;
+        assertEquals(actual_num_of_nodes,expected_num_of_nodes);
     }
 
-    @Test
-    void testEquals() {
-    }
 }
