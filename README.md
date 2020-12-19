@@ -24,10 +24,10 @@
 
 ![](https://i.ibb.co/0FnhjnW/pokemon-Header3.jpg)
 
-To run this game please enter: 
-`java -jar Ex2.jar ID Level_Number ` ( not ready yet!)
-## MORE DETAILS ABOUT JAR NEED TO BE ADDED ASAP!..
+To run this game please enter in the Command Prompt: 
+`java -jar Ex2.jar ID Level_Number `
 
+or poll the project, run the jar file and follow the following instructions:
 ![](https://i.ibb.co/ZhZFqqP/login.jpg)
 * Enter your ID number.
 * Enter the level you wish to play [0-23].
@@ -40,14 +40,14 @@ To run this game please enter:
 | 1  | 579  | 590  |          | 13 | 387  | 590  |
 | 2  | 272  | 296  |          | 14 | 130  | 295  |
 | 3  | 772  | 594  |          | 15 | 302  | 591  |
-| 4  | 238  | 298  |          | 16 | 241  | 295  |
-| 5  | 633  | 593  |          | 17 | 1084 | 588  |
+| 4  | 238  | 298  |          | 16 | 296  | 208  |
+| 5  | 633  | 593  |          | 17 | 1096 | 590  |
 | 6  | 79   | 297  |          | 18 | 40   | 295  |
-| 7  | 424  | 593  |          | 19 | 368  | 592  |
+| 7  | 424  | 593  |          | 19 | 380  | 596  |
 | 8  | 125  | 293  |          | 20 | 184  | 294  |
-| 9  | 428  | 590  |          | 21 | 327  | 592  |
-| 10 | 90   | 295  |          | 22 | 205  | 295  |
-| 11 | 1852 | 587  |          | 23 | 1376 | 591  |
+| 9  | 455  | 594  |          | 21 | 349  | 598  |
+| 10 | 90   | 295  |          | 22 | 277  | 299  |
+| 11 | 1913 | 587  |          | 23 | 1376 | 591  |
 
 ![](https://i.ibb.co/CWYhJvf/pokemon-Header4.jpg)
 
