@@ -11,7 +11,7 @@
 
 | Skill | Details|
 | ------------- | ------------- | 
-|Speed  | [1-5] options | 
+|Speed  | from 1 to 5 | 
 |Number of Points| the amount of points is calculated by the values of the Pokemons that the agent caught. |
 |Location |  the current location of the agent in the arena.|
 |Next Move | the next act of the agent. |
