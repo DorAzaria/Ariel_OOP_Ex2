@@ -128,7 +128,6 @@ public class Arena {
      * @return collection of all pokemon's objects
      */
     public static ArrayList<Pokemon> getPokemons(String actual) {
-        System.out.println(actual);
         ArrayList<Pokemon> pokemons_arraylist = new ArrayList<>();
         edges = new HashMap<>();
         strongestEdge = new PriorityQueue<>(new ComparatorValue());

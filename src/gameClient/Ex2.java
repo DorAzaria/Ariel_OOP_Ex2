@@ -25,7 +25,13 @@ public class Ex2 implements Runnable {
     static HashMap<Integer, Integer> attack;
 
     public static void main(String[] a) {
-        login();
+        try {
+            playerID = Long.parseLong(a[0]);
+            num_level = Integer.parseInt(a[1]);
+        } catch (Exception e) {
+            playerID = -1;
+            num_level = -1;
+        }
         client.run();
     }
 
@@ -34,20 +40,23 @@ public class Ex2 implements Runnable {
      * is something is wrong, it shows an error and send the player to the default game level which is 0.
      */
     private static void login() {
-        try {
-            String id = JOptionPane.showInputDialog("Enter your ID", "Your ID");
-            String level = JOptionPane.showInputDialog("Enter level number", "Levels between [0-23]");
 
-            playerID = Long.parseLong(id);
-            num_level = Integer.parseInt(level);
+        if((playerID == -1 && num_level == -1) || (Game_Server_Ex2.getServer(num_level) == null)) {
+            try {
+                String id = JOptionPane.showInputDialog("Enter your ID", "Your ID");
+                String level = JOptionPane.showInputDialog("Enter level number", "Insert a scenario ");
 
-            if (num_level > 23 || num_level < 0)
-                throw new RuntimeException();
+                playerID = Long.parseLong(id);
+                num_level = Integer.parseInt(level);
+                if(Game_Server_Ex2.getServer(num_level) == null)
+                    throw new RuntimeException();
 
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(new ourFrame(), "Invalid input.\n please insert levels [0-23]", "Error!",
-                    JOptionPane.ERROR_MESSAGE);
-            num_level = 0;
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(new ourFrame(), "Invalid input.\nPlease enter a scenario that exists in our server." +
+                                "\nplaying a default mode: scenario number 0.", "Error!",
+                        JOptionPane.ERROR_MESSAGE);
+                num_level = 0;
+            }
         }
     }
 
@@ -58,6 +67,10 @@ public class Ex2 implements Runnable {
      */
     @Override
     public void run() {
+        login();
+        while ((playerID == -1 && num_level == -1) || (Game_Server_Ex2.getServer(num_level) == null)) {
+            Thread.onSpinWait();
+        }
         game_service game = Game_Server_Ex2.getServer(num_level); // you have [0,23] games
         loadGraph(game.getGraph());
         init(game);
