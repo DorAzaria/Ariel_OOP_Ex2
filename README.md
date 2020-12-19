@@ -38,16 +38,6 @@
     </tbody>
 </table>
 
-
-![](https://www.pokecommunity.com/customavatars/avatar514181_2.gif)
-
-| Skill | Details|
-| ------------- | ------------- | 
-|Speed  | from 1 to 5 | 
-|Number of Points| the amount of points is calculated by the values of the Pokemons that the agent caught. |
-|Location |  the current location of the agent in the arena.|
-|Next Move | the next act of the agent. |
-
 # Pokemons
 
 | Pikachu - 5 Points  | Charizard - [6-10] Points| Mewtwo - [11-15] Points|
