@@ -106,7 +106,6 @@ public class Arena {
      * @return collection of all the agents objects
      */
     public static List<Agent> getAgents(String status, directed_weighted_graph graph) {
-        System.out.println(status);
         ArrayList<Agent> agents_arraylist = new ArrayList<>();
         try {
             JSONObject agents_status = new JSONObject(status);
@@ -129,6 +128,7 @@ public class Arena {
      * @return collection of all pokemon's objects
      */
     public static ArrayList<Pokemon> getPokemons(String actual) {
+        System.out.println(actual);
         ArrayList<Pokemon> pokemons_arraylist = new ArrayList<>();
         edges = new HashMap<>();
         strongestEdge = new PriorityQueue<>(new ComparatorValue());
