@@ -55,8 +55,8 @@ To run this game, create a new folder in your computer and download the followin
 * the data folder
 * the resource folder (for graphics and animations)
 
-You can run the game in two options: 
-Enter this command in the Command Prompt:  `java -jar Ex2.jar ID Level_Number `
+You can run the game in two options: <br>
+Enter this command in the Command Prompt:  `java -jar Ex2.jar ID Level_Number ` <br>
 or double-click on the Ex2.jar file and follow the following instructions:
 ![](https://i.ibb.co/ZhZFqqP/login.jpg)
 * Enter your ID number.
