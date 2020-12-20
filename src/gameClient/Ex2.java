@@ -22,6 +22,7 @@ public class Ex2 implements Runnable {
     static long dt;
     static int movesCounter = 0;
     static HashMap<Integer, Integer> attack;
+    static boolean flag = false;
 
     public static void main(String[] a) {
         try {
@@ -39,18 +40,19 @@ public class Ex2 implements Runnable {
      * a login system, gets the input of ID and game level from the user and set it to the server.
      * is something is wrong, it shows an error and send the player to the default game level which is 0.
      */
-    private static void login() {
-
-        if((playerID == -1 && num_level == -1) || (Game_Server_Ex2.getServer(num_level) == null)) {
+    private static boolean login() {
+        if ((playerID == -1 && num_level == -1) || (Game_Server_Ex2.getServer(num_level) == null)) {
             try {
                 String id = JOptionPane.showInputDialog("Enter your ID", "Your ID");
                 String level = JOptionPane.showInputDialog("Enter level number", "Insert a scenario ");
-
                 playerID = Long.parseLong(id);
                 num_level = Integer.parseInt(level);
-                if(Game_Server_Ex2.getServer(num_level) == null)
+                if (Game_Server_Ex2.getServer(num_level) == null) {
                     throw new RuntimeException();
-
+                } else {
+                    flag = true;
+                    return flag;
+                }
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(new ourFrame(), "Invalid input.\nPlease enter a scenario that exists in our server." +
                                 "\nplaying a default mode: scenario number 0.", "Error!",
@@ -58,7 +60,9 @@ public class Ex2 implements Runnable {
                 num_level = 0;
             }
         }
+        return flag;
     }
+
 
     /**
      * runs the game, gets the data of this game level from the server, init the game and the GUI frame and runs till the
@@ -68,16 +72,13 @@ public class Ex2 implements Runnable {
     @Override
     public void run() {
         login();
-        while ((playerID == -1 && num_level == -1) || (Game_Server_Ex2.getServer(num_level) == null)) {
-            Thread.onSpinWait();
-        }
         game_service game = Game_Server_Ex2.getServer(num_level); // you have [0,23] games
         loadGraph(game.getGraph());
         init(game);
         game.login(playerID);
         game.startGame();
         Frame.setTitle("Ex2 - OOP: Pokemons! ,  Game Number: " + num_level);
-        while (game.isRunning()) {
+        while (login()) {
             movesCounter++;
             dt = 100;
             moveAgents(game);

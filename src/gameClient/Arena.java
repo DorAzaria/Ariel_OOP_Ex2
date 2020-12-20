@@ -165,7 +165,6 @@ public class Arena {
      * @param graph directed_weighted_graph type.
      */
     public static void updateEdge(Pokemon pk, directed_weighted_graph graph) {
-
         for (node_data runner : graph.getV()) {
             for (edge_data edge : graph.getE(runner.getKey())) {
                 boolean flag = isOnEdge(pk.getLocation(), edge, pk.getType(), graph);
