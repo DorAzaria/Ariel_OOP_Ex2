@@ -1,10 +1,16 @@
 <p>&nbsp;</p>
-<p>&nbsp;</p>
 <p align="center">
   <img width="800" height="400" src="https://i.ibb.co/M2BwdDW/background.jpg">
 </p>
 <p>&nbsp;</p>
 
+In this Pokemon game you have to manage a group of agents whose goal is to catch<br> as many Pokemon as possible before time runs out.<br>
+The more Pokemon you catch, the more points you earn.<br>
+There is many kinds of game boards and scenarios, you have to choose which scenario you want to play in our login system.<br>
+The movement in the board is on a weighted directed graph, the Pokemons are randomly scattered on the board
+and the agents can catch them by moving through them on the graph.
+
+# 
 # Player Stats
 
 <table>
@@ -38,22 +44,31 @@
     </tbody>
 </table>
 
+# 
 # Pokemons
 
 | Pikachu - 5 Points  | Charizard - [6-10] Points| Mewtwo - [11-15] Points|
 | ------------- | ------------- | ------------- |
 | <img width="170" height="150" src="https://github.com/DorAzaria/Ariel_OOP_Ex2/blob/master/resource/pikachu.gif?raw=true">| <img width="170" height="180" src="https://github.com/DorAzaria/Ariel_OOP_Ex2/blob/master/resource/charizard.gif?raw=true">| <img width="170" height="170" src="https://github.com/DorAzaria/Ariel_OOP_Ex2/blob/master/resource/mewtwo.gif?raw=true">|
 
+# 
+
 ![](https://i.ibb.co/0FnhjnW/pokemon-Header3.jpg)
 
-To run this game please enter in the Command Prompt: 
-`java -jar Ex2.jar ID Level_Number `
+To run this game, create a new folder in your computer and download the following files:
+* Ex2.jar
+* the data folder
+* the resource folder (for graphics and animations)
 
-or poll the project, run the jar file and follow the following instructions:
+You can run the game in two options: <br>
+Enter this command in the Command Prompt:  `java -jar Ex2.jar ID Level_Number ` <br>
+or double-click on the Ex2.jar file and follow the following instructions:
 ![](https://i.ibb.co/ZhZFqqP/login.jpg)
 * Enter your ID number.
 * Enter the level you wish to play [0-23].
 * Done!, you are in the game!, time is running!.
+
+# 
 
 ![](https://i.ibb.co/NWWSmG3/pokemon-Header2.jpg)
 | Level  | Grade | Moves |...........   | Level  | Grade | Moves |
@@ -66,12 +81,16 @@ or poll the project, run the jar file and follow the following instructions:
 | 5  | 633  | 593  |          | 17 | 1096 | 590  |
 | 6  | 79   | 297  |          | 18 | 40   | 295  |
 | 7  | 424  | 593  |          | 19 | 380  | 596  |
-| 8  | 125  | 293  |          | 20 | 184  | 294  |
+| 8  | 125  | 293  |          | 20 | 217  | 294  |
 | 9  | 455  | 594  |          | 21 | 349  | 598  |
 | 10 | 90   | 295  |          | 22 | 277  | 299  |
 | 11 | 1913 | 587  |          | 23 | 1376 | 591  |
 
+# 
+
 ![](https://i.ibb.co/CWYhJvf/pokemon-Header4.jpg)
+
+<img width="400" height="250" src="https://s8.gifyu.com/images/animationc4037a6746fa72af.gif">
 
 |  ![](https://i.ibb.co/vXpwfNC/gameplay.png) | ![](https://i.ibb.co/Fh4FByH/S.png)| 
 | ------------- | ------------- |
