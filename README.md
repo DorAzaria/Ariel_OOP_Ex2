@@ -50,10 +50,14 @@ and the agents can catch them by moving through them on the graph.<br>
 
 ![](https://i.ibb.co/0FnhjnW/pokemon-Header3.jpg)
 
-To run this game please enter in the Command Prompt: 
-`java -jar Ex2.jar ID Level_Number `
+To run this game, create a new folder in your computer and download the following files:
+* Ex2.jar
+* the data folder
+* the resource folder (for graphics and animations)
 
-or poll the project, run the jar file and follow the following instructions:
+You can run the game in two options: 
+Enter this command in the Command Prompt:  `java -jar Ex2.jar ID Level_Number `
+or double-click on the Ex2.jar file and follow the following instructions:
 ![](https://i.ibb.co/ZhZFqqP/login.jpg)
 * Enter your ID number.
 * Enter the level you wish to play [0-23].
@@ -76,6 +80,8 @@ or poll the project, run the jar file and follow the following instructions:
 | 11 | 1913 | 587  |          | 23 | 1376 | 591  |
 
 ![](https://i.ibb.co/CWYhJvf/pokemon-Header4.jpg)
+
+<img width="400" height="250" src="https://s8.gifyu.com/images/animationc4037a6746fa72af.gif">
 
 |  ![](https://i.ibb.co/vXpwfNC/gameplay.png) | ![](https://i.ibb.co/Fh4FByH/S.png)| 
 | ------------- | ------------- |
