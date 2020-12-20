@@ -78,7 +78,7 @@ public class Ex2 implements Runnable {
         game.login(playerID);
         game.startGame();
         Frame.setTitle("Ex2 - OOP: Pokemons! ,  Game Number: " + num_level);
-        while (login()) {
+        while (game.isRunning()) {
             movesCounter++;
             dt = 100;
             moveAgents(game);
@@ -154,6 +154,16 @@ public class Ex2 implements Runnable {
                             flag = true;
                             attack.put(a, pos_on_graph);
                             game.addAgent(pos_on_graph);
+                        }
+                    }
+                }
+            }
+
+            for (int a = 0; a < num_of_agents; a++) {
+                if(!attack.containsKey(a)){
+                    for(node_data node : graph.getV()) {
+                        if(!attack.containsValue(node.getKey())) {
+                            attack.put(a,node.getKey());
                         }
                     }
                 }
