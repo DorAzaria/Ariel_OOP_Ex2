@@ -141,6 +141,7 @@ public class Ex2 implements Runnable {
             System.out.println(game.getPokemons());
             Arena.getPokemons(game.getPokemons());
             LinkedList<Integer> strongest = ManageGame.getBestValue();
+            int counter = 0;
             for (int a = 0; a < num_of_agents; a++) {
                 boolean flag = false;
                 for (Integer key : strongest) {
@@ -154,16 +155,17 @@ public class Ex2 implements Runnable {
                             flag = true;
                             attack.put(a, pos_on_graph);
                             game.addAgent(pos_on_graph);
+                            counter++;
                         }
                     }
                 }
             }
-
             for (int a = 0; a < num_of_agents; a++) {
                 if(!attack.containsKey(a)){
                     for(node_data node : graph.getV()) {
                         if(!attack.containsValue(node.getKey())) {
                             attack.put(a,node.getKey());
+                            game.addAgent(node.getKey());
                         }
                     }
                 }
