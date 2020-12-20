@@ -29,7 +29,7 @@ public class Ex2 implements Runnable {
             num_level = Integer.parseInt(a[1]);
         } catch (Exception e) {
             playerID = -1;
-            num_level = -1;
+            num_level = Integer.MAX_VALUE;
         }
         Thread client = new Thread(new Ex2());
         client.run();
@@ -40,7 +40,7 @@ public class Ex2 implements Runnable {
      * is something is wrong, it shows an error and send the player to the default game level which is 0.
      */
     private static void login() {
-        if ((playerID == -1 && num_level == -1) || (Game_Server_Ex2.getServer(num_level) == null)) {
+        if ((playerID == -1 && num_level == Integer.MAX_VALUE) || (Game_Server_Ex2.getServer(num_level) == null)) {
             try {
                 String id = JOptionPane.showInputDialog("Enter your ID", "Your ID");
                 String level = JOptionPane.showInputDialog("Enter level number", "Insert a scenario ");
