@@ -6,7 +6,7 @@
 In this Pokemon game you have to manage a group of agents whose goal is to catch<br> as many Pokemon as possible before time runs out.<br>
 The more Pokemon you catch, the more points you earn.<br>
 There is many kinds of game boards and scenarios, you have to choose which scenario you want to play in our login system.<br>
-The movement in the board is on a weighted directed graph, the Pokemons are randomly scattered on the board<br>
+The movement in the board is on a weighted directed graph, the Pokemons are randomly scattered on the board
 and the agents can catch them by moving through them on the graph.<br>
 
 # Player Stats
