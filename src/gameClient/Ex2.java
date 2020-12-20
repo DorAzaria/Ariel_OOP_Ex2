@@ -22,7 +22,6 @@ public class Ex2 implements Runnable {
     static long dt;
     static int movesCounter = 0;
     static HashMap<Integer, Integer> attack;
-    static boolean flag = false;
 
     public static void main(String[] a) {
         try {
@@ -40,7 +39,7 @@ public class Ex2 implements Runnable {
      * a login system, gets the input of ID and game level from the user and set it to the server.
      * is something is wrong, it shows an error and send the player to the default game level which is 0.
      */
-    private static boolean login() {
+    private static void login() {
         if ((playerID == -1 && num_level == -1) || (Game_Server_Ex2.getServer(num_level) == null)) {
             try {
                 String id = JOptionPane.showInputDialog("Enter your ID", "Your ID");
@@ -49,9 +48,6 @@ public class Ex2 implements Runnable {
                 num_level = Integer.parseInt(level);
                 if (Game_Server_Ex2.getServer(num_level) == null) {
                     throw new RuntimeException();
-                } else {
-                    flag = true;
-                    return flag;
                 }
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(new ourFrame(), "Invalid input.\nPlease enter a scenario that exists in our server." +
@@ -60,7 +56,6 @@ public class Ex2 implements Runnable {
                 num_level = 0;
             }
         }
-        return flag;
     }
 
 
@@ -141,7 +136,6 @@ public class Ex2 implements Runnable {
             System.out.println(game.getPokemons());
             Arena.getPokemons(game.getPokemons());
             LinkedList<Integer> strongest = ManageGame.getBestValue();
-            int counter = 0;
             for (int a = 0; a < num_of_agents; a++) {
                 boolean flag = false;
                 for (Integer key : strongest) {
@@ -155,7 +149,6 @@ public class Ex2 implements Runnable {
                             flag = true;
                             attack.put(a, pos_on_graph);
                             game.addAgent(pos_on_graph);
-                            counter++;
                         }
                     }
                 }
