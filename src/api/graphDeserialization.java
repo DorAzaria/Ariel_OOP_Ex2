@@ -17,7 +17,7 @@ public class graphDeserialization implements JsonDeserializer<directed_weighted_
                 JsonElement val = v.getAsJsonObject();
                 String loc = val.getAsJsonObject().get("pos").getAsString();
                 geo_location location = new Node.GeoLocation(0,0, 0);
-                if(!loc.isEmpty()) {
+                if(location != null) {
                     double[] geolocation = separateString(loc);
                     double x = geolocation[0];
                     double y = geolocation[1];
