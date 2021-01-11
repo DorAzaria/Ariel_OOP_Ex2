@@ -79,14 +79,38 @@ public class DWGraph_Algo implements dw_graph_algorithms {
         if (graph.getV().size() > 1) {
             Reset();
             directed_weighted_graph graph_transpose = new DWGraph_DS();
-            node_data first = graph.getV().iterator().next();
-            DFS(graph, first);
-            if (graph.edgeSize() != paths.size()) return false;
+
+            Stack<node_data> stack = new Stack<>();
+            for(node_data node : graph.getV()){
+                if(node.getTag() != GRAY) {
+                    DFS(graph, node, stack);
+                }
+            }
+
             graphTranspose(graph_transpose);
-            node_data second = graph.getNode(first.getKey()); // IS THIS NECESSARY? Y NOT second = first or just use first instead?
-            paths = new HashSet<>();
-            DFS(graph_transpose, second);
-            return paths.size() == graph.edgeSize();
+
+            ArrayList< ArrayList<node_data> > components = new ArrayList<>();
+
+
+            while (!stack.isEmpty()) {
+                Node node = (Node) graph_transpose.getNode(stack.pop().getKey());
+                if(node.getTag() != GRAY) {
+
+                    ArrayList<node_data> component = new ArrayList<>();
+                    DFSTransposed(graph_transpose, node,component);
+                    components.add(component);
+                }
+
+            }
+            System.out.println("size: " + components.size());
+//            for (int i = 0 ; i < components.size() ; i++) {
+//                ArrayList<node_data> list = components.get(i);
+//                for (int j = 0 ; j < list.size() ; j++) {
+//                    System.out.print(list.get(j).getKey() + ", ");
+//                }
+//                System.out.println();
+//            }
+            return true;
         }
         return true;
     }
@@ -104,19 +128,52 @@ public class DWGraph_Algo implements dw_graph_algorithms {
              In DFS, if we start from a start node it will mark all the nodes connected to the start node as visited.<br>
              Therefore, if we choose any node in a connected component and run DFS on that node it will mark the whole connected component as visited.<br>
      * @param graph - a directed_weighted_graph type.
-     * @param runner - a node_data type.
+     * @param vertex - a node_data type.
      */
-    private void DFS(directed_weighted_graph graph, node_data runner) {
-        runner.setTag(GRAY); // visited node colored by gray
-        for (edge_data edge : graph.getE(runner.getKey())) {
-            node_data dest = ((Edge) edge).destination;
-            paths.add(edge);
-            if (dest.getTag() != GRAY) {
-                DFS(graph, dest);
+    private void DFS(directed_weighted_graph graph, node_data vertex, Stack<node_data> stack) {
+        Stack<node_data> stack_dfs = new Stack<>();
+        Stack<node_data> stack_like_recursive = new Stack<>();
+        stack_dfs.push(vertex);
+        stack_like_recursive.push(vertex);
+
+        while (!stack_dfs.isEmpty()) {
+            Node current = (Node) stack_dfs.pop();
+            current.setTag(GRAY);
+
+            for (edge_data edge : graph.getE(current.getKey())) {
+                node_data dest = ((Edge) edge).destination;
+                paths.add(edge);
+                if (dest.getTag() != GRAY) {
+                    dest.setTag(GRAY);
+                    stack_dfs.push(dest);
+                    stack_like_recursive.push(dest);
+                }
             }
+        }
+
+        while(!stack_like_recursive.isEmpty()) {
+            stack.push(stack_like_recursive.pop());
         }
     }
 
+
+    private void DFSTransposed(directed_weighted_graph graph_t, node_data vertex, ArrayList<node_data> component) {
+        Stack<node_data> stack_dfs = new Stack<>();
+        stack_dfs.push(vertex);
+        vertex.setTag(GRAY);
+
+        while (!stack_dfs.isEmpty()) {
+            node_data current = stack_dfs.pop();
+            component.add(current);
+            for (edge_data edge : graph_t.getE(current.getKey())) {
+                node_data dest = ((Edge) edge).destination;
+                if (dest.getTag() != GRAY) {
+                    dest.setTag(GRAY);
+                    stack_dfs.push(dest);
+                }
+            }
+        }
+    }
     /**
      * Copying the original graph and transposing the copied one.<br>
      * This copied graph is a temporary graph and made only for Kosaraju or Dijkstra use.<br>
@@ -309,7 +366,9 @@ public class DWGraph_Algo implements dw_graph_algorithms {
                     .registerTypeAdapter(directed_weighted_graph.class, new graphDeserialization());
             Gson gson = builder.create();
             FileReader fr = new FileReader(file);
+
             this.graph = gson.fromJson(fr, directed_weighted_graph.class);
+
             return true;
         } catch (FileNotFoundException f) {
             return false;
@@ -338,4 +397,51 @@ public class DWGraph_Algo implements dw_graph_algorithms {
     }
 
 
+    public void Analysis(String str) {
+        System.out.println(" ---- TEST FOR "+str+" ---------");
+
+        //load
+        double start = System.currentTimeMillis();
+        this.load(str);
+        double end = (System.currentTimeMillis() - start) / 1000;
+        System.out.println("-> load: "+end);
+
+        // shortest path
+        Node source = (Node) this.graph.getNode((int) (Math.random() * this.graph.nodeSize()));
+        Node destination = (Node) this.graph.getNode((int) (Math.random() * this.graph.nodeSize()));
+        start = System.currentTimeMillis();
+        shortestPath(source.getKey(),destination.getKey());
+        end = (System.currentTimeMillis() - start) / 1000;
+        System.out.println("-> shortest path: "+end);
+
+        // connected component
+        start = System.currentTimeMillis();
+        isConnected();
+        end = (System.currentTimeMillis() - start) / 1000;
+        System.out.println("-> connected component: "+end);
+
+        // connected components
+        start = System.currentTimeMillis();
+        isConnected();
+        end = (System.currentTimeMillis() - start) / 1000;
+        System.out.println("-> connected components: "+end);
+    }
+
+    public static void main(String[] args) {
+        System.out.println("---------- JAVA TEST --------- ");
+
+        DWGraph_Algo algo = new DWGraph_Algo();
+        ArrayList<String> list = new ArrayList<>();
+        list.add("data/G_10_80_1.json");
+        list.add("data/G_100_800_1.json");
+        list.add("data/G_1000_8000_1.json");
+        list.add("data/G_10000_80000_1.json");
+        list.add("data/G_20000_160000_1.json");
+        list.add("data/G_30000_240000_1.json");
+
+        for(String str : list){
+            algo.Analysis(str);
+        }
+
+    }
 }

@@ -88,7 +88,7 @@ public class DWGraph_DS implements directed_weighted_graph {
      */
     @Override
     public void connect(int src, int dest, double w) {
-        if (hasNode(src) && hasNode(dest) && src != dest && w >= 0) {
+        if (hasNode(src) && hasNode(dest) && w >= 0) {
             node_data source = getNode(src), destination = getNode(dest);
             if (adjacency.get(src).containsKey(destination)) {
                 if(getEdge(src,dest).getWeight() == w){
